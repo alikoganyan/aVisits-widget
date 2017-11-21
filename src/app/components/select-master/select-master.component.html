@@ -1,0 +1,72 @@
+<div class="page">
+  <div class="page-wrapper">
+    <div class="page-inner-wrapper">
+      <a (click)="onClose('hide', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
+      <div class="page-container address-master">
+        <app-header-nav></app-header-nav>
+
+        <div class="choose-options-content master-master-content bordered clearfix">
+
+
+          <app-sidebar></app-sidebar>
+          <!--<div class="content-left-block master-master-left-block">
+            <div class="content-left-block-item">
+              <div>
+                <p class="content-left-block-item-title">Город</p>
+                <p>{{checkedInfo.city}}</p>
+              </div>
+            </div>
+            <div class="content-left-block-item">
+              <div>
+                <p class="content-left-block-item-title">Адрес</p>
+                <p>{{checkedInfo.address}}</p>
+              </div>
+            </div>
+            <div class="content-left-block-item">
+              <div>
+                <p class="content-left-block-item-title">Контакты</p>
+                <p>{{contacts.name}}</p>
+                <p>{{contacts.tel}}</p>
+                <p>{{contacts.email}}</p>
+              </div>
+            </div>
+          </div>-->
+
+          <div class="content-right-block master-master-right-block">
+            <div class="masters-list">
+
+              <div class="masters-list-item" appActive *ngFor="let master of masters" (click)="onSelectMaster(master)">
+                <label class="masters-list-item-label">
+                  <!--<input type="checkbox">-->
+                  <br>
+                  <div class="master-pic-container-main">
+                    <img [src]="master.image" class="master-checked-tick">
+                    <div class="master-pic-container">
+                      <!-- <img src="assets/images/master-pic.png"> -->
+                    </div>
+                  </div>
+                  <div class="master-list-item-text-block">
+                    <p class="master-list-item-name bold">{{master.name}}</p>
+                    <p class="master-list-item-position">{{master.profession}}</p>
+                  </div>
+                  <span class=""></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="nav-bottom address-master-bottom bordered">
+          <a (click)="goBack('indicate-contacts')" class="semi-bold pull-left"><div class="back nav-bottom-back nav-bottom-item address-master-bottom-item address-master-bottom-back pull-left">
+            <img src="assets/images/svg/arrow.svg">
+            Назад
+          </div></a>
+          <a (click)="goNext('select-services-master')" class="semi-bold pull-right"><div class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
+            Далее
+            <img src="assets/images/svg/arrow-white.svg">
+          </div></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

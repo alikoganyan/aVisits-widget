@@ -1,0 +1,117 @@
+<div class="page">
+  <div class="page-wrapper">
+    <div class="page-inner-wrapper">
+      <a (click)="onClose('hide', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
+      <div class="page-container address-master">
+
+        <app-header-nav></app-header-nav>
+
+
+
+        <div class="choose-options-content contacts-master-content bordered clearfix">
+
+          <app-sidebar></app-sidebar>
+
+
+         <!-- <div class="content-left-block contacts-master-left-block">
+            <div class="content-left-block-item">
+              <div>
+                <p class="content-left-block-item-title">Город</p>
+                <p>{{checkedInfo.city}}</p>
+              </div>
+            </div>
+            <div class="content-left-block-item">
+              <div>
+                <p class="content-left-block-item-title">Адрес</p>
+                <p>{{checkedInfo.address}}</p>
+              </div>
+            </div>
+          </div>-->
+
+
+          <div class="content-right-block contacts-master-right-block">
+
+            <form class="form-content" (ngSubmit)="onSubmit()" #f="ngForm">
+              <div class="contacts-master-right-block-first">
+
+                <div class="contacts-master-phone form-item">
+                  <label class="bold">Телефон, на который придет смс-подтверждение</label>
+                  <input
+                    type="tel"
+                    ngModel
+                    name="tel"
+                    required
+                    placeholder="+7 (___) -___-__-__"
+                    class="inp-medium phone"
+                    [textMask]="{mask: mask}"
+                    #tel="ngModel">
+                  <span class="help-block" *ngIf="!tel.valid && tel.touched">Обязательное поле!</span>
+                  <p>Заполните все поля, чтобы попасть на прием к лучшему из эксперт</p>
+                </div>
+
+                <div class="contacts-master-name form-item">
+                  <label class="bold">Ваше имя</label>
+                  <input
+                    type="text"
+                    class="inp-medium name"
+                    ngModel
+                    name="name"
+                    required
+                    #name="ngModel">
+                  <span class="help-block" *ngIf="!name.valid && name.touched">Обязательное поле!</span>
+                </div>
+
+                <div class="contacts-master-email form-item">
+                  <label class="bold">E-mail</label>
+                  <input
+                    type="email"
+                    class="inp-medium email"
+                    ngModel
+                    name="email"
+                    required
+                    email
+                    #email="ngModel">
+                  <span class="help-block" *ngIf="!email.valid && email.touched">Не правильны емайл!</span>
+                </div>
+
+                <div class="contacts-master-email-spam responsive">
+                  <div><img src="assets/images/svg/shield.svg"></div>
+                  <div>Мы тоже не любим спам, на ваш e-mail будет отправляться только полезная информация</div>
+                </div>
+
+              </div>
+              <div class="contacts-master-right-block-second">
+                <div class="contacts-master-note form-item">
+                  <label class="bold">Примечание</label>
+                  <textarea ngModel name="notes"></textarea>
+                </div>
+              </div>
+              <div class="contacts-master-email-spam">
+                <div><img src="assets/images/svg/shield.svg"></div>
+                <div>Мы тоже не любим спам, на ваш e-mail будет <br> отправляться только полезная информация</div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+
+        <div class="nav-bottom address-master-bottom bordered">
+          <a (click)="goBack('select-address')" class="semi-bold pull-left">
+            <div
+              class="back nav-bottom-back nav-bottom-item address-master-bottom-item address-master-bottom-back pull-left">
+              <img src="assets/images/svg/arrow.svg">
+              Назад
+            </div>
+          </a>
+          <a (click)="goNext()" class="semi-bold pull-right" *ngIf="f.valid">
+            <div
+              class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
+              Далее
+              <img src="assets/images/svg/arrow-white.svg">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="page">
+  <div class="page-wrapper">
+    <div class="page-inner-wrapper choose-city">
+      <a (click)="onClose('hide', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
+      <div class="page-container bordered">
+        <div class="choose-city-wrapper">
+          <h3 class="text-center">Выберите ваш город</h3>
+          <div class="choose-city-container">
+            <div class="force-overflow">
+              <div class="choose-city-item item" *ngFor="let city of cities" (click)="onSelectCity(city)" [class.active]="city === selectCity">
+                <label class="check-container">{{city.title}}
+                  <input type="radio" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+              <!--<div class="choose-city-item item">
+                <label class="check-container">Санкт-Петербург
+                  <input type="radio" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+              <div class="choose-city-item item">
+                <label class="check-container">Москва
+                  <input type="radio" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+
+              <div class="choose-city-item item">
+                <label class="check-container">Казань
+                  <input type="radio" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+              </div>-->
+            </div>
+          </div>
+          <h6 class="bold text-center">В дальнейшем:</h6>
+          <div class="choose-options choose-city">
+            <div class="choose-options-item pull-left" (click)="selectMaster('select-address', 'Master')">
+              <div class="choose-options-item-cont" [class.active]="masterOrService === 'Master'">
+                <label class="choose-options-item-label" for="choose-options-master">
+                  <input type="radio" name="radio" id="choose-options-master">
+                  <img src="assets/images/svg/master.svg">
+                </label>
+              </div>
+              <h6 class="normal text-center">Выбрать сначала специалиста</h6>
+            </div>
+            <div class="choose-options-item pull-right" (click)="selectService('select-address', 'Service')">
+              <div class="choose-options-item-cont" [class.active]="masterOrService === 'Service'">
+                <label class="choose-options-item-label" for="choose-options-service">
+                  <input type="radio" name="radio" id="choose-options-service">
+                  <img src="assets/images/svg/service.svg">
+                </label>
+              </div>
+              <h6 class="normal text-center">Выбрать сначала услугу</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

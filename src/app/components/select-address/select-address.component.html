@@ -1,0 +1,98 @@
+<div class="page">
+  <div class="page-wrapper">
+    <div class="page-inner-wrapper">
+      <a (click)="onClose('hide', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
+      <div class="page-container address-master">
+
+        <app-header-nav></app-header-nav>
+
+        <div class="choose-options-content address-master-content">
+          <div class="address-master-toggle">
+            <span class="bold"><label for="switch_mode">Списком</label></span>
+            <div class="address-master-switch">
+              <label class="switch">
+                <input type="checkbox" id="switch_mode" (change)="switchMode($event)">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <span class="bold active"><label for="switch_mode">На карте</label></span>
+          </div>
+          <div class="addresses-box address-master" [ngClass]="{'switcherMode': switcherMode}">
+            <div class="force-overflow" id="scrollbox">
+
+
+              <div
+                class="addresses-box-item item"
+                *ngFor="let salon of salons"
+                (click)="onSelectSalon(salon)"
+                [class.active]="salon === selectedSalon"
+              >
+                <label class="check-container">
+                  <div class="addresses-box-pic-container">
+                    <!-- <img src="assets/images/salon.png"> -->
+                  </div>
+                  <div class="addresses-box-info-container">
+                    <p class="semi-bold">{{salon.address}}</p>
+                    <p>
+                      <img src="assets/images/svg/metro.svg">
+                      <span>Площадь мужества</span>
+                    </p>
+                  </div>
+                  <input type="radio" name="radio">
+                  <span class="checkmark"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="map-container address-master-map-container" [ngClass]="{'switcherMode': !switcherMode}">
+
+
+            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 100%;">
+              <agm-marker
+                *ngFor="let m of markers"
+                [latitude]="m.lat" [longitude]="m.lng">
+                <agm-info-window>
+                  <div class="addresses-box-item item">
+                    <label class="check-container">
+                      <div class="addresses-box-pic-container" style="display: inline">
+                        <img src="assets/images/salon.png">
+                      </div>
+                      <div class="addresses-box-info-container" style="display: inline">
+                        <p class="semi-bold">Непокоренных, 10</p>
+                        <p>
+                          <img src="assets/images/svg/metro.svg" style="width: 5px">
+                          <span>Площадь мужества</span>
+                        </p>
+                      </div>
+                      <input type="radio" name="radio">
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </agm-info-window>
+              </agm-marker>
+            </agm-map>
+
+
+          </div>
+        </div>
+        <div class="nav-bottom address-master-bottom bordered">
+          <a (click)="goBack('select-city')" class="semi-bold pull-left">
+            <div
+              class="back nav-bottom-back nav-bottom-item address-master-bottom-item address-master-bottom-back pull-left">
+              <img src="assets/images/svg/arrow.svg">
+              Назад
+            </div>
+          </a>
+          <a (click)="goNext('indicate-contacts')" class="semi-bold pull-right">
+            <div
+              class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
+              Далее
+              <img src="assets/images/svg/arrow-white.svg">
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
