@@ -1,12 +1,18 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {Master} from '../models/master';
 
 @Injectable()
 export class SwitcherService {
 
   clickedStart = new Subject<string>();
   clickedStatus = new Subject<string>();
+  // private clickedStatuss = new BehaviorSubject('default message'); // status
+  // status = this.clickedStatuss.asObservable();
+
+
+
 
   private selectedCity = new BehaviorSubject('default message'); // selected city
   cityTitle = this.selectedCity.asObservable();
@@ -25,7 +31,7 @@ export class SwitcherService {
   contact = this.userContacts.asObservable();
 
 
-  private selectedMasters = new BehaviorSubject({});
+  private selectedMasters = new BehaviorSubject([]);
   masters = this.selectedMasters.asObservable();
 
 
@@ -52,9 +58,14 @@ export class SwitcherService {
     this.userContacts.next(contacts);
   }
 
-  selectMasters(masters) {
-    this.selectedMasters.next(this.masters);
+  selectMasters(masters: Master[]) {
+    this.selectedMasters.next(masters);
   }
+
+  //
+  // onClickedStatus(status: string) {
+  //   this.clickedStatus.next(status);
+  // }
 
 }
 

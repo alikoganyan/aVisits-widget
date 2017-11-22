@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
+import {Master} from '../../models/master';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,13 +11,12 @@ import {Subscription} from 'rxjs/Subscription';
 export class SidebarComponent implements OnInit, OnDestroy {
 
   checkedInfo: CheckedInfo = new CheckedInfo();
-  // contacts: Contacts = new Contacts();
-
+  masters: Master[] = [];
 
   subCityTitle: Subscription;
   subSalonAddress: Subscription;
   subContacts: Subscription;
-
+  subMasters: Subscription;
 
   constructor(private switcherService: SwitcherService) {
   }
@@ -31,12 +31,16 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subContacts = this.switcherService.contact.subscribe(contacts => {
       this.checkedInfo['contacts'] = contacts;
     });
+   this.subMasters = this.switcherService.masters.subscribe(masters => {
+      this.masters = masters;
+    });
   }
 
   ngOnDestroy() {
     this.subCityTitle.unsubscribe();
     this.subSalonAddress.unsubscribe();
     this.subContacts.unsubscribe();
+    this.subMasters.unsubscribe();
   }
 
 }

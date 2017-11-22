@@ -30,6 +30,7 @@ export class SelectCityComponent implements OnInit {
     this.selectCity = city;
     if (this.masterOrService !== '') {
       this.switcherService.clickedStatus.next(this.selectAddress);
+      // this.switcherService.onClickedStatus(this.selectAddress);
       this.switcherService.changeMessage(this.masterOrService);
     }
   }

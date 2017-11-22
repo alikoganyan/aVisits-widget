@@ -1,11 +1,15 @@
-<button (click)="onStart()" *ngIf="start === 'hide'">Widget</button>
+<button (click)="onStart()" *ngIf="start === 'button'">Widget</button>
 
 <app-select-city *ngIf="start === 'show' && status === 'select-city'"></app-select-city>
 <app-select-address *ngIf="start === 'show' && status === 'select-address'"></app-select-address>
 <app-indicate-contacts *ngIf="start === 'show' && status === 'indicate-contacts'"></app-indicate-contacts>
-<!-- Master first -->
+<!-- First Master -->
 <app-select-master *ngIf="start === 'show' && status === 'select-master'"></app-select-master>
 <app-select-services-master *ngIf="start === 'show' && status === 'select-services-master'"></app-select-services-master>
-<!-- Service first -->
+<app-select-date-time *ngIf="start === 'show' && status === 'select-date-time'"></app-select-date-time>
+<!-- First Service -->
 <app-select-services *ngIf="start === 'show' && status === 'select-services'"></app-select-services>
+<app-select-time-master *ngIf="start === 'show' && status === 'select-time-master'"></app-select-time-master>
 
+<app-time-booked *ngIf="start === 'show' && status === 'time-booked'"></app-time-booked>
+<app-interrupt-record *ngIf="start === 'hide'"></app-interrupt-record>

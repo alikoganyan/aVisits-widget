@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {SwitcherService} from '../../services/switcher.service';
+import { Component, OnInit } from '@angular/core';
+import {SwitcherService} from '../../../services/switcher.service';
 
 @Component({
-  selector: 'app-select-services-master',
-  templateUrl: './select-services-master.component.html',
-  styleUrls: ['./select-services-master.component.scss']
+  selector: 'app-select-time-master',
+  templateUrl: './select-time-master.component.html',
+  styleUrls: ['./select-time-master.component.scss']
 })
-export class SelectServicesMasterComponent implements OnInit {
+export class SelectTimeMasterComponent implements OnInit {
 
   constructor(private switcherService: SwitcherService) { }
 

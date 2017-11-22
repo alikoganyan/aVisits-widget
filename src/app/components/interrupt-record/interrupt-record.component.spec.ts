@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SelectMasterComponent } from './select-master.component';
+import { InterruptRecordComponent } from './interrupt-record.component';
 
-describe('SelectMasterComponent', () => {
-  let component: SelectMasterComponent;
-  let fixture: ComponentFixture<SelectMasterComponent>;
+describe('InterruptRecordComponent', () => {
+  let component: InterruptRecordComponent;
+  let fixture: ComponentFixture<InterruptRecordComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SelectMasterComponent ]
+      declarations: [ InterruptRecordComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SelectMasterComponent);
+    fixture = TestBed.createComponent(InterruptRecordComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

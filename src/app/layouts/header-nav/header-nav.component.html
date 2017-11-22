@@ -3,6 +3,7 @@
   <div class="choose-options-container">
     <div class="choose-options-inner-container">
 
+
       <div class="choose-option" *ngFor="let navbar of chackedNavbar" [ngClass]="{'active': navbar.active === active}">
         <div class="choose-option-inner">
           <p class="choose-option-num">{{navbar.stage}}</p>
@@ -13,56 +14,7 @@
         </div>
       </div>
 
-      <!--<div class="choose-option">
-        <div class="choose-option-inner">
-          <p class="choose-option-num">1</p>
-          <p>
-            <span>Выберите</span>
-            <span>адрес</span>
-          </p>
-        </div>
-      </div>
 
-      <div class="choose-option">
-        <div class="choose-option-inner">
-          <p class="choose-option-num">2</p>
-          <p>
-            <span>Укажите</span>
-            <span>контакты</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="choose-option active">
-        <div class="choose-option-inner">
-          <p class="choose-option-num">3</p>
-          <p>
-            <span>Выберите</span>
-            <span>мастера</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="choose-option">
-        <div class="choose-option-inner">
-          <p class="choose-option-num">4</p>
-          <p>
-            <span>Выберите</span>
-            <span>услуги</span>
-          </p>
-        </div>
-      </div>
-
-      <div class="choose-option">
-        <div class="choose-option-inner">
-          <p class="choose-option-num">5</p>
-          <p>
-            <span>Выберите</span>
-            <span>время и дату</span>
-          </p>
-        </div>
-      </div>
-      -->
     </div>
   </div>
 </div>
@@ -71,17 +23,15 @@
   <div class="choose-options-logo"><img src="assets/images/icons/logo.png"></div>
   <div class="choose-options-top-container">
     <div class="choose-option-num-container">
-      <p class="choose-option-num active">1</p>
-      <span>-</span>
-      <p class="choose-option-num">2</p>
-      <span>-</span>
-      <p class="choose-option-num">3</p>
-      <span>-</span>
-      <p class="choose-option-num">4</p>
-      <span>-</span>
-      <p class="choose-option-num">5</p>
+
+      <ng-container *ngFor="let navbar of chackedNavbar; let i = index" >
+        <p class="choose-option-num" [ngClass]="{'active': navbar.active === active}">{{i+1}}</p>
+        <span *ngIf="chackedNavbar.length - 1 !== i">-</span>
+      </ng-container>
+
 
     </div>
     <div class="choose-option-title">Выберите адрес</div>
   </div>
 </div>
+

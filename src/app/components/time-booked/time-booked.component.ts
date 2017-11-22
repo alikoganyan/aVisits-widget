@@ -1,17 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {SwitcherService} from '../../services/switcher.service';
 
 @Component({
-  selector: 'app-select-services',
-  templateUrl: './select-services.component.html',
-  styleUrls: ['./select-services.component.scss']
+  selector: 'app-time-booked',
+  templateUrl: './time-booked.component.html',
+  styleUrls: ['./time-booked.component.scss']
 })
-export class SelectServicesComponent implements OnInit {
+export class TimeBookedComponent implements OnInit {
 
   constructor(private switcherService: SwitcherService) { }
 
   ngOnInit() {
-    this.switcherService.changeCount(3);
   }
 
 

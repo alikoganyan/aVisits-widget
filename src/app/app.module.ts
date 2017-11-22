@@ -8,11 +8,15 @@ import { AppComponent } from './app.component';
 import { SelectCityComponent } from './components/select-city/select-city.component';
 import { IndicateContactsComponent } from './components/indicate-contacts/indicate-contacts.component';
 import { HeaderNavComponent } from './layouts/header-nav/header-nav.component';
-import { SelectMasterComponent } from './components/select-master/select-master.component';
-import { SelectServicesComponent } from './components/select-services/select-services.component';
+import { SelectMasterComponent } from './components/first-master/select-master/select-master.component';
+import { SelectServicesComponent } from './components/first-service/select-services/select-services.component';
 import { SelectAddressComponent } from './components/select-address/select-address.component';
-import { SelectServicesMasterComponent } from './components/select-services-master/select-services-master.component';
+import { SelectServicesMasterComponent } from './components/first-master/select-services-master/select-services-master.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
+import { SelectDateTimeComponent } from './components/first-master/select-date-time/select-date-time.component';
+import { SelectTimeMasterComponent } from './components/first-service/select-time-master/select-time-master.component';
+import { TimeBookedComponent } from './components/time-booked/time-booked.component';
+import { InterruptRecordComponent } from './components/interrupt-record/interrupt-record.component';
 /* Services */
 import {SwitcherService} from './services/switcher.service';
 /* Directives */
@@ -29,7 +33,11 @@ import { ActiveDirective } from './directives/active.directive';
     SelectServicesComponent,
     SelectServicesMasterComponent,
     ActiveDirective,
-    SidebarComponent
+    SidebarComponent,
+    SelectDateTimeComponent,
+    SelectTimeMasterComponent,
+    TimeBookedComponent,
+    InterruptRecordComponent
   ],
   imports: [
     BrowserModule,

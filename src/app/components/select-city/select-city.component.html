@@ -5,6 +5,7 @@
       <div class="page-container bordered">
         <div class="choose-city-wrapper">
           <h3 class="text-center">Выберите ваш город</h3>
+
           <div class="choose-city-container">
             <div class="force-overflow">
               <div class="choose-city-item item" *ngFor="let city of cities" (click)="onSelectCity(city)" [class.active]="city === selectCity">
@@ -13,29 +14,9 @@
                   <span class="checkmark"></span>
                 </label>
               </div>
-
-              <!--<div class="choose-city-item item">
-                <label class="check-container">Санкт-Петербург
-                  <input type="radio" name="radio">
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-
-              <div class="choose-city-item item">
-                <label class="check-container">Москва
-                  <input type="radio" name="radio">
-                  <span class="checkmark"></span>
-                </label>
-              </div>
-
-              <div class="choose-city-item item">
-                <label class="check-container">Казань
-                  <input type="radio" name="radio">
-                  <span class="checkmark"></span>
-                </label>
-              </div>-->
             </div>
           </div>
+
           <h6 class="bold text-center">В дальнейшем:</h6>
           <div class="choose-options choose-city">
             <div class="choose-options-item pull-left" (click)="selectMaster('select-address', 'Master')">

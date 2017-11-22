@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {SwitcherService} from '../../services/switcher.service';
-import {Master} from '../../models/master';
+import {SwitcherService} from '../../../services/switcher.service';
+import {Master} from '../../../models/master';
 
 @Component({
   selector: 'app-select-master',
@@ -103,6 +103,7 @@ export class SelectMasterComponent implements OnInit {
     } else {
       this.selectedMasters.push(master);
     }
+    console.log(this.selectedMasters);
   }
 
   ngOnInit() {
@@ -114,6 +115,7 @@ export class SelectMasterComponent implements OnInit {
   }
 
   goNext(enterContact: string) {
+    this.switcherService.selectMasters(this.selectedMasters);
     this.switcherService.clickedStatus.next(enterContact);
   }
 

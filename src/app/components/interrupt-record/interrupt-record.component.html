@@ -1,0 +1,29 @@
+<div class="page">
+  <div class="page-wrapper">
+    <div class="page-inner-wrapper choose-city">
+      <a (click)="onContinue()"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
+      <div class="page-container bordered">
+        <div class="call-modal-container">
+          <h3 class="text-center">Вы хотите прервать онлайн запись?</h3>
+          <div class="phone-registration-middle-block">
+            <p class="phone-registration-offer">Давайте мы запишем вас по телефону</p>
+            <p class="registration-phone">8 (800) 555-35-35</p>
+          </div>
+          <div class="phone-registration-btn-container clearfix">
+            <button (click)="discard('button', '')" class="bold pull-left">
+              <div class="disconnect">
+                Прервать запись
+              </div>
+            </button>
+            <button (click)="onContinue()" class="bold pull-right">
+              <div class="continue">
+                Продолжить запись
+                <img src="assets/images/svg/arrow-white.svg">
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,7 @@ import {SwitcherService} from './services/switcher.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  start = 'hide';
+  start = 'button';
   status = '';
   startSubscription: Subscription;
   statusSubscription: Subscription;
