@@ -25,7 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.startSubscription = this.switcherService.clickedStart.subscribe((start: string) => {
       this.start = start;
     });
-    this.statusSubscription = this.switcherService.clickedStatus.subscribe((status: string) => {
+    this.statusSubscription = this.switcherService.status.subscribe((status: string) => {
       this.status = status;
     });
   }

@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {Master} from '../../../models/master';
 
@@ -7,7 +8,10 @@ import {Master} from '../../../models/master';
   templateUrl: './select-master.component.html',
   styleUrls: ['./select-master.component.scss']
 })
-export class SelectMasterComponent implements OnInit {
+export class SelectMasterComponent implements OnInit, OnDestroy {
+
+  interrapt = false;
+  subInterrupt: Subscription;
 
   selectedMasters: Master[] = [];
   masters: Master[] = [
@@ -108,20 +112,28 @@ export class SelectMasterComponent implements OnInit {
 
   ngOnInit() {
     this.switcherService.changeCount(3);
+    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+      this.interrapt = interrapt;
+    });
   }
 
   goBack(selectCity: string) {
-    this.switcherService.clickedStatus.next(selectCity);
+    this.switcherService.onClickedStatus(selectCity);
   }
 
   goNext(enterContact: string) {
     this.switcherService.selectMasters(this.selectedMasters);
-    this.switcherService.clickedStatus.next(enterContact);
+    this.switcherService.onClickedStatus(enterContact);
   }
 
   onClose(hide: string, status: string) {
-    this.switcherService.clickedStart.next(hide);
-    this.switcherService.clickedStatus.next(status);
+    // this.switcherService.clickedStart.next(hide);
+    // this.switcherService.onClickedStatus(status);
+    this.interrapt = true;
+  }
+
+  ngOnDestroy() {
+    this.subInterrupt.unsubscribe();
   }
 
 }

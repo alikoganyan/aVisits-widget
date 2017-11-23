@@ -11,26 +11,32 @@ export class InterruptRecordComponent implements OnInit, OnDestroy {
 
   status: string;
   subStatus: Subscription;
-  constructor(private switcherService: SwitcherService) { }
+
+  constructor(private switcherService: SwitcherService) {}
 
   ngOnInit() {
-  this.subStatus = this.switcherService.clickedStatus.subscribe((status: string) => {
-    this.status = status;
-    console.log(status);
-  });
+    this.subStatus = this.switcherService.status.subscribe((status: string) => {
+      console.log(status);
+      this.status = status;
+    });
   }
 
-  onContinue() {
-    this.switcherService.clickedStatus.next(this.status);
-  }
+  // onContinue() {
+  //   console.log(this.status);
+  //   this.switcherService.onClickedStatus(this.status);
+  //   this.switcherService.clickedStart.next('show');
+  // }
 
   discard(button: string, status: string) {
     this.switcherService.clickedStart.next(button);
     this.switcherService.clickedStatus.next(status);
   }
 
+  onClose() {
+    this.switcherService.changeInterruptStatus(false);
+  }
+
   ngOnDestroy() {
     this.subStatus.unsubscribe();
   }
-
 }

@@ -12,12 +12,13 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') contactForm: NgForm;
 
-  chosenOrder: string;
-
   mask: any[] = ['+', '7', ' ', '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 
+  chosenOrder: string;
   subChosenOrder: Subscription;
 
+  interrapt = false;
+  subInterrupt: Subscription;
 
   constructor(private switcherService: SwitcherService) {
   }
@@ -27,6 +28,9 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
       this.chosenOrder = message;
     });
     this.switcherService.changeCount(2);
+    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+      this.interrapt = interrapt;
+    });
   }
 
   onSubmit() {
@@ -34,7 +38,8 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   }
 
   goBack(selectCity: string) {
-    this.switcherService.clickedStatus.next(selectCity);
+    // this.switcherService.clickedStatus.next(selectCity);
+    this.switcherService.onClickedStatus(selectCity);
   }
 
   goNext() {
@@ -42,16 +47,18 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
     this.switcherService.userContact(this.contactForm.value);
     let choose: string;
     this.chosenOrder === 'Master' ? choose = 'select-master' : choose = 'select-services';
-    this.switcherService.clickedStatus.next(choose);
+    this.switcherService.onClickedStatus(choose);
   }
 
   onClose(hide: string, status: string) {
-    this.switcherService.clickedStart.next(hide);
-    this.switcherService.clickedStatus.next(status);
+    // this.switcherService.clickedStart.next(hide);
+    // this.switcherService.onClickedStatus(status);
+    this.interrapt = true;
   }
 
   ngOnDestroy() {
     this.subChosenOrder.unsubscribe();
+    this.subInterrupt.unsubscribe();
   }
 
 }

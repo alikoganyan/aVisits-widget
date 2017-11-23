@@ -1,4 +1,4 @@
-<div class="page">
+<div class="page" *ngIf="!interrapt">
   <div class="page-wrapper">
     <div class="page-inner-wrapper">
       <a (click)="onClose('hide', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
@@ -272,3 +272,5 @@
     </div>
   </div>
 </div>
+
+<app-interrupt-record *ngIf="interrapt"></app-interrupt-record>

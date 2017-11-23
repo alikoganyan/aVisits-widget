@@ -15,14 +15,14 @@ $shadow: 0px -1px 15px -4px rgba(0, 0, 0, 0.2), -5px 2px 47px -6px rgba(0, 0, 0,
   box-sizing: border-box; /* Chrome, Firefox 29+, IE 8+, Opera, Safari 5.1 */
 }
 
-:host(app-select-services-maste) {
-  margin: 0;
-  padding: 0;
-  font-family: OpenSans-Regular, sans-serif !important;
-  color: #333333;
-  //letter-spacing: 0.3px;
-  font-size: 12px !important;
-}
+//:host(app-select-city) {
+//  margin: 0;
+//  padding: 0;
+//  font-family: OpenSans-Regular, sans-serif !important;
+//  color: #333333;
+//  //letter-spacing: 0.3px;
+//  font-size: 12px !important;
+//}
 
 p {
   margin: 0 !important;
@@ -31,7 +31,6 @@ p {
 a {
   transition: 1s ease;
   -webkit-transition: 1s ease;
-  cursor: pointer;
 }
 
 a:focus, a:active, a:hover {
@@ -55,17 +54,17 @@ label {
 /***************** Font Face *****************/
 @font-face {
   font-family: OpenSans-Regular;
-  src: url(../../../../assets/fonts/open-sans/OpenSans-Regular.ttf);
+  src: url(../../../assets/fonts/open-sans/OpenSans-Regular.ttf);
 }
 
 @font-face {
   font-family: Opensans-Semibold;
-  src: url(../../../../assets/fonts/open-sans/Opensans-Semibold.ttf);
+  src: url(../../../assets/fonts/open-sans/Opensans-Semibold.ttf);
 }
 
 @font-face {
   font-family: OpenSans-Bold;
-  src: url(../../../../assets/fonts/open-sans/OpenSans-Bold.ttf);
+  src: url(../../../assets/fonts/open-sans/OpenSans-Bold.ttf);
 }
 
 /************** Font Face End **************/
@@ -849,7 +848,7 @@ label {
             border-radius: 50px;
             display: inline-block;
             //background-color: #5c24fa;
-            background-image: url(../../../../assets/images/salon.png);
+            background-image: url(../../../assets/images/salon.png);
             background-repeat: no-repeat;
             background-size: cover;
             -webkit-background-size: cover;
@@ -1107,7 +1106,7 @@ label {
               border-radius: 50px;
               display: inline-block;
               //background-color: #5c24fa;
-              background-image: url(../../../../assets/images/master-pic.png);
+              background-image: url(../../../assets/images/master-pic.png);
               background-repeat: no-repeat;
               background-size: cover;
               -webkit-background-size: cover;
@@ -1198,7 +1197,7 @@ label {
               border-radius: 50px;
               display: inline-block;
               //background-color: #5c24fa;
-              background: url(../../../../assets/images/master-pic.png);
+              background: url(../../../assets/images/master-pic.png);
               background-size: cover;
               -webkit-background-size: cover;
 
@@ -1350,7 +1349,7 @@ label {
 
                   &:checked + label:before {
                     border: 1px solid $color-orange;
-                    background: url(../../../../assets/images/icons/tick.png) no-repeat;
+                    background: url(../../../assets/images/icons/tick.png) no-repeat;
                     background-position: 50%;
                     background-color: $color-orange;
                     text-align: center;
@@ -1431,7 +1430,7 @@ label {
           border-radius: 50px;
           display: inline-block;
           //background-color: #5c24fa;
-          background-image: url(../../../../assets/images/master-pic.png);
+          background-image: url(../../../assets/images/master-pic.png);
           background-repeat: no-repeat;
           background-size: cover;
           -webkit-background-size: cover;
@@ -2223,7 +2222,7 @@ label {
   border-radius: 50%;
   margin-top: 2px;
   margin-right: 2px;
-  background-image: url(../../../../assets/images/master-pic.png);
+  background-image: url(../../../assets/images/master-pic.png);
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-background-size: cover;
@@ -2271,7 +2270,7 @@ label {
   }
 
   .avisits-point {
-    background:url(../../../../assets/images/point-map.png);
+    background:url(../../../assets/images/point-map.png);
     width:26px;
     height:37px;
     position:absolute;
@@ -2337,7 +2336,7 @@ label {
 }
 
 .slick-prev, .slick-next {
-  background: url(../../../../assets/images/svg/arrow-gray.svg);
+  background: url(../../../assets/images/svg/arrow-gray.svg);
   background-size: 32%;
   background-position: 50%;
   background-repeat: no-repeat;

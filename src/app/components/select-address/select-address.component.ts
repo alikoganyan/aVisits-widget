@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {Salon} from '../../models/salon';
 
@@ -7,7 +8,11 @@ import {Salon} from '../../models/salon';
   templateUrl: './select-address.component.html',
   styleUrls: ['./select-address.component.scss']
 })
-export class SelectAddressComponent implements OnInit {
+export class SelectAddressComponent implements OnInit, OnDestroy {
+
+  interrapt = false;
+  subInterrupt: Subscription;
+
 
   selectedSalon: Salon  = new Salon();
   salons: Salon[] = [
@@ -45,6 +50,9 @@ export class SelectAddressComponent implements OnInit {
 
   ngOnInit() {
     this.switcherService.changeCount(1);
+    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+      this.interrapt = interrapt;
+    });
   }
 
   switchMode(event) {
@@ -57,16 +65,23 @@ export class SelectAddressComponent implements OnInit {
   }
 
   goBack(selectCity: string) {
-    this.switcherService.clickedStatus.next(selectCity);
+    // this.switcherService.clickedStatus.next(selectCity);
+    this.switcherService.onClickedStatus(selectCity);
   }
 
   goNext(enterContact: string) {
-    this.switcherService.clickedStatus.next(enterContact);
+    // this.switcherService.clickedStatus.next(enterContact);
+    this.switcherService.onClickedStatus(enterContact);
   }
 
   onClose(hide: string, status: string) {
-    this.switcherService.clickedStart.next(hide);
-    this.switcherService.clickedStatus.next(status);
+    // this.switcherService.clickedStart.next(hide);
+    // this.switcherService.onClickedStatus(status);
+    this.interrapt = true;
+  }
+
+  ngOnDestroy() {
+    this.subInterrupt.unsubscribe();
   }
 
 }

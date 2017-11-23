@@ -22,8 +22,8 @@ export class TimeBookedComponent implements OnInit {
     this.switcherService.clickedStatus.next(enterContact);
   }
 
-  onClose(hide: string, status: string) {
-    this.switcherService.clickedStart.next(hide);
+  onClose(button: string, status: string) {
+    this.switcherService.clickedStart.next(button);
     this.switcherService.clickedStatus.next(status);
   }
 

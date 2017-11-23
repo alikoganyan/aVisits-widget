@@ -1,33 +1,15 @@
-<div class="page">
+<div class="page" *ngIf="!interrapt">
   <div class="page-wrapper">
     <div class="page-inner-wrapper">
-      <a (click)="onClose('hide', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
+      <a (click)="onClose()"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
       <div class="page-container address-master">
 
         <app-header-nav></app-header-nav>
 
 
-
         <div class="choose-options-content contacts-master-content bordered clearfix">
 
           <app-sidebar></app-sidebar>
-
-
-         <!-- <div class="content-left-block contacts-master-left-block">
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Город</p>
-                <p>{{checkedInfo.city}}</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Адрес</p>
-                <p>{{checkedInfo.address}}</p>
-              </div>
-            </div>
-          </div>-->
-
 
           <div class="content-right-block contacts-master-right-block">
 
@@ -115,3 +97,8 @@
     </div>
   </div>
 </div>
+
+
+
+
+<app-interrupt-record *ngIf="interrapt"></app-interrupt-record>

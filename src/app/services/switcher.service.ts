@@ -8,10 +8,6 @@ export class SwitcherService {
 
   clickedStart = new Subject<string>();
   clickedStatus = new Subject<string>();
-  // private clickedStatuss = new BehaviorSubject('default message'); // status
-  // status = this.clickedStatuss.asObservable();
-
-
 
 
   private selectedCity = new BehaviorSubject('default message'); // selected city
@@ -23,20 +19,39 @@ export class SwitcherService {
   private messageSource = new BehaviorSubject('default message');  // Master or Service first
   currentMessage = this.messageSource.asObservable();
 
-  private count = new BehaviorSubject(1);
+  private count = new BehaviorSubject(1);  // count for adding active class navbar
   active = this.count.asObservable();
 
 
-  private userContacts = new BehaviorSubject({email: '', name: '', tel: ''});  // userContacts hre
+  private userContacts = new BehaviorSubject({email: '', name: '', tel: ''});  // userContacts here
   contact = this.userContacts.asObservable();
 
 
-  private selectedMasters = new BehaviorSubject([]);
+  private selectedMasters = new BehaviorSubject([]);  // selected masters here
   masters = this.selectedMasters.asObservable();
+
+
+  private clickedStatuss = new BehaviorSubject('select-city'); // status herer
+  status = this.clickedStatuss.asObservable();
+
+
+  private interruptStatus = new BehaviorSubject(false); // show hide interrupt components
+  interrupt = this.interruptStatus.asObservable();
 
 
   constructor() {
   }
+
+
+  changeInterruptStatus(interrupt: boolean) {
+    this.interruptStatus.next(interrupt);
+  }
+
+
+  onClickedStatus(status: string) {
+    this.clickedStatuss.next(status);
+  }
+
 
   changeMessage(message: string) {
     this.messageSource.next(message);
@@ -62,12 +77,7 @@ export class SwitcherService {
     this.selectedMasters.next(masters);
   }
 
-  //
-  // onClickedStatus(status: string) {
-  //   this.clickedStatus.next(status);
-  // }
 
 }
-
 
 
