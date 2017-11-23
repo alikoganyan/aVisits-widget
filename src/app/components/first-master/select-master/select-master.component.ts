@@ -5,8 +5,7 @@ import {Master} from '../../../models/master';
 
 @Component({
   selector: 'app-select-master',
-  templateUrl: './select-master.component.html',
-  styleUrls: ['./select-master.component.scss']
+  templateUrl: './select-master.component.html'
 })
 export class SelectMasterComponent implements OnInit, OnDestroy {
 
@@ -119,6 +118,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
   goBack(selectCity: string) {
     this.switcherService.onClickedStatus(selectCity);
+    this.switcherService.selectMasters([]);
   }
 
   goNext(enterContact: string) {
@@ -126,9 +126,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     this.switcherService.onClickedStatus(enterContact);
   }
 
-  onClose(hide: string, status: string) {
-    // this.switcherService.clickedStart.next(hide);
-    // this.switcherService.onClickedStatus(status);
+  onClose() {
     this.interrapt = true;
   }
 

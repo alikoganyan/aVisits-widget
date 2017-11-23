@@ -4,15 +4,35 @@ import {SwitcherService} from '../../../services/switcher.service';
 
 @Component({
   selector: 'app-select-services',
-  templateUrl: './select-services.component.html',
-  styleUrls: ['./select-services.component.scss']
+  templateUrl: './select-services.component.html'
 })
 export class SelectServicesComponent implements OnInit, OnDestroy {
 
   interrapt = false;
   subInterrupt: Subscription;
 
-  constructor(private switcherService: SwitcherService) { }
+  services: Service[] = [
+    {title: 'Парикмахерские услуги'},
+    {title: 'Уход за руками'},
+    {title: ' Косметология'},
+    {title: ' Визаж'}
+  ];
+  selectedService: Service;
+
+
+  groupsServices: GroupsServices[] = [
+    {title: 'Стрижки'},
+    {title: 'Укладки'}
+  ];
+
+
+
+  constructor(private switcherService: SwitcherService) {
+  }
+
+  onSelectService(service: Service) {
+    this.selectedService = service;
+  }
 
   ngOnInit() {
     this.switcherService.changeCount(3);
@@ -30,9 +50,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
     this.switcherService.onClickedStatus(enterContact);
   }
 
-  onClose(hide: string, status: string) {
-    // this.switcherService.clickedStart.next(hide);
-    // this.switcherService.onClickedStatus(status);
+  onClose() {
     this.interrapt = true;
   }
 
@@ -40,4 +58,12 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
     this.subInterrupt.unsubscribe();
   }
 
+}
+
+interface Service {
+  title: string;
+}
+
+interface GroupsServices {
+  title: string;
 }

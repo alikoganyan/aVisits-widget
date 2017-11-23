@@ -9,33 +9,11 @@
 
 
           <app-sidebar></app-sidebar>
-          <!--<div class="content-left-block master-master-left-block">
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Город</p>
-                <p>{{checkedInfo.city}}</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Адрес</p>
-                <p>{{checkedInfo.address}}</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Контакты</p>
-                <p>{{contacts.name}}</p>
-                <p>{{contacts.tel}}</p>
-                <p>{{contacts.email}}</p>
-              </div>
-            </div>
-          </div>-->
 
           <div class="content-right-block master-master-right-block">
             <div class="masters-list">
 
-              <div class="masters-list-item" appActive *ngFor="let master of masters" (click)="onSelectMaster(master)">
+              <div class="masters-list-item" appActive *ngFor="let master of masters; let i = index" (click)="onSelectMaster(master)" [class.active]="master == selectedMasters[i]">
                 <label class="masters-list-item-label">
                   <!--<input type="checkbox">-->
                   <br>

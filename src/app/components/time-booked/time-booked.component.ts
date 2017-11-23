@@ -3,8 +3,7 @@ import {SwitcherService} from '../../services/switcher.service';
 
 @Component({
   selector: 'app-time-booked',
-  templateUrl: './time-booked.component.html',
-  styleUrls: ['./time-booked.component.scss']
+  templateUrl: './time-booked.component.html'
 })
 export class TimeBookedComponent implements OnInit {
 
@@ -15,16 +14,18 @@ export class TimeBookedComponent implements OnInit {
 
 
   goBack(selectCity: string) {
-    this.switcherService.clickedStatus.next(selectCity);
+    this.switcherService.onClickedStatus(selectCity);
   }
 
   goNext(enterContact: string) {
-    this.switcherService.clickedStatus.next(enterContact);
+    this.switcherService.onClickedStatus(enterContact);
+    this.switcherService.selectMasters([]);
+    this.switcherService.userContact({ email: '', name: '', notes: '', tel: '' });
   }
 
   onClose(button: string, status: string) {
     this.switcherService.clickedStart.next(button);
-    this.switcherService.clickedStatus.next(status);
+    this.switcherService.onClickedStatus(status);
   }
 
 }

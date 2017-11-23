@@ -18,7 +18,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onStart() {
     this.start = 'show';
-    this.status = 'select-city';
+    this.status = 'select_city';
   }
 
   ngOnInit() {

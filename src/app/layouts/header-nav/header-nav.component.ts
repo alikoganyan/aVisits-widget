@@ -8,18 +8,44 @@ import {Subscription} from 'rxjs/Subscription';
   styleUrls: ['./header-nav.component.scss']
 })
 export class HeaderNavComponent implements OnInit, OnDestroy {
-  chackedNavbar: Navbar[];
+  chackedNavbar;
   active: number;
   sub: Subscription;
   subCount: Subscription;
 
-  navbarMasters: Navbar[] = [
-    {stage: 1, title1: 'Выберите', title2: 'адрес', active: 1},
+  sequence = [
+    'select_address',          // 0
+    'indicate_contacts',       // 1
+    'select_master',           // 2
+    'select_services_master',  // 3
+    'select_date_time'         // 4
+  ];
+
+
+
+  // sequence[0]
+  navbarMasters = {
+    select_address: { title1: 'Выберите', title2: 'адрес', active: 1},
+    indicate_contacts: { title1: 'Укажите', title2: 'контакты', active: 2},
+    select_master: { title1: 'Выберите', title2: 'мастера', active: 3},
+    select_services_master: { title1: 'Выберите', title2: 'услуги', active: 4},
+    select_date_time: { title1: 'Выберите', title2: 'время и дату', active: 5},
+};
+
+ /* navbarMasters = [
+    {select_address: {stage: 1, title1: 'Выберите', title2: 'адрес', active: 1}},
+    {indicate_contacts: {stage: 2, title1: 'Укажите', title2: 'контакты', active: 2}},
+    {select_master: {stage: 3, title1: 'Выберите', title2: 'мастера', active: 3}},
+    {select_services_master: {stage: 4, title1: 'Выберите', title2: 'услуги', active: 4}},
+    {select_date_time: {stage: 5, title1: 'Выберите', title2: 'время и дату', active: 5}},
+
+
+    /!*{stage: 1, title1: 'Выберите', title2: 'адрес', active: 1},
     {stage: 2, title1: 'Укажите', title2: 'контакты', active: 2},
     {stage: 3, title1: 'Выберите', title2: 'мастера', active: 3},
     {stage: 4, title1: 'Выберите', title2: 'услуги', active: 4},
-    {stage: 5, title1: 'Выберите', title2: 'время и дату', active: 5}
-  ];
+    {stage: 5, title1: 'Выберите', title2: 'время и дату', active: 5}*!/
+  ];*/
 
   navbarServices: Navbar[] = [
     {stage: 1, title1: 'Выберите', title2: 'адрес', active: 1},
@@ -37,8 +63,8 @@ export class HeaderNavComponent implements OnInit, OnDestroy {
     });
     this.subCount = this.switcherService.active.subscribe(active => {
       this.active = active;
-      console.log(this.active);
     });
+    console.log(this.navbarMasters['select_master']);
   }
 
   ngOnDestroy() {

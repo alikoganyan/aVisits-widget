@@ -4,12 +4,12 @@
     <div class="choose-options-inner-container">
 
 
-      <div class="choose-option" *ngFor="let navbar of chackedNavbar" [ngClass]="{'active': navbar.active === active}">
+      <div class="choose-option" *ngFor="let navbar of sequence; let i = index" [ngClass]="{'active': i + 1 === active}">
         <div class="choose-option-inner">
-          <p class="choose-option-num">{{navbar.stage}}</p>
+          <p class="choose-option-num">{{i + 1}}</p>
           <p>
-            <span>{{navbar.title1}}</span>
-            <span>{{navbar.title2}}</span>
+            <span>{{navbarMasters[navbar].title1}}</span>
+            <span>{{navbarMasters[navbar].title2}}</span>
           </p>
         </div>
       </div>
@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<div class="choose-options choose-options-top-responsive address-master bordered">
+<!--<div class="choose-options choose-options-top-responsive address-master bordered">
   <div class="choose-options-logo"><img src="assets/images/icons/logo.png"></div>
   <div class="choose-options-top-container">
     <div class="choose-option-num-container">
@@ -33,5 +33,5 @@
     </div>
     <div class="choose-option-title">Выберите адрес</div>
   </div>
-</div>
+</div>-->
 

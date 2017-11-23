@@ -4,8 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-interrupt-record',
-  templateUrl: './interrupt-record.component.html',
-  styleUrls: ['./interrupt-record.component.scss']
+  templateUrl: './interrupt-record.component.html'
 })
 export class InterruptRecordComponent implements OnInit, OnDestroy {
 
@@ -29,7 +28,7 @@ export class InterruptRecordComponent implements OnInit, OnDestroy {
 
   discard(button: string, status: string) {
     this.switcherService.clickedStart.next(button);
-    this.switcherService.clickedStatus.next(status);
+    this.switcherService.onClickedStatus(status);
   }
 
   onClose() {

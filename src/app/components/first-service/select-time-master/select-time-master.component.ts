@@ -4,8 +4,7 @@ import {SwitcherService} from '../../../services/switcher.service';
 
 @Component({
   selector: 'app-select-time-master',
-  templateUrl: './select-time-master.component.html',
-  styleUrls: ['./select-time-master.component.scss']
+  templateUrl: './select-time-master.component.html'
 })
 export class SelectTimeMasterComponent implements OnInit, OnDestroy {
 

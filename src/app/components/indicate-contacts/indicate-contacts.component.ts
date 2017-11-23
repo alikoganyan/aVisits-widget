@@ -5,8 +5,7 @@ import {SwitcherService} from '../../services/switcher.service';
 
 @Component({
   selector: 'app-indicate-contacts',
-  templateUrl: './indicate-contacts.component.html',
-  styleUrls: ['./indicate-contacts.component.scss']
+  templateUrl: './indicate-contacts.component.html'
 })
 export class IndicateContactsComponent implements OnInit, OnDestroy {
 
@@ -38,8 +37,8 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   }
 
   goBack(selectCity: string) {
-    // this.switcherService.clickedStatus.next(selectCity);
     this.switcherService.onClickedStatus(selectCity);
+    this.switcherService.userContact({ email: '', name: '', notes: '', tel: '' });
   }
 
   goNext() {
@@ -50,9 +49,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
     this.switcherService.onClickedStatus(choose);
   }
 
-  onClose(hide: string, status: string) {
-    // this.switcherService.clickedStart.next(hide);
-    // this.switcherService.onClickedStatus(status);
+  onClose() {
     this.interrapt = true;
   }
 

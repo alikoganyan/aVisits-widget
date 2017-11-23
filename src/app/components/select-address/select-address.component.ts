@@ -5,16 +5,17 @@ import {Salon} from '../../models/salon';
 
 @Component({
   selector: 'app-select-address',
-  templateUrl: './select-address.component.html',
-  styleUrls: ['./select-address.component.scss']
+  templateUrl: './select-address.component.html'
 })
 export class SelectAddressComponent implements OnInit, OnDestroy {
 
   interrapt = false;
   subInterrupt: Subscription;
 
+  sequence;
+  subSequence: Subscription;
 
-  selectedSalon: Salon  = new Salon();
+  selectedSalon: Salon = new Salon();
   salons: Salon[] = [
     {address: 'Непокоренных, 10'},
     {address: 'Большая Зеленина, 3'},
@@ -53,6 +54,9 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.sequence = sequence;
+    });
   }
 
   switchMode(event) {
@@ -64,19 +68,16 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
     this.switcherService.selectAddress(salon.address);
   }
 
-  goBack(selectCity: string) {
-    // this.switcherService.clickedStatus.next(selectCity);
-    this.switcherService.onClickedStatus(selectCity);
+  goBack() {
+    this.switcherService.onClickedStatus(this.sequence[0]);
   }
 
-  goNext(enterContact: string) {
-    // this.switcherService.clickedStatus.next(enterContact);
-    this.switcherService.onClickedStatus(enterContact);
+  goNext() {
+    // this.switcherService.onClickedStatus('indicate-contacts');
+    this.switcherService.onClickedStatus(this.sequence[2]);
   }
 
-  onClose(hide: string, status: string) {
-    // this.switcherService.clickedStart.next(hide);
-    // this.switcherService.onClickedStatus(status);
+  onClose() {
     this.interrapt = true;
   }
 

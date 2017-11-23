@@ -5,8 +5,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-select-services-master',
-  templateUrl: './select-services-master.component.html',
-  styleUrls: ['./select-services-master.component.scss']
+  templateUrl: './select-services-master.component.html'
 })
 export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 

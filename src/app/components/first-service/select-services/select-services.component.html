@@ -13,19 +13,36 @@
 
           <div class="content-right-block services-service-right-block services-master">
             <div class="content-right-block-first services-service-right-block-first">
-              <div class="services-service-right-block-first-item active">
+
+
+              <div
+                *ngFor="let service of services"
+                class="services-service-right-block-first-item"
+                (click)="onSelectService(service)"
+              [class.active]="service === selectedService">
+                {{service.title}}
+              </div>
+             <!-- <div class="services-service-right-block-first-item active">
                 Парикмахерские <br> услуги
               </div>
+
               <div class="services-service-right-block-first-item">
                 Уход за руками
               </div>
+
               <div class="services-service-right-block-first-item">
                 Косметология
               </div>
+
               <div class="services-service-right-block-first-item">
                 Визаж
-              </div>
+              </div>-->
+
+
+
             </div>
+
+
             <div class="content-right-block-second services-service-right-block-second">
               <form class="services-service-search">
                 <div class="search">
@@ -35,6 +52,10 @@
                   </button>
                 </div>
               </form>
+
+
+
+
               <div class="services-master-service-list">
                 <p class="services-master-service-list-title bold">Стрижки</p>
                 <table class="">
@@ -99,6 +120,13 @@
                   </tr>
                 </table>
               </div>
+
+
+
+
+
+
+
             </div>
           </div>
         </div>

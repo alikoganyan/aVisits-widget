@@ -4,8 +4,7 @@ import {SwitcherService} from '../../../services/switcher.service';
 
 @Component({
   selector: 'app-select-date-time',
-  templateUrl: './select-date-time.component.html',
-  styleUrls: ['./select-date-time.component.scss']
+  templateUrl: './select-date-time.component.html'
 })
 export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
