@@ -22,7 +22,6 @@ export class HeaderNavComponent implements OnInit, OnDestroy {
   ];
 
 
-  // sequence[0]
   navbarMasters = {
     select_address: {title1: 'Выберите', title2: 'адрес', active: 1},
     indicate_contacts: {title1: 'Укажите', title2: 'контакты', active: 2},

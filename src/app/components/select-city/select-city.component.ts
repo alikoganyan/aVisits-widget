@@ -2,12 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
 import {City} from '../../models/city';
+import {CityService} from '../../services/city.service';
 
 @Component({
   selector: 'app-select-city',
   templateUrl: './select-city.component.html'
 })
 export class SelectCityComponent implements OnInit, OnDestroy {
+
+  loader = true;
 
   interrapt = false;
   subInterrupt: Subscription;
@@ -16,20 +19,29 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   index: number;
   subSequence: Subscription;
 
-  cities: City[] = [
-    {id: 1, title: 'Санкт-Петербург'},
-    {id: 2, title: 'Москва'},
-    {id: 3, title: 'Казань'}
-  ];
+  cities: string[] = [];
+  selectCity: string;
 
-  selectCity: City;
   masterOrService = '';
 
 
-  constructor(private switcherService: SwitcherService) {
+  constructor(private switcherService: SwitcherService, private cityService: CityService) {
   }
 
+  getCities() {
+    this.cityService.getCities().subscribe((cities) => {
+        this.loader = false;
+        this.cities = cities.data.cities;
+      },
+      (error) => {
+        console.log(error);
+        this.loader = false;
+    });
+  }
+
+
   ngOnInit() {
+    this.getCities();
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
@@ -40,8 +52,8 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
 
-  onSelectCity(city: City) {
-    this.switcherService.selectCity(city.title);
+  onSelectCity(city: string) {
+    this.switcherService.selectCity(city);
     this.selectCity = city;
     if (this.masterOrService !== '') {
       this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
@@ -50,6 +62,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
   selectMaster() {
+    this.cityService.getSalons(this.selectCity);
     this.masterOrService = 'Master';
     if (this.selectCity !== undefined) {
       this.switcherService.onClickedStatus(this.sequence[this.index + 1]);

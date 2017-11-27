@@ -19,19 +19,21 @@
   </div>
 </div>
 
-<!--<div class="choose-options choose-options-top-responsive address-master bordered">
+
+
+<div class="choose-options choose-options-top-responsive address-master bordered">
   <div class="choose-options-logo"><img src="assets/images/icons/logo.png"></div>
   <div class="choose-options-top-container">
     <div class="choose-option-num-container">
 
-      <ng-container *ngFor="let navbar of chackedNavbar; let i = index" >
-        <p class="choose-option-num" [ngClass]="{'active': navbar.active === active}">{{i+1}}</p>
-        <span *ngIf="chackedNavbar.length - 1 !== i">-</span>
+      <ng-container *ngFor="let navbar of sequence; let i = index" >
+        <p class="choose-option-num" [ngClass]="{'active': i + 1 === active}">{{i+1}}</p>
+        <span *ngIf="sequence.length - 1 !== i">-</span>
       </ng-container>
-
 
     </div>
     <div class="choose-option-title">Выберите адрес</div>
   </div>
-</div>-->
+</div>
+
 

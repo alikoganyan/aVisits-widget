@@ -20,11 +20,12 @@
                   <input
                     type="tel"
                     [(ngModel)]="savedContacts.phone"
+                    minlength="18"
                     name="tel"
                     required
                     placeholder="+7 (___) -___-__-__"
                     class="inp-medium phone"
-                    [textMask]="{mask: mask}"
+                    [textMask]="{mask: mask,  guide: false, modelClean: true}"
                     #tel="ngModel">
                   <span style="color: #e38044;" class="help-block color-help-block" *ngIf="!tel.valid && tel.touched">Обязательное поле!</span>
                   <p>Заполните все поля, чтобы попасть на прием к лучшему из эксперт</p>

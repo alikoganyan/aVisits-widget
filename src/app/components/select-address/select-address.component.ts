@@ -16,7 +16,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   index: number;
   subSequence: Subscription;
 
-  selectedSalon: Salon = new Salon();
+  selectedSalon: Salon;
 
 
   salons: Salon[] = [
@@ -53,7 +53,6 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.switcherService.changeCount(1);
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
@@ -61,6 +60,8 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
       this.index = sequence.indexOf('select_address');
       this.sequence = sequence;
     });
+    this.switcherService.changeCount(this.index);
+
   }
 
   switchMode(event) {

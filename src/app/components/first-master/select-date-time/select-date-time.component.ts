@@ -20,7 +20,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.switcherService.changeCount(5);
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
@@ -28,6 +27,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
       this.index = sequence.indexOf('select_date_time');
       this.sequence = sequence;
     });
+    this.switcherService.changeCount(this.index);
   }
 
   goBack() {

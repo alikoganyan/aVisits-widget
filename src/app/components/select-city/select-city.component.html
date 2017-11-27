@@ -1,3 +1,7 @@
+
+
+
+
 <div class="page" *ngIf="!interrapt">
   <div class="page-wrapper">
     <div class="page-inner-wrapper choose-city">
@@ -8,9 +12,10 @@
       <h3 class="text-center">Выберите ваш город</h3>
 
       <div class="choose-city-container">
+        <app-loader *ngIf="loader"></app-loader>
         <div class="force-overflow">
           <div class="choose-city-item item" *ngFor="let city of cities" (click)="onSelectCity(city)" [class.active]="city === selectCity">
-            <label class="check-container">{{city.title}}
+            <label class="check-container">{{city}}
               <input type="radio" name="radio">
               <span class="checkmark"></span>
             </label>

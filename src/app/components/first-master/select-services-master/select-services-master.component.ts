@@ -16,7 +16,10 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   index: number;
   subSequence: Subscription;
 
-  masters: Master[] = [];
+  masters: Master[] = [
+    // {id: 1, image: 'assets/images/icons/ruble-gray.png', name: 'Сергеева  Анна', profession: 'Парикмахер-стилист'},
+    // {id: 2, image: 'assets/images/icons/ruble-gray.png', name: 'Любовь  Соболь', profession: 'Мастер ногтевого сервиса'},
+  ];
   selectedMaster: Master;
 
 
@@ -30,7 +33,6 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.switcherService.changeCount(4);
     this.switcherService.masters.subscribe(masters => {
       this.masters = masters;
     });
@@ -41,6 +43,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
       this.index = sequence.indexOf('select_services_master');
       this.sequence = sequence;
     });
+    this.switcherService.changeCount(this.index);
   }
 
   goBack() {

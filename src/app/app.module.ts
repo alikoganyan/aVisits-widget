@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { AgmCoreModule } from '@agm/core';
 import { TextMaskModule } from 'angular2-text-mask';
@@ -19,8 +21,10 @@ import { TimeBookedComponent } from './components/time-booked/time-booked.compon
 import { InterruptRecordComponent } from './components/interrupt-record/interrupt-record.component';
 /* Services */
 import {SwitcherService} from './services/switcher.service';
+import {CityService} from './services/city.service';
 /* Directives */
 import { ActiveDirective } from './directives/active.directive';
+import { LoaderComponent } from './layouts/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -37,18 +41,21 @@ import { ActiveDirective } from './directives/active.directive';
     SelectDateTimeComponent,
     SelectTimeMasterComponent,
     TimeBookedComponent,
-    InterruptRecordComponent
+    InterruptRecordComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
+    HttpModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc',
       libraries: ['places']
     }),
     TextMaskModule
   ],
-  providers: [SwitcherService],
+  providers: [SwitcherService, CityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -14,14 +14,12 @@
             <div class="masters-list">
 
 
-
-
               <div
+
                 class="masters-list-item"
-                appActive
                 *ngFor="let master of masters; let i = index"
                 (click)="onSelectMaster(master)"
-                [class.active]="">
+                [class.active]="isActive(master)">
                 <label class="masters-list-item-label">
                   <!--<input type="checkbox">-->
                   <br>

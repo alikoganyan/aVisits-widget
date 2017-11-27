@@ -62,7 +62,7 @@ export class SwitcherService {
   }
 
 
-  changeInterruptStatus(interrupt: boolean) {
+  changeInterruptStatus(interrupt: boolean) {   // show hide interrupt components
     this.interruptStatus.next(interrupt);
   }
 
@@ -76,7 +76,7 @@ export class SwitcherService {
     this.messageSource.next(message);
   }
 
-  selectCity(city: string) {
+  selectCity(city: string) {   // selected city
     this.selectedCity.next(city);
   }
 

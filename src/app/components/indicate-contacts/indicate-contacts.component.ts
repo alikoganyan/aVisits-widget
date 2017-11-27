@@ -34,6 +34,8 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   constructor(private switcherService: SwitcherService) {
   }
 
+
+
   ngOnInit() {
     this.subChosenOrder = this.switcherService.currentMessage.subscribe(message => {
       this.chosenOrder = message;
@@ -45,7 +47,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
       this.index = sequence.indexOf('indicate_contacts');
       this.sequence = sequence;
     });
-    this.switcherService.changeCount(2);
+    this.switcherService.changeCount(this.index);
   }
 
   onSubmit() {

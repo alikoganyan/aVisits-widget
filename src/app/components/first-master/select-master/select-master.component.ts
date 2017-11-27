@@ -100,7 +100,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     let checked = null;
     for (const m in this.selectedMasters) {
       if (this.selectedMasters[m].id === master.id) {
-        checked = m;
+        checked = m;  // index (5) or (3)
         break;
       }
     }
@@ -112,8 +112,20 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  isActive(master: Master) {
+    let exist = false;
+    for (const m of this.selectedMasters) {
+      if (m.id === master.id) {
+        exist = true;
+        break;
+      }
+    }
+    return exist;
+  }
+
+
   ngOnInit() {
-    this.switcherService.changeCount(3);
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
@@ -121,6 +133,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
       this.index = sequence.indexOf('select_master');
       this.sequence = sequence;
     });
+    this.switcherService.changeCount(this.index);
   }
 
   goBack() {
