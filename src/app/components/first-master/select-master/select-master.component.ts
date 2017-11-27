@@ -8,9 +8,13 @@ import {Master} from '../../../models/master';
   templateUrl: './select-master.component.html'
 })
 export class SelectMasterComponent implements OnInit, OnDestroy {
-
   interrapt = false;
   subInterrupt: Subscription;
+
+  sequence: string[];
+  subSequence: Subscription;
+  index: number;
+
 
   selectedMasters: Master[] = [];
   masters: Master[] = [
@@ -106,7 +110,6 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     } else {
       this.selectedMasters.push(master);
     }
-    console.log(this.selectedMasters);
   }
 
   ngOnInit() {
@@ -114,24 +117,34 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.index = sequence.indexOf('select_master');
+      this.sequence = sequence;
+    });
   }
 
-  goBack(selectCity: string) {
-    this.switcherService.onClickedStatus(selectCity);
+  goBack() {
+    this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
     this.switcherService.selectMasters([]);
   }
 
-  goNext(enterContact: string) {
+  goNext() {
     this.switcherService.selectMasters(this.selectedMasters);
-    this.switcherService.onClickedStatus(enterContact);
+    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 
   onClose() {
+    console.log(this.selectedMasters);
     this.interrapt = true;
   }
 
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
+    this.subSequence.unsubscribe();
   }
 
 }
+
+
+
+

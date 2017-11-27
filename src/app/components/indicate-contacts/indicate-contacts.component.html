@@ -6,7 +6,6 @@
 
         <app-header-nav></app-header-nav>
 
-
         <div class="choose-options-content contacts-master-content bordered clearfix">
 
           <app-sidebar></app-sidebar>
@@ -20,14 +19,14 @@
                   <label class="bold">Телефон, на который придет смс-подтверждение</label>
                   <input
                     type="tel"
-                    ngModel
+                    [(ngModel)]="savedContacts.phone"
                     name="tel"
                     required
                     placeholder="+7 (___) -___-__-__"
                     class="inp-medium phone"
                     [textMask]="{mask: mask}"
                     #tel="ngModel">
-                  <span class="help-block color-help-block" *ngIf="!tel.valid && tel.touched">Обязательное поле!</span>
+                  <span style="color: #e38044;" class="help-block color-help-block" *ngIf="!tel.valid && tel.touched">Обязательное поле!</span>
                   <p>Заполните все поля, чтобы попасть на прием к лучшему из эксперт</p>
                 </div>
 
@@ -36,11 +35,11 @@
                   <input
                     type="text"
                     class="inp-medium name"
-                    ngModel
+                    [(ngModel)]="savedContacts.nameUser"
                     name="name"
                     required
                     #name="ngModel">
-                  <span class="help-block color-help-block" *ngIf="!name.valid && name.touched">Обязательное поле!</span>
+                  <span style="color: #e38044;" class="help-block color-help-block" *ngIf="!name.valid && name.touched">Обязательное поле!</span>
                 </div>
 
                 <div class="contacts-master-email form-item">
@@ -48,12 +47,12 @@
                   <input
                     type="email"
                     class="inp-medium email"
-                    ngModel
+                    [(ngModel)]="savedContacts.email"
                     name="email"
                     required
                     email
-                    #email="ngModel">
-                  <span class="help-block color-help-block" *ngIf="!email.valid && email.touched">Не правильны емайл!</span>
+                    #vaildEmail="ngModel">
+                  <span style="color: #e38044;" class="help-block color-help-block" *ngIf="!vaildEmail.valid && vaildEmail.touched">Не правильны емайл!</span>
                 </div>
 
                 <div class="contacts-master-email-spam responsive">
@@ -65,7 +64,7 @@
               <div class="contacts-master-right-block-second">
                 <div class="contacts-master-note form-item">
                   <label class="bold">Примечание</label>
-                  <textarea ngModel name="notes"></textarea>
+                  <textarea [(ngModel)]="savedContacts.textArea" name="notes">{{textArea}}</textarea>
                 </div>
               </div>
               <div class="contacts-master-email-spam">
@@ -78,20 +77,20 @@
 
 
         <div class="nav-bottom address-master-bottom bordered">
-          <a (click)="goBack('select-address')" class="semi-bold pull-left">
+          <button (click)="goBack()" class="semi-bold pull-left">
             <div
               class="back nav-bottom-back nav-bottom-item address-master-bottom-item address-master-bottom-back pull-left">
               <img src="assets/images/svg/arrow.svg">
               Назад
             </div>
-          </a>
-          <a (click)="goNext()" class="semi-bold pull-right" *ngIf="f.valid">
+          </button>
+          <button [disabled]="!f.valid" (click)="goNext()" class="semi-bold pull-right">
             <div
               class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
               Далее
               <img src="assets/images/svg/arrow-white.svg">
             </div>
-          </a>
+          </button>
         </div>
       </div>
     </div>
@@ -99,6 +98,7 @@
 </div>
 
 
-
-
 <app-interrupt-record *ngIf="interrapt"></app-interrupt-record>
+
+
+

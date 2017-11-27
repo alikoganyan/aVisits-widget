@@ -1,7 +1,7 @@
 <div class="page">
   <div class="page-wrapper">
     <div class="page-inner-wrapper">
-      <a (click)="onClose('button', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
+      <a (click)="onClose()"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
       <div class="page-container address-master">
         <div class="choose-options choose-options-top ready-master bordered">
           <div class="choose-options-logo"><img src="assets/images/icons/logo.png"></div>
@@ -197,7 +197,7 @@
               Закрыть
             </div>
           </button>
-          <button (click)="goNext('select-city')" class="semi-bold pull-right">
+          <button (click)="goNext()" class="semi-bold pull-right">
             <div
               class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
               Еще одна запись

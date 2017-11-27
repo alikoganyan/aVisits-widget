@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 $color-default: #333333;
 $color-gray: rgb(142, 142, 146);
 $color-mid-gray: #acacaf;
@@ -1011,6 +1010,7 @@ label {
               border-radius: 4px;
               padding: 10px;
               resize: none;
+              overflow: hidden;
 
               &:focus {
                 border: 1px solid $color-orange;
@@ -1417,7 +1417,18 @@ label {
       }
 
       .time-master-book-schedule-container {
-        //margin-top: 20px;
+        .time-service-item-info {
+          color: $color-gray;
+
+          div {
+            display: inline-block;
+            padding-left: 30px;
+
+            img {
+              vertical-align: baseline;
+            }
+          }
+        }
       }
 
       .time-master-title-block {
@@ -1533,7 +1544,7 @@ label {
           .time-service-item-title {
             float: left;
             font-size: 14px;
-            width: 50%;
+            // width: 50%;
           }
 
           .time-service-item-info {
@@ -1896,6 +1907,14 @@ label {
     padding-left: 0;
   }
 
+  .page-wrapper .page-container .content-right-block.time-master-right-block .time-master-book-schedule-container .time-service-item-info {
+    text-align: left !important;
+
+    div:first-child {
+      padding-left: 0;
+    }
+  }
+
 }
 @media (max-width: 614px) {
   .content-left-block {
@@ -2130,10 +2149,6 @@ label {
   .page-wrapper {
     // height: 750px;
   }
-
-  .switcherMode {
-    display: none;
-  }
 }
 
 @media (max-width: 490px) {
@@ -2197,9 +2212,6 @@ label {
       }
     }
 
-
-
-
   }
 
   .content-left-block {
@@ -2217,9 +2229,6 @@ label {
   .page-wrapper .page-container .master-master-content .masters-list .masters-list-item {
     width: calc(100% / 3);
   }
-
-
-
 
 }
 
@@ -2637,6 +2646,4 @@ label {
     }
   }
 }
-.color-help-block {
-  color: #e38044;
-}
+

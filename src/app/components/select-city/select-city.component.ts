@@ -12,7 +12,8 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   interrapt = false;
   subInterrupt: Subscription;
 
-  sequence: string;
+  sequence: string[];
+  index: number;
   subSequence: Subscription;
 
   cities: City[] = [
@@ -33,7 +34,8 @@ export class SelectCityComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.sequence = sequence[1];
+      this.index = sequence.indexOf('select_city');
+      this.sequence = sequence;
     });
   }
 
@@ -42,7 +44,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
     this.switcherService.selectCity(city.title);
     this.selectCity = city;
     if (this.masterOrService !== '') {
-      this.switcherService.onClickedStatus(this.sequence);
+      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
       this.switcherService.changeMessage(this.masterOrService);
     }
   }
@@ -50,7 +52,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   selectMaster() {
     this.masterOrService = 'Master';
     if (this.selectCity !== undefined) {
-      this.switcherService.onClickedStatus(this.sequence);
+      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
       this.switcherService.changeMessage('Master');
     }
   }
@@ -58,7 +60,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   selectService() {
     this.masterOrService = 'Service';
     if (this.selectCity !== undefined) {
-      this.switcherService.onClickedStatus(this.sequence);
+      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
       this.switcherService.changeMessage('Service');
     }
   }

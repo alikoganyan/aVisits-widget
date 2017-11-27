@@ -15,7 +15,6 @@ export class InterruptRecordComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subStatus = this.switcherService.status.subscribe((status: string) => {
-      console.log(status);
       this.status = status;
     });
   }

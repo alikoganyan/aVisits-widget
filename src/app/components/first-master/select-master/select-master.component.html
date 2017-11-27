@@ -13,7 +13,15 @@
           <div class="content-right-block master-master-right-block">
             <div class="masters-list">
 
-              <div class="masters-list-item" appActive *ngFor="let master of masters; let i = index" (click)="onSelectMaster(master)" [class.active]="master == selectedMasters[i]">
+
+
+
+              <div
+                class="masters-list-item"
+                appActive
+                *ngFor="let master of masters; let i = index"
+                (click)="onSelectMaster(master)"
+                [class.active]="">
                 <label class="masters-list-item-label">
                   <!--<input type="checkbox">-->
                   <br>
@@ -31,18 +39,28 @@
                 </label>
               </div>
 
+
+
+
+
             </div>
           </div>
         </div>
         <div class="nav-bottom address-master-bottom bordered">
-          <a (click)="goBack('indicate-contacts')" class="semi-bold pull-left"><div class="back nav-bottom-back nav-bottom-item address-master-bottom-item address-master-bottom-back pull-left">
-            <img src="assets/images/svg/arrow.svg">
-            Назад
-          </div></a>
-          <a (click)="goNext('select-services-master')" class="semi-bold pull-right"><div class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
-            Далее
-            <img src="assets/images/svg/arrow-white.svg">
-          </div></a>
+          <button (click)="goBack()" class="semi-bold pull-left">
+            <div
+              class="back nav-bottom-back nav-bottom-item address-master-bottom-item address-master-bottom-back pull-left">
+              <img src="assets/images/svg/arrow.svg">
+              Назад
+            </div>
+          </button>
+          <button (click)="goNext()" class="semi-bold pull-right">
+            <div
+              class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
+              Далее
+              <img src="assets/images/svg/arrow-white.svg">
+            </div>
+          </button>
         </div>
       </div>
     </div>

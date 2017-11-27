@@ -12,10 +12,13 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   interrapt = false;
   subInterrupt: Subscription;
 
-  sequence;
+  sequence: string[];
+  index: number;
   subSequence: Subscription;
 
   selectedSalon: Salon = new Salon();
+
+
   salons: Salon[] = [
     {address: 'Непокоренных, 10'},
     {address: 'Большая Зеленина, 3'},
@@ -55,6 +58,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.index = sequence.indexOf('select_address');
       this.sequence = sequence;
     });
   }
@@ -69,12 +73,11 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.switcherService.onClickedStatus(this.sequence[0]);
+    this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
   }
 
   goNext() {
-    // this.switcherService.onClickedStatus('indicate-contacts');
-    this.switcherService.onClickedStatus(this.sequence[2]);
+    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 
   onClose() {
@@ -83,6 +86,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
+    this.subSequence.unsubscribe();
   }
 
 }

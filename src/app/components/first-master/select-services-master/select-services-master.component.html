@@ -14,51 +14,27 @@
             <div class="content-right-block-first services-service-right-block-first">
 
 
-             <!-- <div class="services-service-right-block-first-item">
+              <div
+                class="services-service-right-block-first-item"
+                *ngFor="let master of masters"
+                (click)="onSelectMaster(master)"
+                [class.active]="master === selectedMaster">
                 <div class="services-service-master-title-block">
-                  <a href="" class="services-service-title-block-back-btn"><img src="assets/images/svg/arrow-dark-gray.svg"></a>
-                  <div class="services-service-pic-container">&lt;!&ndash; <img src="assets/images/master-pic.png"> &ndash;&gt;</div>
-                  <span>
-											<p>Сергеева<p>
-											<p>Анна</p>
-										</span>
-                </div>
-                <div class="services-service-master-info">
-                  <p class="services-service-master-position">Парикмахер-стилист</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">1</span>&nbsp услуга выбрана</p>
-                </div>
-              </div>
-              <div class="services-service-right-block-first-item">
-                <div class="services-service-master-title-block">
-                  <a href="" class="services-service-title-block-back-btn"><img src="assets/images/svg/arrow.svg"></a>
-                  <div class="services-service-pic-container">&lt;!&ndash; <img src="assets/images/master-pic.png"> &ndash;&gt;</div>
-                  <span>
-											<p>Любовь<p>
-											<p>Соболь</p>
-										</span>
-                </div>
-                <div class="services-service-master-info">
-                  <p class="services-service-master-position">Мастер ногтевого сервиса</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">3</span>&nbsp услуги выбрано</p>
-                </div>
-              </div>-->
-              <div class="services-service-right-block-first-item" *ngFor="let master of masters">
-                <div class="services-service-master-title-block">
-                  <a href="" class="services-service-title-block-back-btn"><img src="assets/images/svg/arrow-dark-gray.svg"></a>
+                  <a href="" class="services-service-title-block-back-btn"><img
+                    src="assets/images/svg/arrow-dark-gray.svg"></a>
                   <div class="services-service-pic-container"><!-- <img src="assets/images/master-pic.png"> --></div>
                   <span>
                       <p>{{master.name}}</p>
-											<!--<p>Сергеева<p>-->
-											<!--<p>Анна</p>-->
+                    <!--<p>Сергеева<p>-->
+                    <!--<p>Анна</p>-->
 										</span>
                 </div>
                 <div class="services-service-master-info">
                   <p class="services-service-master-position">Парикмахер-стилист</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">1</span>&nbsp услуга выбрана</p>
+                  <p class="services-service-count-container"><span class="services-service-count bold">1</span>&nbsp
+                    услуга выбрана</p>
                 </div>
               </div>
-
-
 
 
             </div>
@@ -71,6 +47,11 @@
                   </button>
                 </div>
               </form>
+
+
+
+
+
               <div class="services-master-service-list">
                 <p class="services-master-service-list-title bold">Стрижки</p>
                 <table class="">
@@ -80,7 +61,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp 90м</td>
+                    <td>1ч &nbsp; 90м</td>
                     <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="">
@@ -89,7 +70,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч &nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="active">
@@ -98,11 +79,14 @@
                       <label></label>
                     </td>
                     <td>Окрашивание волос</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч &nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                 </table>
               </div>
+
+
+
               <div class="services-master-service-list">
                 <p class="services-master-service-list-title bold">Укладки</p>
                 <table class="">
@@ -112,7 +96,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp 90м</td>
+                    <td>1ч &nbsp; 90м</td>
                     <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="">
@@ -121,7 +105,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч&nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="active">
@@ -130,11 +114,17 @@
                       <label></label>
                     </td>
                     <td>Окрашивание волос</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч&nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                 </table>
               </div>
+
+
+
+
+
+
             </div>
           </div>
         </div>
@@ -173,7 +163,8 @@
             <div class="content-right-block-first services-service-right-block-first">
               <div class="services-service-right-block-first-item active">
                 <div class="services-service-master-title-block">
-                  <a href="" class="services-service-title-block-back-btn"><img src="assets/images/svg/arrow-dark-gray.svg"></a>
+                  <a href="" class="services-service-title-block-back-btn"><img
+                    src="assets/images/svg/arrow-dark-gray.svg"></a>
                   <div class="services-service-pic-container"><!-- <img src="assets/images/master-pic.png"> --></div>
                   <span>
 											<p>Сергеева<p>&nbsp;
@@ -209,7 +200,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp 90м</td>
+                    <td>1ч &nbsp; 90м</td>
                     <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="">
@@ -218,7 +209,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч &nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="active">
@@ -227,7 +218,7 @@
                       <label></label>
                     </td>
                     <td>Окрашивание волос</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч&nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                 </table>
@@ -241,7 +232,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp 90м</td>
+                    <td>1ч&nbsp; 90м</td>
                     <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="">
@@ -250,7 +241,7 @@
                       <label></label>
                     </td>
                     <td>Стрижка</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч &nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                   <tr class="active">
@@ -259,7 +250,7 @@
                       <label></label>
                     </td>
                     <td>Окрашивание волос</td>
-                    <td>1ч &nbsp 45м</td>
+                    <td>1ч &nbsp; 45м</td>
                     <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                 </table>
@@ -269,7 +260,8 @@
         </div>
 
         <!-- Master Not Chosen -->
-        <div class="choose-options-content services-service-content bordered services-service-master-not-chosen clearfix">
+        <div
+          class="choose-options-content services-service-content bordered services-service-master-not-chosen clearfix">
           <div class="content-left-block services-service-left-block">
             <div class="content-left-block-item">
               <div>
@@ -310,7 +302,8 @@
                 </div>
                 <div class="services-service-master-info">
                   <p class="services-service-master-position">Парикмахер-стилист</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">1</span>&nbsp услуга выбрана</p>
+                  <p class="services-service-count-container"><span class="services-service-count bold">1</span>&nbsp
+                    услуга выбрана</p>
                 </div>
               </div>
               <div class="services-service-right-block-first-item">
@@ -323,23 +316,33 @@
                 </div>
                 <div class="services-service-master-info">
                   <p class="services-service-master-position">Мастер ногтевого сервиса</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">3</span>&nbsp услуги выбрано</p>
+                  <p class="services-service-count-container"><span class="services-service-count bold">3</span>&nbsp
+                    услуги выбрано</p>
                 </div>
               </div>
             </div>
           </div>
-          <span class="services-count-result responsive">Добавлено: <span class="bold">3</span>&nbspуслуги на сумму <span class="bold">12 000</span> <span><img src="assets/images/icons/ruble.png"></span></span>
+          <span class="services-count-result responsive">Добавлено: <span
+            class="bold">3</span>&nbspуслуги на сумму <span class="bold">12 000</span> <span><img
+            src="assets/images/icons/ruble.png"></span></span>
         </div>
         <div class="nav-bottom services-service-bottom bordered">
-          <a (click)="goBack('select-master')" class="semi-bold pull-left"><div class="back nav-bottom-back nav-bottom-item services-service-bottom-item address-master-bottom-back pull-left">
-            <img src="assets/images/svg/arrow.svg">
-            Назад
-          </div></a>
-          <span class="services-count-result">Добавлено: <span class="bold">3</span>&nbspуслуги на сумму <span class="bold">12 000</span> <span><img src="assets/images/icons/ruble.png"></span></span>
-          <a (click)="goNext('select-date-time')" class="semi-bold pull-right"><div class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
-            Далее
-            <img src="assets/images/svg/arrow-white.svg">
-          </div></a>
+          <button (click)="goBack()" class="semi-bold pull-left">
+            <div
+              class="back nav-bottom-back nav-bottom-item services-service-bottom-item address-master-bottom-back pull-left">
+              <img src="assets/images/svg/arrow.svg">
+              Назад
+            </div>
+          </button>
+          <span class="services-count-result">Добавлено: <span class="bold">3</span>&nbspуслуги на сумму <span
+            class="bold">12 000</span> <span><img src="assets/images/icons/ruble.png"></span></span>
+          <button (click)="goNext('select-date-time')" class="semi-bold pull-right">
+            <div
+              class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
+              Далее
+              <img src="assets/images/svg/arrow-white.svg">
+            </div>
+          </button>
         </div>
       </div>
     </div>

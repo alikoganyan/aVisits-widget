@@ -11,6 +11,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') contactForm: NgForm;
 
+
   mask: any[] = ['+', '7', ' ', '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 
   chosenOrder: string;
@@ -19,6 +20,17 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   interrapt = false;
   subInterrupt: Subscription;
 
+  sequence: string[];
+  index: number;
+  subSequence: Subscription;
+
+  savedContacts = {
+    phone: '',
+    textArea: '',
+    email: '',
+    nameUser: '',
+  };
+
   constructor(private switcherService: SwitcherService) {
   }
 
@@ -26,26 +38,31 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
     this.subChosenOrder = this.switcherService.currentMessage.subscribe(message => {
       this.chosenOrder = message;
     });
-    this.switcherService.changeCount(2);
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.index = sequence.indexOf('indicate_contacts');
+      this.sequence = sequence;
+    });
+    this.switcherService.changeCount(2);
   }
 
   onSubmit() {
     // console.log(this.contactForm.value, this.contactForm.valid);
   }
 
-  goBack(selectCity: string) {
-    this.switcherService.onClickedStatus(selectCity);
-    this.switcherService.userContact({ email: '', name: '', notes: '', tel: '' });
+  goBack() {
+    this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
+    this.switcherService.userContact({email: '', name: '', notes: '', tel: ''});
   }
 
   goNext() {
     this.onSubmit();
     this.switcherService.userContact(this.contactForm.value);
+    console.log(this.contactForm.value);
     let choose: string;
-    this.chosenOrder === 'Master' ? choose = 'select-master' : choose = 'select-services';
+    this.chosenOrder === 'Master' ? choose = this.sequence[this.index + 1] : choose = 'select_services';
     this.switcherService.onClickedStatus(choose);
   }
 
@@ -56,6 +73,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subChosenOrder.unsubscribe();
     this.subInterrupt.unsubscribe();
+    this.subSequence.unsubscribe();
   }
 
 }
