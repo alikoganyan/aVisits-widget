@@ -1,30 +1,32 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 import {HttpModule} from '@angular/http';
-import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
-import { AgmCoreModule } from '@agm/core';
-import { TextMaskModule } from 'angular2-text-mask';
+import {AgmCoreModule} from '@agm/core';
+import {TextMaskModule} from 'angular2-text-mask';
 /* Components */
-import { AppComponent } from './app.component';
-import { SelectCityComponent } from './components/select-city/select-city.component';
-import { IndicateContactsComponent } from './components/indicate-contacts/indicate-contacts.component';
-import { HeaderNavComponent } from './layouts/header-nav/header-nav.component';
-import { SelectMasterComponent } from './components/first-master/select-master/select-master.component';
-import { SelectServicesComponent } from './components/first-service/select-services/select-services.component';
-import { SelectAddressComponent } from './components/select-address/select-address.component';
-import { SelectServicesMasterComponent } from './components/first-master/select-services-master/select-services-master.component';
-import { SidebarComponent } from './layouts/sidebar/sidebar.component';
-import { SelectDateTimeComponent } from './components/first-master/select-date-time/select-date-time.component';
-import { SelectTimeMasterComponent } from './components/first-service/select-time-master/select-time-master.component';
-import { TimeBookedComponent } from './components/time-booked/time-booked.component';
-import { InterruptRecordComponent } from './components/interrupt-record/interrupt-record.component';
+import {AppComponent} from './app.component';
+import {SelectCityComponent} from './components/select-city/select-city.component';
+import {IndicateContactsComponent} from './components/indicate-contacts/indicate-contacts.component';
+import {HeaderNavComponent} from './layouts/header-nav/header-nav.component';
+import {SelectMasterComponent} from './components/first-master/select-master/select-master.component';
+import {SelectServicesComponent} from './components/first-service/select-services/select-services.component';
+import {SelectAddressComponent} from './components/select-address/select-address.component';
+import {SelectServicesMasterComponent} from './components/first-master/select-services-master/select-services-master.component';
+import {SidebarComponent} from './layouts/sidebar/sidebar.component';
+import {SelectDateTimeComponent} from './components/first-master/select-date-time/select-date-time.component';
+import {SelectTimeMasterComponent} from './components/first-service/select-time-master/select-time-master.component';
+import {TimeBookedComponent} from './components/time-booked/time-booked.component';
+import {InterruptRecordComponent} from './components/interrupt-record/interrupt-record.component';
 /* Services */
 import {SwitcherService} from './services/switcher.service';
 import {CityService} from './services/city.service';
 /* Directives */
-import { ActiveDirective } from './directives/active.directive';
-import { LoaderComponent } from './layouts/loader/loader.component';
+import {ActiveDirective} from './directives/active.directive';
+import {LoaderComponent} from './layouts/loader/loader.component';
+import {AppRoutingModule} from './app-routing.module';
+import { MainComponent } from './layouts/main/main.component';
+
 
 @NgModule({
   declarations: [
@@ -42,13 +44,14 @@ import { LoaderComponent } from './layouts/loader/loader.component';
     SelectTimeMasterComponent,
     TimeBookedComponent,
     InterruptRecordComponent,
-    LoaderComponent
+    LoaderComponent,
+    MainComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule,
     HttpModule,
+    AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc',
       libraries: ['places']
@@ -58,4 +61,5 @@ import { LoaderComponent } from './layouts/loader/loader.component';
   providers: [SwitcherService, CityService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

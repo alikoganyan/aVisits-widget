@@ -18,8 +18,11 @@
             <span class="bold active"><label for="switch_mode">На карте</label></span>
           </div>
           <div class="addresses-box address-master" [ngClass]="{'switcherMode': switcherMode}">
+
             <div class="force-overflow" id="scrollbox">
 
+
+              <app-loader *ngIf="loader"></app-loader>
 
               <div
                 class="addresses-box-item item"
@@ -28,13 +31,12 @@
                 [class.active]="salon === selectedSalon"
               >
                 <label class="check-container">
-                  <div class="addresses-box-pic-container">
-                    <!-- <img src="assets/images/salon.png"> -->
+                  <div class="addresses-box-pic-container"
+                       [ngStyle]="{'background': 'url(http://api.avisits.com/' + salon.img + ')'}" >
                   </div>
                   <div class="addresses-box-info-container">
                     <p class="semi-bold">{{salon.address}}</p>
                     <p>
-                      <img src="assets/images/svg/metro.svg">
                       <span>Площадь мужества</span>
                     </p>
                   </div>
@@ -42,6 +44,8 @@
                   <span class="checkmark"></span>
                 </label>
               </div>
+
+
             </div>
           </div>
           <div class="map-container address-master-map-container" [ngClass]="{'switcherMode': !switcherMode}">
@@ -49,8 +53,8 @@
 
             <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 100%;">
               <agm-marker
-                *ngFor="let m of markers"
-                [latitude]="m.lat" [longitude]="m.lng">
+                *ngFor="let salon of salons"
+                [latitude]="salon.latitude" [longitude]="salon.longitude">
                 <agm-info-window>
                   <div class="addresses-box-item item">
                     <label class="check-container">
@@ -58,7 +62,7 @@
                         <img src="assets/images/salon.png">
                       </div>
                       <div class="addresses-box-info-container" style="display: inline">
-                        <p class="semi-bold">Непокоренных, 10</p>
+                        <p class="semi-bold">{{salon.address}}</p>
                         <p>
                           <img src="assets/images/svg/metro.svg" style="width: 5px">
                           <span>Площадь мужества</span>

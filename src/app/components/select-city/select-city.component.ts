@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
-import {City} from '../../models/city';
 import {CityService} from '../../services/city.service';
 
 @Component({
@@ -52,8 +51,9 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
 
+
   onSelectCity(city: string) {
-    this.switcherService.selectCity(city);
+    this.cityService.city = city;
     this.selectCity = city;
     if (this.masterOrService !== '') {
       this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
@@ -62,7 +62,6 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
   selectMaster() {
-    this.cityService.getSalons(this.selectCity);
     this.masterOrService = 'Master';
     if (this.selectCity !== undefined) {
       this.switcherService.onClickedStatus(this.sequence[this.index + 1]);

@@ -1,20 +1,25 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {SwitcherService} from './services/switcher.service';
+import {Component} from '@angular/core';
+// import {Subscription} from 'rxjs/Subscription';
+// import {SwitcherService} from './services/switcher.service';
+
+
+// import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy {
-  start = 'button';
-  status = '';
-  startSubscription: Subscription;
-  statusSubscription: Subscription;
+export class AppComponent  {
+  // start = 'button';
+  // status = '';
+  // startSubscription: Subscription;
+  // statusSubscription: Subscription;
+  // sub: Subscription;
 
-  constructor(private switcherService: SwitcherService) {
+  constructor() {
   }
+/*
 
   onStart() {
     this.start = 'show';
@@ -28,11 +33,21 @@ export class AppComponent implements OnInit, OnDestroy {
     this.statusSubscription = this.switcherService.status.subscribe((status: string) => {
       this.status = status;
     });
+
+    console.log(this.route.snapshot.params['widget']);
+
+    this.sub = this.route.params.subscribe(params => {
+      console.log(params['widget']);
+    });
+
+
   }
 
   ngOnDestroy() {
     this.startSubscription.unsubscribe();
     this.statusSubscription.unsubscribe();
+    this.sub.unsubscribe();
   }
+*/
 
 }

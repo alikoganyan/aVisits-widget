@@ -1,17 +1,5 @@
-<button (click)="onStart()" *ngIf="start === 'button'">Widget</button>
+<router-outlet></router-outlet>
 
-<app-select-city *ngIf="start === 'show' && status === 'select_city'"></app-select-city>
-<app-select-address *ngIf="start === 'show' && status === 'select_address'"></app-select-address>
-<app-indicate-contacts *ngIf="start === 'show' && status === 'indicate_contacts'"></app-indicate-contacts>
-<!-- First Master -->
-<app-select-master *ngIf="start === 'show' && status === 'select_master'"></app-select-master>
-<app-select-services-master *ngIf="start === 'show' && status === 'select_services_master'"></app-select-services-master>
-<app-select-date-time *ngIf="start === 'show' && status === 'select_date_time'"></app-select-date-time>
-<!-- First Service -->
-<app-select-services *ngIf="start === 'show' && status === 'select_services'"></app-select-services>
-<app-select-time-master *ngIf="start === 'show' && status === 'select_time_master'"></app-select-time-master>
-
-<app-time-booked *ngIf="start === 'show' && status === 'time_booked'"></app-time-booked>
 
 
 

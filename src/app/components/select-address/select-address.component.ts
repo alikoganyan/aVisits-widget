@@ -2,12 +2,15 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {Salon} from '../../models/salon';
+import {CityService} from '../../services/city.service';
+
 
 @Component({
   selector: 'app-select-address',
   templateUrl: './select-address.component.html'
 })
 export class SelectAddressComponent implements OnInit, OnDestroy {
+  loader = true;
 
   interrapt = false;
   subInterrupt: Subscription;
@@ -16,19 +19,11 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   index: number;
   subSequence: Subscription;
 
+
   selectedSalon: Salon;
 
 
-  salons: Salon[] = [
-    {address: 'Непокоренных, 10'},
-    {address: 'Большая Зеленина, 3'},
-    {address: 'Большая Зеленина, 4'},
-    {address: 'Большая Зеленина, 5'},
-    {address: 'Большая Зеленина, 6'},
-    {address: 'Большая Зеленина, 7'},
-    {address: 'Большая Зеленина, 8'},
-    {address: 'Большая Зеленина, 9'}
-  ];
+  salons: Salon[] = [];
   switcherMode = false;
   markers: any = [
     {
@@ -49,8 +44,19 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   lng = 37.53;
   zoom = 11;
 
-  constructor(private switcherService: SwitcherService) {
+  constructor(private switcherService: SwitcherService,
+              private cityService: CityService) {
   }
+
+
+  getSalons() {
+    this.cityService.getSalons().subscribe(response => {
+      this.loader = false;
+      console.log(response.data.salons);
+      this.salons = response.data.salons;
+    });
+  }
+
 
   ngOnInit() {
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
@@ -61,7 +67,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
       this.sequence = sequence;
     });
     this.switcherService.changeCount(this.index);
-
+    this.getSalons();
   }
 
   switchMode(event) {
@@ -78,6 +84,8 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
+    console.log(this.selectedSalon.id);
+    this.cityService.salonId = this.selectedSalon.id;
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 

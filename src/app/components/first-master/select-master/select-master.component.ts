@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {Master} from '../../../models/master';
+import {CityService} from "../../../services/city.service";
 
 @Component({
   selector: 'app-select-master',
@@ -17,83 +18,19 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
 
   selectedMasters: Master[] = [];
-  masters: Master[] = [
-    {
-      id: 1,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 1',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 2,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 2',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 3,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 3',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 4,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 4',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 5,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 5',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 6,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 6',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 7,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 7',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 8,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 8',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 9,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 9',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 10,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 10',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 11,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 11',
-      profession: 'Парикмахер-стилист'
-    },
-    {
-      id: 12,
-      image: 'assets/images/icons/master-checked-icon.png',
-      name: 'Сергеева Анна 12',
-      profession: 'Парикмахер-стилист'
-    }
-  ];
+  masters: Master[] = [];
 
 
-  constructor(private switcherService: SwitcherService) {
+  constructor(private switcherService: SwitcherService,
+              private cityService: CityService) {
+  }
+
+
+  getEmployees() {
+    this.cityService.getEmployees().subscribe((response) => {
+      this.masters = response.data.employees;
+      console.log(response.data.employees);
+    });
   }
 
   onSelectMaster(master: Master) {
@@ -110,6 +47,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     } else {
       this.selectedMasters.push(master);
     }
+    console.log(this.selectedMasters);
   }
 
 
@@ -126,6 +64,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.getEmployees();
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });

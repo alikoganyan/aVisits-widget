@@ -24,14 +24,14 @@
                   <!--<input type="checkbox">-->
                   <br>
                   <div class="master-pic-container-main">
-                    <img [src]="master.image" class="master-checked-tick">
-                    <div class="master-pic-container">
+                    <img src="assets/images/icons/master-checked-icon.png" class="master-checked-tick">
+                    <div class="master-pic-container" [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + master.photo + ')'}">
                       <!-- <img src="assets/images/master-pic.png"> -->
                     </div>
                   </div>
                   <div class="master-list-item-text-block">
-                    <p class="master-list-item-name bold">{{master.name}}</p>
-                    <p class="master-list-item-position">{{master.profession}}</p>
+                    <p class="master-list-item-name bold">{{master.first_name}} {{master.last_name}}</p>
+                    <p class="master-list-item-position">{{master.position.title}}</p>
                   </div>
                   <span class=""></span>
                 </label>
