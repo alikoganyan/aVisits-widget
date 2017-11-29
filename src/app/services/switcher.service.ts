@@ -92,7 +92,7 @@ export class SwitcherService {
     this.userContacts.next(contacts);
   }
 
-  selectMasters(masters: Master[]) {
+  selectMasters(masters: Master[]) {   // selected masters
     this.selectedMasters.next(masters);
   }
 

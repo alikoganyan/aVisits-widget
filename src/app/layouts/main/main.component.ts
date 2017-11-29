@@ -29,9 +29,6 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getSubscriptions();
-
-
-
   }
 
   getSubscriptions() {
@@ -46,6 +43,7 @@ export class MainComponent implements OnInit, OnDestroy {
       this.cityService.id = +id.substr(1);
     });
   }
+
 
   ngOnDestroy() {
     this.startSubscription.unsubscribe();

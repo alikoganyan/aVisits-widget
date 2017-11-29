@@ -27,6 +27,7 @@
                     class="inp-medium phone"
                     [textMask]="{mask: mask,  guide: false, modelClean: true}"
                     #tel="ngModel">
+                  <span class="userTelStar">*</span>
                   <span style="color: #e38044;" class="help-block color-help-block" *ngIf="!tel.valid && tel.touched">Обязательное поле!</span>
                   <p>Заполните все поля, чтобы попасть на прием к лучшему из эксперт</p>
                 </div>
@@ -40,6 +41,7 @@
                     name="name"
                     required
                     #name="ngModel">
+                  <span class="userNameStar">*</span>
                   <span style="color: #e38044;" class="help-block color-help-block" *ngIf="!name.valid && name.touched">Обязательное поле!</span>
                 </div>
 
@@ -53,7 +55,8 @@
                     required
                     email
                     #vaildEmail="ngModel">
-                  <span style="color: #e38044;" class="help-block color-help-block" *ngIf="!vaildEmail.valid && vaildEmail.touched">Не правильны емайл!</span>
+                  <span style="color: #e38044;" class="help-block color-help-block"
+                        *ngIf="!vaildEmail.valid && vaildEmail.touched">Не правильны емайл!</span>
                 </div>
 
                 <div class="contacts-master-email-spam responsive">

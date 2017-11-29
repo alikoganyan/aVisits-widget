@@ -22,6 +22,10 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.subscriptionsMethod();
+  }
+
+  subscriptionsMethod() {
     this.subCityTitle = this.switcherService.cityTitle.subscribe(cityTitle => {
       this.checkedInfo['city'] = cityTitle;
     });
@@ -31,10 +35,11 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subContacts = this.switcherService.contact.subscribe(contacts => {
       this.checkedInfo['contacts'] = contacts;
     });
-   this.subMasters = this.switcherService.masters.subscribe(masters => {
+    this.subMasters = this.switcherService.masters.subscribe(masters => {
       this.masters = masters;
     });
   }
+
 
   ngOnDestroy() {
     this.subCityTitle.unsubscribe();

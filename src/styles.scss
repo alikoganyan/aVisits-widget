@@ -51,7 +51,6 @@ label {
   margin: 0;
 }
 
-
 /***************** Font Face *****************/
 @font-face {
   font-family: OpenSans-Regular;
@@ -70,8 +69,6 @@ label {
 
 /************** Font Face End **************/
 
-
-
 /************** Font Styles ***************/
 .normal {
   font-family: OpenSans-Regular, sans-serif;
@@ -84,9 +81,8 @@ label {
 .bold {
   font-family: Opensans-Bold, sans-serif;
 }
+
 /************** Font Styles End ***************/
-
-
 
 /************** General Style Classes  ***************/
 .color-default {
@@ -109,6 +105,7 @@ label {
     vertical-align: baseline;
   }
 }
+
 /* Item */
 .item {
   transition: 1s background ease;
@@ -231,7 +228,6 @@ label {
     line-height: 34px;
     text-align: center;
 
-
     img {
       height: 7px;
     }
@@ -286,7 +282,7 @@ label {
     padding: 10px;
     line-height: 1.9;
 
-    .choose-option-num-container{
+    .choose-option-num-container {
       font-size: 16px;
       font-family: Opensans-Bold, sans-serif;
       color: $color-light-gray;
@@ -327,7 +323,6 @@ label {
     height: 55px;
     line-height: 55px;
 
-
     .choose-options-top-container {
       height: 75px;
       //width: unset;
@@ -339,7 +334,7 @@ label {
     .choose-options-logo {
       text-align: left;
 
-      img{
+      img {
         display: inline;
         margin-top: -45px;
       }
@@ -482,7 +477,7 @@ label {
 /* Content Left Block */
 .content-left-block {
   background-color: #f5f5f5;
-  border-right:  1px solid $color-light-gray;
+  border-right: 1px solid $color-light-gray;
   width: 170px;
   height: 100vh;
   max-height: 402px;
@@ -504,7 +499,7 @@ label {
   .content-left-block-item {
     min-height: 53px;
     padding: 5px 10px;
-    border-bottom:  1px solid $color-light-gray;
+    border-bottom: 1px solid $color-light-gray;
 
     .content-left-block-item-title {
       font-family: Opensans-Bold;
@@ -537,7 +532,7 @@ label {
 .content-left-block-item {
   min-height: 53px;
   padding: 5px 10px;
-  border-bottom:  1px solid $color-light-gray;
+  border-bottom: 1px solid $color-light-gray;
 
   .content-left-block-item-title {
     font-family: Opensans-Bold;
@@ -551,8 +546,7 @@ label {
 
 /* Choose Master Content */
 .choose-options-content.services-service-content.services-service-master-chosen,
-.choose-options-content.services-service-content.services-service-master-not-chosen
-{
+.choose-options-content.services-service-content.services-service-master-not-chosen {
   display: none;
 }
 
@@ -569,15 +563,8 @@ label {
   z-index: 100;
 }
 
-
-
 /************** General Style Classes End ***************/
 .page {
-  // position: absolute;
-  //    top: 50%;
-  //    margin-top: -320px;
-  //    left: 0;
-  //    width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -620,13 +607,11 @@ label {
       // width: 770px;
     }
 
-
     /******* Choose City *******/
     .choose-city-wrapper {
       width: 292px;
       margin: auto;
       padding-top: 25px;
-
 
       .choose-city-container {
         margin-top: 26px;
@@ -634,7 +619,6 @@ label {
         max-height: 151px;
         overflow-y: scroll;
         direction: rtl;
-
 
         .force-overflow {
           // width: 282px;
@@ -710,7 +694,6 @@ label {
       }
     }
 
-
     /* Address Master Content */
     .address-master-content {
       height: 402px;
@@ -738,7 +721,9 @@ label {
             margin-top: 12px;
           }
 
-          .switch input {display:none;}
+          .switch input {
+            display: none;
+          }
 
           .slider {
             position: absolute;
@@ -849,7 +834,6 @@ label {
             line-height: 36px;
             border-radius: 50px;
             display: inline-block;
-            //background-color: #5c24fa;
             background-repeat: no-repeat;
             background-size: cover;
             -webkit-background-size: cover;
@@ -898,40 +882,19 @@ label {
 
     /* Contacts Master Content */
     .contacts-master-content {
-      // .contacts-master-left-block {
-      // 	background-color: #f5f5f5;
-      // 	border-right:  1px solid $color-light-gray;
-      // 	width: 170px;
-      //     height: 100%;
-      //     float: left;
-
-      // 	.contacts-master-left-block-item {
-      // 		height: 55px;
-      // 		padding: 10px;
-      // 		border-bottom:  1px solid $color-light-gray;
-
-      // 		.contacts-master-left-block-item-title {
-      // 			font-family: Opensans-Bold;
-      // 			line-height: 1.9;
-      // 		}
-
-      // 		p:last-child {
-      // 			color: $color-gray;
-      // 		}
-      // 	}
-      // }
-
       .contacts-master-right-block {
         width: calc(100% - 170px);
         float: left;
-        //padding: 0 20px 20px;
 
         .contacts-master-right-block-first {
-          // width: 260px;
-          // display: inline-block;
           width: 48%;
           display: inline-block;
           padding: 10px 8px 20px 20px;
+
+          .contacts-master-phone, .contacts-master-name {
+              position: relative;
+          }
+
         }
         .contacts-master-right-block-second {
           display: inline-block;
@@ -941,11 +904,6 @@ label {
           /* margin-left: 14px; */
           width: 48%;
           padding: 10px 0 0 8px;
-          // display: inline-block;
-          // vertical-align: bottom;
-          // margin-bottom: -5px;
-          // margin-left: 14px;
-          // width: 280px;
         }
 
         .contacts-master-email-spam {
@@ -1040,11 +998,11 @@ label {
       .masters-list {
         display: -webkit-flex; /* Safari */
         -webkit-flex-wrap: wrap; /* Safari 6.1+ */
-        display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
-        display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
-        display: -ms-flexbox;      /* TWEENER - IE 10 */
-        display: -webkit-flex;     /* NEW - Chrome */
-        display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+        display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
+        display: -moz-box; /* OLD - Firefox 19- (buggy but mostly works) */
+        display: -ms-flexbox; /* TWEENER - IE 10 */
+        display: -webkit-flex; /* NEW - Chrome */
+        display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
         flex-wrap: wrap;
         //align-items: center;
         justify-content: flex-start;
@@ -1099,7 +1057,6 @@ label {
                 opacity: 0;
               }
             }
-
 
             .master-pic-container {
               height: 80px;
@@ -1198,7 +1155,6 @@ label {
               border-radius: 50px;
               display: inline-block;
               //background-color: #5c24fa;
-              background: url(./assets/images/master-pic.png);
               background-size: cover;
               -webkit-background-size: cover;
 
@@ -1360,9 +1316,6 @@ label {
                     font-weight: bold;
                   }
 
-                  // &::focus + label::before {
-                  //     outline: rgb(59, 153, 252) auto 5px;
-                  // }
                 }
 
                 span {
@@ -1385,7 +1338,6 @@ label {
       overflow-y: scroll;
       max-height: 402px;
 
-
       &::-webkit-scrollbar-track {
         // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         // height: 40px;
@@ -1405,7 +1357,7 @@ label {
         background-color: #e4e7e8;
       }
 
-      .time-master-book-schedule-container-all-wrapper{
+      .time-master-book-schedule-container-all-wrapper {
       }
       .time-master-book-schedule-container-all {
         border-bottom: 1px solid $color-light-gray;
@@ -1614,7 +1566,6 @@ label {
         &::-webkit-scrollbar-thumb {
           border-radius: 5px;
           height: 40px;
-          // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
           background-color: #e4e7e8;
         }
       }
@@ -1708,13 +1659,11 @@ label {
             }
           }
 
-
           .ready-master-time-schedule-item-time {
             font-size: 26px;
             font-family: Opensans-Bold, sans-serif;
             line-height: 0.9;
             padding-bottom: 4px;
-
 
           }
 
@@ -1725,10 +1674,6 @@ label {
       }
 
       .services-count-result-ready-master {
-        // text-align: center;
-        // display: block;
-        // padding: 20px;
-        // font-size: 14px;
         padding-left: 14%;
         position: absolute;
         bottom: 0;
@@ -1756,7 +1701,6 @@ label {
         z-index: 100;
       }
 
-
     }
 
     h3 {
@@ -1772,11 +1716,6 @@ label {
     min-height: 402px;
     height: initial;
   }
-
-  // .page-wrapper .page-container .contacts-master-content .contacts-master-right-block
-  // {
-  // 	max-width: 51%;
-  // }
 
   .page-wrapper .page-container .contacts-master-content .contacts-master-right-block .contacts-master-right-block-second {
     // width: 260px;
@@ -1831,6 +1770,7 @@ label {
     padding-bottom: 30px;
   }
 }
+
 @media (max-width: 798px) {
   .page-wrapper .page-container .choose-options.choose-options-top {
     display: none;
@@ -1838,8 +1778,6 @@ label {
   .page-wrapper .page-container .choose-options.choose-options-top-responsive {
     display: block;
   }
-
-
 
   .page-wrapper .page-container .contacts-master-content .contacts-master-right-block .contacts-master-right-block-first,
   .page-wrapper .page-container .contacts-master-content .contacts-master-right-block .contacts-master-right-block-second {
@@ -1853,7 +1791,7 @@ label {
 @media (max-width: 768px) {
   .page-wrapper .page-container .master-master-content .masters-list .masters-list-item {
     width: calc(100% / 3);
-    height: initial;
+    height: 160px;
     min-height: 160px;
   }
 
@@ -1865,14 +1803,6 @@ label {
     width: 100%;
     margin-top: 16px;
   }
-  // .contacts-master-note.form-item {
-  // 	max-width: 226px;
-  // }
-
-  // .choose-options-content {
-  //     min-height: 402px;
-  //     height: initial;
-  // }
 
   .page-wrapper .page-container .content-right-block.time-master-right-block .time-master-time-schedule {
     width: calc(100% - 199px);
@@ -1893,7 +1823,7 @@ label {
 }
 
 @media (max-width: 713px) {
-  .page-wrapper .page-container .content-right-block.time-master-right-block .time-master-title-block  {
+  .page-wrapper .page-container .content-right-block.time-master-right-block .time-master-title-block {
     float: none;
   }
   .page-wrapper .page-container .content-right-block.time-master-right-block .time-master-time-schedule {
@@ -1914,6 +1844,7 @@ label {
   }
 
 }
+
 @media (max-width: 614px) {
   .content-left-block {
     display: none;
@@ -1964,7 +1895,6 @@ label {
   .choose-options-content.services-service-content {
     display: none;
   }
-
 
   .choose-options-content.services-service-content.services-service-master-chosen {
     display: block;
@@ -2125,7 +2055,7 @@ label {
 
   .call-modal-container .registration-phone {
     font-size: 30px !important;
-    margin-top: 10px!important;
+    margin-top: 10px !important;
   }
 
   .call-modal-container .phone-registration-btn-container {
@@ -2147,9 +2077,13 @@ label {
   .page-wrapper {
     // height: 750px;
   }
+
+  //.switcherMode {display: none;}
+
 }
 
 @media (max-width: 490px) {
+
   .page-wrapper {
     width: 100%;
 
@@ -2188,25 +2122,6 @@ label {
 
       .address-master-content {
         box-shadow: 0px -1px 15px -4px rgba(0, 0, 0, 0.2), -5px 2px 47px -6px rgba(0, 0, 0, 0.19);
-
-        // .address-master-toggle {
-        // 	display: block;
-        // }
-
-        // .addresses-box.address-master {
-        // 	width: 100%;
-        // 	height: 350px;
-        // 	max-height: 350px;
-
-        // 	.force-overflow {
-        // 		width: 100%;
-        // 	}
-        // }
-
-        // .map-container.address-master-map-container {
-        // 	width: 100%;
-        // 	height: 350px;
-        // }
       }
     }
 
@@ -2251,6 +2166,7 @@ label {
     width: 100% !important;
     padding: 0 20px;
   }
+
 }
 
 @media (max-width: 360px) {
@@ -2262,6 +2178,7 @@ label {
     padding: 10px 20px 30px 20px;
   }
 }
+
 @media (max-width: 350px) {
   .page-wrapper .page-container h3 {
     font-size: 18px;
@@ -2289,20 +2206,17 @@ label {
   }
 }
 
-
 .services-service-left-block-pic-container {
   height: 48px;
   width: 48px;
   border-radius: 50%;
   margin-top: 2px;
   margin-right: 2px;
-  background-image: url(./assets/images/master-pic.png);
   background-repeat: no-repeat;
   background-size: cover;
   -webkit-background-size: cover;
   display: inline-block;
 }
-
 
 /* Map Styles */
 .avisits-map {
@@ -2315,40 +2229,40 @@ label {
   }
 
   .avisits-point1 {
-    top:30px;
-    left:74px;
+    top: 30px;
+    left: 74px;
   }
 
   .avisits-point2 {
-    top:100px;
-    left:58px;
+    top: 100px;
+    left: 58px;
   }
 
   .avisits-point3 {
-    bottom:80px;
-    left:168px;
+    bottom: 80px;
+    left: 168px;
   }
 
   .avisits-point4 {
-    bottom:35px;
-    left:235px;
+    bottom: 35px;
+    left: 235px;
   }
 
   .avisits-point5 {
-    bottom:70px;
-    right:200px;
+    bottom: 70px;
+    right: 200px;
   }
   .avisits-point6 {
-    top:90px;
-    right:80px;
+    top: 90px;
+    right: 80px;
   }
 
   .avisits-point {
-    background:url(./assets/images/point-map.png);
-    width:26px;
-    height:37px;
-    position:absolute;
-    z-index:10;
+    background: url(./assets/images/point-map.png);
+    width: 26px;
+    height: 37px;
+    position: absolute;
+    z-index: 10;
   }
 
 }
@@ -2359,18 +2273,8 @@ label {
 
 .avisits-map .avisits-point:hover,
 .avisits-map .avisits-point.avisits-active {
-  background-position:bottom;
+  background-position: bottom;
 }
-
-
-
-
-
-
-
-
-
-
 
 /* Calendar */
 .slick-slider {
@@ -2488,7 +2392,6 @@ label {
   height: 100%;
   text-align: center;
 
-
   &:hover {
     a {
       background-color: $color-peach;
@@ -2505,7 +2408,7 @@ label {
     }
   }
 
-  &.avisits-active{
+  &.avisits-active {
     a {
       background-color: $color-orange;
 
@@ -2566,18 +2469,6 @@ label {
   }
 }
 
-// .avisits-date_slider .avisits-col.avisits-active:after {
-//     width: 18px;
-//     height: 17px;
-//     content: '';
-//     position: absolute;
-//     left: 50%;
-//     bottom: 0;
-//     margin-left: -9px;
-//     z-index: 1;
-// }
-
-
 .call-modal-container {
   text-align: center;
 
@@ -2598,7 +2489,6 @@ label {
     font-size: 50px;
     font-family: OpenSans-Bold;
   }
-
 
   .phone-registration-btn-container {
     width: 364px;
@@ -2629,7 +2519,7 @@ label {
         border-radius: 5px;
       }
       .disconnect {
-        border:  1px solid $color-light-gray;
+        border: 1px solid $color-light-gray;
       }
 
       .continue {
@@ -2645,3 +2535,16 @@ label {
   }
 }
 
+.userTelStar {
+  position: absolute;
+  top: 64px;
+  right: 18px;
+  color: #F07C4C;
+}
+
+.userNameStar {
+  position: absolute;
+  top: 44px;
+  right: 18px;
+  color: #F07C4C;
+}

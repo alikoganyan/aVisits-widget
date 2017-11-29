@@ -7,7 +7,8 @@ import {CityService} from '../../services/city.service';
 
 @Component({
   selector: 'app-select-address',
-  templateUrl: './select-address.component.html'
+  templateUrl: './select-address.component.html',
+  styles: ['@media (max-width: 614px) { .switcherMode {display: none;}}']
 })
 export class SelectAddressComponent implements OnInit, OnDestroy {
   loader = true;
@@ -25,23 +26,13 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   salons: Salon[] = [];
   switcherMode = false;
-  markers: any = [
-    {
-      lat: 55.732,
-      lng: 37.552
-    },
-    {
-      lat: 55.734,
-      lng: 37.556
-    },
-    {
-      lat: 55.736,
-      lng: 37.59
-    }
-  ];
 
-  lat = 55.73;
-  lng = 37.53;
+
+  cityLocation: { lat: number, lng: number } = {
+    lat: 56.009657,
+    lng: 37.9456611
+  };
+
   zoom = 11;
 
   constructor(private switcherService: SwitcherService,
@@ -57,17 +48,22 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
     });
   }
 
+  getCityLatLong() {
+    this.cityService.getCityLatLong().subscribe(city => {
+      if (city.status === 'OK') {
+        this.cityLocation = city.results[0].geometry.location;
+      } else {
+        console.log(city.status);
+      }
+    },
+      error => console.log(error));
+  }
 
   ngOnInit() {
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
-      this.interrapt = interrapt;
-    });
-    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_address');
-      this.sequence = sequence;
-    });
-    this.switcherService.changeCount(this.index);
+    this.getSubscriptions();
     this.getSalons();
+    this.getCityLatLong();
+    this.switcherService.changeCount(this.index);
   }
 
   switchMode(event) {
@@ -91,6 +87,16 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   onClose() {
     this.interrapt = true;
+  }
+
+  getSubscriptions() {
+    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+      this.interrapt = interrapt;
+    });
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.index = sequence.indexOf('select_address');
+      this.sequence = sequence;
+    });
   }
 
   ngOnDestroy() {

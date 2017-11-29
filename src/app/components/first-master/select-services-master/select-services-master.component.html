@@ -18,19 +18,24 @@
                 class="services-service-right-block-first-item"
                 *ngFor="let master of masters"
                 (click)="onSelectMaster(master)"
-                [class.active]="master === selectedMaster">
+                [class.active]="master === selectedMaster"
+              >
                 <div class="services-service-master-title-block">
-                  <a href="" class="services-service-title-block-back-btn"><img
+                  <a class="services-service-title-block-back-btn"><img
                     src="assets/images/svg/arrow-dark-gray.svg"></a>
-                  <div class="services-service-pic-container"><!-- <img src="assets/images/master-pic.png"> --></div>
+                  <div
+                    class="services-service-pic-container"
+                    [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + master.photo + ')'}"
+                  >
+                  </div>
                   <span>
-                      <p>{{master.name}}</p>
+                      <p>{{master.first_name}} {{master.last_name}}</p>
                     <!--<p>Сергеева<p>-->
                     <!--<p>Анна</p>-->
 										</span>
                 </div>
                 <div class="services-service-master-info">
-                  <p class="services-service-master-position">Парикмахер-стилист</p>
+                  <p class="services-service-master-position">{{master.position.title}}</p>
                   <p class="services-service-count-container"><span class="services-service-count bold">1</span> &nbsp;
                     услуга выбрана</p>
                 </div>
@@ -47,9 +52,6 @@
                   </button>
                 </div>
               </form>
-
-
-
 
 
               <div class="services-master-service-list">
@@ -86,7 +88,6 @@
               </div>
 
 
-
               <div class="services-master-service-list">
                 <p class="services-master-service-list-title bold">Укладки</p>
                 <table class="">
@@ -121,68 +122,45 @@
               </div>
 
 
-
-
-
-
             </div>
           </div>
         </div>
 
+
+
         <!-- Master Chosen -->
-        <div class="choose-options-content services-service-content bordered services-service-master-chosen clearfix">
-          <div class="content-left-block services-service-left-block">
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Город</p>
-                <p>Санкт-Петербург</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Адрес</p>
-                <p>Непокоренных 10</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Контакты</p>
-                <p>Кира</p>
-                <p>8 (800) 555-35-35</p>
-                <p>kira@gmail.com</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Мастера</p>
-                <a href="" class="services-service-left-block-pic-container"></a>
-              </div>
-            </div>
-          </div>
+        <div
+          *ngIf="showSelectedMasterForMobile"
+          class="choose-options-content services-service-content bordered services-service-master-chosen clearfix">
+
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">
-              <div class="services-service-right-block-first-item active">
+
+              <div class="services-service-right-block-first-item active" (click)="backToAllMasterOnMobile()">
                 <div class="services-service-master-title-block">
-                  <a href="" class="services-service-title-block-back-btn"><img
+                  <a class="services-service-title-block-back-btn"><img
                     src="assets/images/svg/arrow-dark-gray.svg"></a>
-                  <div class="services-service-pic-container"><!-- <img src="assets/images/master-pic.png"> --></div>
+                  <div
+                    class="services-service-pic-container"
+                    [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + selectedMaster.photo + ')'}"
+                  >
+                  </div>
                   <span>
-											<p>Сергеева<p> &nbsp;
-											<p>Анна</p>
+                    <p>{{selectedMaster.first_name}} {{selectedMaster.last_name}}</p>
+											<!--<p>Сергеева<p> &nbsp;-->
+											<!--<p>Анна</p>-->
 									<div class="services-service-master-info">
-										<p class="services-service-master-position">Парикмахер-стилист</p>
-                    <!-- <p class="services-service-count-container"><span class="services-service-count bold">1</span>&nbsp услуга выбрана</p> -->
+										<p class="services-service-master-position">{{selectedMaster.position.title}}</p>
 									</div>
 										</span>
-
                 </div>
-                <!-- 									<div class="services-service-master-info">
-                                                        <p class="services-service-master-position">Парикмахер-стилист</p>
-                                                        <p class="services-service-count-container"><span class="services-service-count bold">1</span>&nbsp услуга выбрана</p>
-                                                    </div> -->
               </div>
             </div>
+
+
             <div class="content-right-block-second services-service-right-block-second">
+
+              <!-- Search Form Chosen Master -->
               <form class="services-service-search">
                 <div class="search">
                   <input type="text" class="searchTerm" placeholder="Введите название услуги">
@@ -191,6 +169,9 @@
                   </button>
                 </div>
               </form>
+              <!-- End Search Form Chosen Master -->
+
+              <!-- Services Chosen Master -->
               <div class="services-master-service-list">
                 <p class="services-master-service-list-title bold">Стрижки</p>
                 <table class="">
@@ -255,77 +236,74 @@
                   </tr>
                 </table>
               </div>
+              <!-- End Services Chosen Master -->
             </div>
+
+
+
           </div>
         </div>
+        <!-- End Master Chosen -->
+
+
+
+
+
 
         <!-- Master Not Chosen -->
         <div
+          *ngIf="!showSelectedMasterForMobile"
           class="choose-options-content services-service-content bordered services-service-master-not-chosen clearfix">
-          <div class="content-left-block services-service-left-block">
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Город</p>
-                <p>Санкт-Петербург</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Адрес</p>
-                <p>Непокоренных 10</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Контакты</p>
-                <p>Кира</p>
-                <p>8 (800) 555-35-35</p>
-                <p>kira@gmail.com</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Мастера</p>
-                <a href="" class="services-service-left-block-pic-container"></a>
-              </div>
-            </div>
-          </div>
+
+
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">
-              <div class="services-service-right-block-first-item">
+
+
+              <div
+                class="services-service-right-block-first-item"
+                *ngFor="let master of masters"
+                (click)="goToSelectedMaster(master)"
+                [class.active]="master === selectedMaster"
+              >
                 <div class="services-service-master-title-block">
-                  <div class="services-service-pic-container"><!-- <img src="assets/images/master-pic.png"> --></div>
+                  <div
+                    class="services-service-pic-container"
+                    [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + master.photo + ')'}">
+                    <!-- <img src="assets/images/master-pic.png"> -->
+                  </div>
                   <span>
-											<p>Сергеева<p>&nbsp;
-											<p>Анна</p>
+                    <p>{{master.first_name}} {{master.last_name}}</p>
+											<!--<p>Сергеева<p>&nbsp;-->
+											<!--<p>Анна</p>-->
 										</span>
                 </div>
                 <div class="services-service-master-info">
-                  <p class="services-service-master-position">Парикмахер-стилист</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">1</span> &nbsp;
-                    услуга выбрана</p>
+                  <p class="services-service-master-position">{{master.position.title}}</p>
+                  <p class="services-service-count-container">
+                    <span class="services-service-count bold"> 1 </span>
+                    &nbsp;
+                    услуга выбрана
+                  </p>
                 </div>
-              </div>
-              <div class="services-service-right-block-first-item">
-                <div class="services-service-master-title-block">
-                  <div class="services-service-pic-container"><!-- <img src="assets/images/master-pic.png"> --></div>
-                  <span>
-											<p>Любовь<p>&nbsp;
-											<p>Соболь</p>
-										</span>
-                </div>
-                <div class="services-service-master-info">
-                  <p class="services-service-master-position">Мастер ногтевого сервиса</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">3</span> &nbsp;
-                    услуги выбрано</p>
-                </div>
+
+
               </div>
             </div>
           </div>
-          <span class="services-count-result responsive">Добавлено: <span
-            class="bold">3</span> &nbsp; услуги на сумму <span class="bold">12 000</span> <span><img
-            src="assets/images/icons/ruble.png"></span></span>
+
+
+
+          <span class="services-count-result responsive">Добавлено:
+            <span class="bold">3</span> &nbsp; услуги на сумму
+            <span class="bold">12 000</span>
+            <span><img src="assets/images/icons/ruble.png"></span>
+          </span>
+
+
         </div>
+        <!-- End Master Not Chosen -->
+
         <div class="nav-bottom services-service-bottom bordered">
           <button (click)="goBack()" class="semi-bold pull-left">
             <div
@@ -344,6 +322,9 @@
             </div>
           </button>
         </div>
+
+
+
       </div>
     </div>
   </div>

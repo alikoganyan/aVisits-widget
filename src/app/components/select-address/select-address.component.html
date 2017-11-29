@@ -51,7 +51,7 @@
           <div class="map-container address-master-map-container" [ngClass]="{'switcherMode': !switcherMode}">
 
 
-            <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" style="height: 100%;">
+            <agm-map [latitude]="cityLocation.lat" [longitude]="cityLocation.lng" [zoom]="zoom" style="height: 100%;">
               <agm-marker
                 *ngFor="let salon of salons"
                 [latitude]="salon.latitude" [longitude]="salon.longitude">

@@ -41,6 +41,18 @@ export class CityService {
         });
   }
 
+  getCityLatLong() {
+    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=Yerevan&callback=angular2GoogleMapsLazyMapsAPILoader&key=AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
+    // return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=Moskva&callback=angular2GoogleMapsLazyMapsAPILoader&key=AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        });
+  }
+
 
   getSalons() {
     return this.http.post(
@@ -71,6 +83,7 @@ export class CityService {
           return Observable.throw('Something went wrong');
         });
   }
+
 
 }
 

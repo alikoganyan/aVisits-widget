@@ -2,13 +2,16 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {Master} from '../../../models/master';
-import {CityService} from "../../../services/city.service";
+import {CityService} from '../../../services/city.service';
 
 @Component({
   selector: 'app-select-master',
   templateUrl: './select-master.component.html'
 })
 export class SelectMasterComponent implements OnInit, OnDestroy {
+
+  loader = true;
+
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -28,6 +31,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
   getEmployees() {
     this.cityService.getEmployees().subscribe((response) => {
+      this.loader = false;
       this.masters = response.data.employees;
       console.log(response.data.employees);
     });
@@ -65,13 +69,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getEmployees();
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
-      this.interrapt = interrapt;
-    });
-    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_master');
-      this.sequence = sequence;
-    });
+    this.getSubscriptions();
     this.switcherService.changeCount(this.index);
   }
 
@@ -88,6 +86,17 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   onClose() {
     console.log(this.selectedMasters);
     this.interrapt = true;
+  }
+
+
+  getSubscriptions() {
+    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+      this.interrapt = interrapt;
+    });
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.index = sequence.indexOf('select_master');
+      this.sequence = sequence;
+    });
   }
 
   ngOnDestroy() {

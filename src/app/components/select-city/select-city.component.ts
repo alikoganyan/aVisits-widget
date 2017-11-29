@@ -53,6 +53,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
 
   onSelectCity(city: string) {
+    this.switcherService.selectCity(city);
     this.cityService.city = city;
     this.selectCity = city;
     if (this.masterOrService !== '') {

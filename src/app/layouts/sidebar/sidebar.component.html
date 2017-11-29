@@ -23,11 +23,10 @@
   <div class="content-left-block-item" *ngIf="masters.length > 0">
     <div>
       <p class="content-left-block-item-title">Мастера</p>
-      <!--<a href="" class="services-service-left-block-pic-container"></a>-->
       <a
         *ngFor="let master of masters"
         class="services-service-left-block-pic-container"
-        style="background-image: url({{master.image}});"></a>
+        [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + master.photo + ')'}"></a>
     </div>
   </div>
 
