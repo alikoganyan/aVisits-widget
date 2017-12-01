@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
+import {CityService} from '../../../services/city.service';
 
 @Component({
   selector: 'app-select-services',
@@ -8,30 +9,88 @@ import {SwitcherService} from '../../../services/switcher.service';
 })
 export class SelectServicesComponent implements OnInit, OnDestroy {
 
+  searchText = '';
+
   interrapt = false;
   subInterrupt: Subscription;
 
-  services: Service[] = [
-    {title: 'Парикмахерские услуги'},
-    {title: 'Уход за руками'},
+  services_cat = [
+    {
+      title: 'Парикмахерские услуги',
+      service_groups: [
+        {
+          title: 'Стрижки',
+          services: [
+            {title: 'Стрижка горячими ножницами', checked: false, price: 50},
+            {title: 'Стрижка', checked: false, price: 50},
+            {title: 'Окрашивание волос', checked: false, price: 50}
+          ]
+        },
+        {
+          title: 'Укладки',
+          services: [
+            {title: 'Окрашивание волос', checked: false, price: 50},
+            {title: 'Стрижка', checked: false, price: 50},
+            {title: 'Стрижка горячими ножницами', checked: false, price: 50}
+          ]
+        }
+      ]
+    },
+    {
+      title: 'Уход за руками',
+      service_groups: [
+        {
+          title: 'Укладки',
+          services: [
+            {title: 'Окрашивание волос', checked: false, price: 50},
+            {title: 'Стрижка горячими ножницами', checked: false, price: 50},
+            {title: 'Стрижка', checked: false, price: 50}
+          ]
+        },
+        {
+          title: 'Стрижки',
+          services: [
+            {title: 'Стрижка', checked: false, price: 50},
+            {title: 'Окрашивание волос', checked: false, price: 50},
+            {title: 'Стрижка горячими ножницами', checked: false, price: 50}
+          ]
+        }
+      ]
+    },
     {title: ' Косметология'},
     {title: ' Визаж'}
   ];
-  selectedService: Service;
+  selected_service_cat;
+
+  showservicesFormobile = 'hide';
+
+  totalCount = 0;
+  totalPrice = 0;
 
 
-  groupsServices: GroupsServices[] = [
-    {title: 'Стрижки'},
-    {title: 'Укладки'}
-  ];
-
-
-
-  constructor(private switcherService: SwitcherService) {
+  constructor(private switcherService: SwitcherService,
+              private cityService: CityService) {
   }
 
-  onSelectService(service: Service) {
-    this.selectedService = service;
+
+  onSelectServiceCat(service_cat) {
+    this.selected_service_cat = service_cat;
+    this.showservicesFormobile = 'show';
+  }
+
+  onSelectService(service, event) {
+    service.checked = event.target.checked;
+    if (event.target.checked === true) {
+      this.totalCount++;
+      this.totalPrice = this.totalPrice + service.price;
+    } else {
+      this.totalCount--;
+      this.totalPrice = this.totalPrice - service.price;
+    }
+  }
+
+  goToAllServicesOnMobile() {
+    this.showservicesFormobile = 'hide';
   }
 
   ngOnInit() {

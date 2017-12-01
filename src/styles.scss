@@ -1270,6 +1270,7 @@ label {
                 padding-top: 9px;
                 padding-bottom: 9px;
                 color: $color-gray;
+                position: relative;
 
                 &:nth-child(2) {
                   color: $color-gray-td;
@@ -1280,7 +1281,6 @@ label {
                 }
 
                 label {
-                  cursor: pointer;
                   margin-bottom: 0;
                 }
 
@@ -1472,6 +1472,7 @@ label {
               padding-top: 9px;
               padding-bottom: 9px;
               color: $color-gray;
+
 
               &:first-child {
                 color: $color-gray-td;
@@ -2547,4 +2548,10 @@ label {
   top: 44px;
   right: 18px;
   color: #F07C4C;
+}
+
+
+
+.avisits-item {
+  display: inline-block;
 }

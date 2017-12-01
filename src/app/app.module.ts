@@ -4,6 +4,7 @@ import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {TextMaskModule} from 'angular2-text-mask';
+import {AppRoutingModule} from './app-routing.module';
 /* Components */
 import {AppComponent} from './app.component';
 import {SelectCityComponent} from './components/select-city/select-city.component';
@@ -18,14 +19,15 @@ import {SelectDateTimeComponent} from './components/first-master/select-date-tim
 import {SelectTimeMasterComponent} from './components/first-service/select-time-master/select-time-master.component';
 import {TimeBookedComponent} from './components/time-booked/time-booked.component';
 import {InterruptRecordComponent} from './components/interrupt-record/interrupt-record.component';
+import { MainComponent } from './layouts/main/main.component';
+import {LoaderComponent} from './layouts/loader/loader.component';
 /* Services */
 import {SwitcherService} from './services/switcher.service';
 import {CityService} from './services/city.service';
 /* Directives */
 import {ActiveDirective} from './directives/active.directive';
-import {LoaderComponent} from './layouts/loader/loader.component';
-import {AppRoutingModule} from './app-routing.module';
-import { MainComponent } from './layouts/main/main.component';
+/* Pipe */
+import {FilterPipe} from './filter.pipe';
 
 
 @NgModule({
@@ -46,6 +48,7 @@ import { MainComponent } from './layouts/main/main.component';
     InterruptRecordComponent,
     LoaderComponent,
     MainComponent,
+    FilterPipe
   ],
   imports: [
     BrowserModule,

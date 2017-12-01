@@ -16,37 +16,24 @@
 
 
               <div
-                *ngFor="let service of services"
+                *ngFor="let service_cat of services_cat"
                 class="services-service-right-block-first-item"
-                (click)="onSelectService(service)"
-              [class.active]="service === selectedService">
-                {{service.title}}
+                (click)="onSelectServiceCat(service_cat)"
+                [class.active]="service_cat === selected_service_cat">
+                {{service_cat.title}}
               </div>
-             <!-- <div class="services-service-right-block-first-item active">
-                Парикмахерские <br> услуги
-              </div>
-
-              <div class="services-service-right-block-first-item">
-                Уход за руками
-              </div>
-
-              <div class="services-service-right-block-first-item">
-                Косметология
-              </div>
-
-              <div class="services-service-right-block-first-item">
-                Визаж
-              </div>-->
-
-
-
             </div>
 
 
             <div class="content-right-block-second services-service-right-block-second">
               <form class="services-service-search">
                 <div class="search">
-                  <input type="text" class="searchTerm" placeholder="Введите название услуги">
+                  <input
+                    type="text"
+                    class="searchTerm"
+                    placeholder="Введите название услуги"
+                    name="search"
+                    [(ngModel)]="searchText">
                   <button type="submit" class="searchButton">
                     <img src="assets/images/icons/search-orange.png">
                   </button>
@@ -54,255 +41,150 @@
               </form>
 
 
-
-
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Стрижки</p>
-                <table class="">
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                </table>
+              <div *ngIf="selected_service_cat">
+                <div
+                  class="services-master-service-list"
+                  *ngFor="let groups of selected_service_cat.service_groups">
+                  <p class="services-master-service-list-title bold">{{groups.title}}</p>
+                  <table class="">
+                    <tr
+                      [class.active]="service.checked === true"
+                      *ngFor="let service of groups.services | filter : searchText:'title'">
+                      <td>
+                        <input
+                          type="checkbox"
+                          name=""
+                          [checked]="service.checked"
+                          (change)="onSelectService(service, $event)">
+                        <label></label>
+                      </td>
+                      <td>{{service.title}}</td>
+                      <td>1ч &nbsp; 90м</td>
+                      <td> {{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                    </tr>
+                  </table>
+                </div>
               </div>
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Укладки</p>
-                <table class="">
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                </table>
-              </div>
-
-
-
-
-
 
 
             </div>
           </div>
         </div>
 
+
         <!-- Master Chosen -->
-        <div class="choose-options-content services-service-content bordered services-service-master-chosen clearfix">
-          <div class="content-left-block services-service-left-block">
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Город</p>
-                <p>Санкт-Петербург</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Адрес</p>
-                <p>Непокоренных 10</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Контакты</p>
-                <p>Кира</p>
-                <p>8 (800) 555-35-35</p>
-                <p>kira@gmail.com</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Мастера</p>
-                <a href="" class="services-service-left-block-pic-container"></a>
-              </div>
-            </div>
-          </div>
+        <div
+          *ngIf="showservicesFormobile === 'show'"
+          class="choose-options-content services-service-content bordered services-service-master-chosen clearfix">
+
           <div class="content-right-block services-service-right-block services-master">
-            <div class="content-right-block-first services-service-right-block-first">
+            <div
+              class="content-right-block-first services-service-right-block-first"
+              (click)="goToAllServicesOnMobile()">
               <div class="services-service-right-block-first-item active">
-                <a href="" class="services-service-title-block-back-btn"><img src="assets/images/svg/arrow-dark-gray.svg"></a>
-                Уход за руками
+                <a href="" class="services-service-title-block-back-btn">
+                  <img src="assets/images/svg/arrow-dark-gray.svg">
+                </a>
+                {{selected_service_cat.title}}
               </div>
             </div>
+
+
             <div class="content-right-block-second services-service-right-block-second">
+
+              <!-- Search input -->
               <form class="services-service-search">
                 <div class="search">
-                  <input type="text" class="searchTerm" placeholder="Введите название услуги">
+                  <input
+                    type="text"
+                    class="searchTerm"
+                    placeholder="Введите название услуги"
+                    name="search"
+                    [(ngModel)]="searchText">
                   <button type="submit" class="searchButton">
                     <img src="assets/images/icons/search-orange.png">
                   </button>
                 </div>
               </form>
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Стрижки</p>
+              <!-- End search input -->
+
+              <div class="services-master-service-list" *ngFor="let group of selected_service_cat.service_groups">
+                <p class="services-master-service-list-title bold">{{group.title}}</p>
                 <table class="">
-                  <tr class="">
+                  <tr
+                    [class.active]="service.checked === true"
+                    *ngFor="let service of group.services | filter : searchText:'title'">
                     <td>
-                      <input type="checkbox" name="">
+                      <input
+                        type="checkbox"
+                        name=""
+                        [checked]="service.checked"
+                        (change)="onSelectService(service, $event)">
                       <label></label>
                     </td>
-                    <td>Стрижка горячими ножницами</td>
+                    <td>{{service.title}}</td>
                     <td>1ч &nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                    <td> {{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
                   </tr>
                 </table>
               </div>
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Укладки</p>
-                <table class="">
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                </table>
-              </div>
+
             </div>
           </div>
+
+
         </div>
 
         <!-- Master Not Chosen -->
-        <div class="choose-options-content services-service-content bordered services-service-master-not-chosen clearfix">
-          <div class="content-left-block services-service-left-block">
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Город</p>
-                <p>Санкт-Петербург</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Адрес</p>
-                <p>Непокоренных 10</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Контакты</p>
-                <p>Кира</p>
-                <p>8 (800) 555-35-35</p>
-                <p>kira@gmail.com</p>
-              </div>
-            </div>
-            <div class="content-left-block-item">
-              <div>
-                <p class="content-left-block-item-title">Мастера</p>
-                <a href="" class="services-service-left-block-pic-container"></a>
-              </div>
-            </div>
-          </div>
+        <div
+          *ngIf="showservicesFormobile === 'hide'"
+          class="choose-options-content services-service-content bordered services-service-master-not-chosen clearfix">
+
+
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">
-              <div class="services-service-right-block-first-item">
-                Парикмахерские услуги
-              </div>
-              <div class="services-service-right-block-first-item">
-                Уход за руками
-              </div>
-              <div class="services-service-right-block-first-item">
-                Косметология
-              </div>
-              <div class="services-service-right-block-first-item">
-                Визаж
+              <div
+                class="services-service-right-block-first-item"
+                *ngFor="let service_cat of services_cat"
+                (click)="onSelectServiceCat(service_cat)">
+                {{service_cat.title}}
               </div>
             </div>
           </div>
-          <span class="services-count-result responsive">Добавлено: <span class="bold">3</span>&nbspуслуги на сумму <span class="bold">12 000</span> <span><img src="assets/images/icons/ruble.png"></span></span>
+
+
+          <span class="services-count-result responsive">
+            Добавлено:
+            <span class="bold"> {{totalCount}} </span> &nbsp;  услуги на сумму
+            <span class="bold"> {{totalPrice}} </span>
+            <span><img src="assets/images/icons/ruble.png"></span>
+          </span>
         </div>
+
+
         <div class="nav-bottom services-service-bottom bordered">
-          <a (click)="goBack('indicate-contacts')" class="semi-bold pull-left"><div class="back nav-bottom-back nav-bottom-item services-service-bottom-item address-master-bottom-back pull-left">
-            <img src="assets/images/svg/arrow.svg">
-            Назад
-          </div></a>
-          <span class="services-count-result">Добавлено: <span class="bold">3</span>&nbspуслуги на сумму <span class="bold">12 000</span> <span><img src="assets/images/icons/ruble.png"></span></span>
-          <a (click)="goNext('select-time-master')" class="semi-bold pull-right"><div class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
-            Далее
-            <img src="assets/images/svg/arrow-white.svg">
-          </div></a>
+          <a (click)="goBack('indicate-contacts')" class="semi-bold pull-left">
+            <div
+              class="back nav-bottom-back nav-bottom-item services-service-bottom-item address-master-bottom-back pull-left">
+              <img src="assets/images/svg/arrow.svg">
+              Назад
+            </div>
+          </a>
+
+
+          <span class="services-count-result">
+            Добавлено:
+            <span class="bold"> {{totalCount}} </span> &nbsp; услуги на сумму
+            <span class="bold"> {{totalPrice}} </span>
+            <span><img src="assets/images/icons/ruble.png"></span>
+          </span>
+          <a (click)="goNext('select-time-master')" class="semi-bold pull-right">
+            <div
+              class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
+              Далее
+              <img src="assets/images/svg/arrow-white.svg">
+            </div>
+          </a>
         </div>
       </div>
     </div>

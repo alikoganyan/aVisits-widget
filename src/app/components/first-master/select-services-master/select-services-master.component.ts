@@ -10,6 +10,8 @@ import {CityService} from '../../../services/city.service';
 })
 export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
+  searchText = '';
+
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -21,7 +23,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   selectedMaster: Master;
   subMasters: Subscription;
 
-  firstMaster: Master = new Master();
+  firstMaster: Master = new Master();  // type mas correct
   only_first_masterServices = 'show';
 
   employeeServices = [];
@@ -35,41 +37,49 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
               private cityService: CityService) {
   }
 
-  onSelectService(service, event) {
+  onSelectService(service, event, employeeService) {
     service.checked = event.target.checked;
-    event.target.checked ? this.totalCount++ : this.totalCount--;
-
     if (event.target.checked) {
+      if (typeof this.selectedMaster !== 'undefined') {
+        this.selectedMaster.id === employeeService.employee_id && this.selectedMaster.count++;
+      } else {
+        this.masters[0].id === employeeService.employee_id && this.masters[0].count++; // dis is for first master services
+      }
+      this.totalCount++;
       this.totalPrice = this.totalPrice + parseInt(service.price);
     } else {
+      if (typeof this.selectedMaster !== 'undefined') {
+        this.selectedMaster.id === employeeService.employee_id && this.selectedMaster.count--;
+      } else {
+        this.masters[0].id === employeeService.employee_id && this.masters[0].count--; // dis is for first master services
+      }
+      this.totalCount--;
       this.totalPrice = this.totalPrice - parseInt(service.price);
     }
-    console.log(this.totalPrice);
   }
 
   getServices() {
     this.cityService.getServices().subscribe(response => {
 
-      response.data.employees.map((value) => {
+      response.data.employees.map((employee) => {
 
         this.firstMaster = response.data.employees[0];  // dis is for show first master services
 
-        value.service_groups.map((v) => {
-          v.services.map((s) => {
+        employee.service_groups.map((group) => {
+          group.services.map((service) => {
             const oneHour = 60;
-            const min = s.duration / oneHour;
+            const min = service.duration / oneHour;
             const hour = Math.floor(min);
             const count2 = min - hour;
             const minute = count2 * oneHour;
-            s.hour = hour;
-            s.min = Math.floor(minute);
-            s.checked = false;
+            service.hour = hour;
+            service.min = Math.floor(minute);
+            service.checked = false;
           });
         });
       });
       this.employeeServices = response.data.employees;
     });
-
   }
 
 
@@ -113,6 +123,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   getSubscriptions() {
     this.subMasters = this.switcherService.masters.subscribe(masters => {
+      masters.map(value => value.count = 0);
       this.masters = masters;
     });
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {

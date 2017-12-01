@@ -3,13 +3,10 @@
     <div class="page-inner-wrapper">
       <a (click)="onClose()"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
       <div class="page-container address-master">
-
         <app-header-nav></app-header-nav>
 
         <div class="choose-options-content services-service-content bordered clearfix">
-
           <app-sidebar></app-sidebar>
-
           <div class="content-right-block services-service-right-block">
 
             <!-- MASTERS -->
@@ -18,25 +15,23 @@
                 class="services-service-right-block-first-item"
                 *ngFor="let master of masters"
                 (click)="onSelectMaster(master)"
-                [class.active]="master === selectedMaster"
-              >
+                [class.active]="master === selectedMaster || (firstMaster.employee_id === master.id && only_first_masterServices === 'show')">
                 <div class="services-service-master-title-block">
                   <a class="services-service-title-block-back-btn"><img
                     src="assets/images/svg/arrow-dark-gray.svg"></a>
                   <div
                     class="services-service-pic-container"
-                    [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + master.photo + ')'}"
-                  >
+                    [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + master.photo + ')'}">
                   </div>
                   <span>
                       <p>{{master.first_name}} {{master.last_name}}</p>
-                    <!--<p>Сергеева<p>-->
-                    <!--<p>Анна</p>-->
+                    <!--<p>Сергеева<p>--><!--<p>Анна</p>-->
 										</span>
                 </div>
                 <div class="services-service-master-info">
                   <p class="services-service-master-position">{{master.position.title}}</p>
-                  <p class="services-service-count-container"><span class="services-service-count bold">1</span> &nbsp;
+                  <p class="services-service-count-container">
+                    <span class="services-service-count bold"> {{master.count}} </span> &nbsp;
                     услуга выбрана
                   </p>
                 </div>
@@ -44,11 +39,17 @@
             </div>
             <!-- END MASTERS -->
 
-            <!-- SEARCH INPUT -->
+
             <div class="content-right-block-second services-service-right-block-second">
+              <!-- SEARCH INPUT -->
               <form class="services-service-search">
                 <div class="search">
-                  <input type="text" class="searchTerm" placeholder="Введите название услуги">
+                  <input
+                    name="search"
+                    type="text"
+                    class="searchTerm"
+                    placeholder="Введите название услуги"
+                    [(ngModel)]="searchText">
                   <button type="submit" class="searchButton">
                     <img src="assets/images/icons/search-orange.png">
                   </button>
@@ -61,13 +62,15 @@
               <div *ngIf="only_first_masterServices === 'show'">
                 <div
                   class="services-master-service-list"
-                  *ngFor="let service_group of firstMaster.service_groups"
-                >
+                  *ngFor="let service_group of firstMaster.service_groups">
+
                   <p class="services-master-service-list-title bold">{{service_group.title}}</p>
                   <table class="">
-                    <tr class="" *ngFor="let service of service_group.services">
+                    <tr
+                      [class.active]="service.checked === true"
+                      *ngFor="let service of service_group.services | filter : searchText:'title'">
                       <td>
-                        <input type="checkbox" name="" (change)="onSelectService(service, $event)" #checkbox>
+                        <input type="checkbox" name="" (change)="onSelectService(service, $event, firstMaster)">
                         <label></label>
                       </td>
                       <td>{{service.title}}</td>
@@ -81,19 +84,20 @@
 
               <!-- SERVICES FOR ALL MASTERS -->
               <div *ngFor="let employeeService of employeeServices">
-
                 <div *ngIf="selectedMaster && employeeService.employee_id === selectedMaster.id">
-
                   <div
                     class="services-master-service-list"
-                    *ngFor="let service_group of employeeService.service_groups"
-                  >
+                    *ngFor="let service_group of employeeService.service_groups">
                     <p class="services-master-service-list-title bold">{{service_group.title}}</p>
                     <table class="">
-                      <tr class="" *ngFor="let service of service_group.services">
+                      <tr
+                        [class.active]="service.checked === true"
+                        *ngFor="let service of service_group.services | filter : searchText">
                         <td>
-                          <input type="checkbox" name="" [checked]="service.checked"
-                                 (change)="onSelectService(service, $event)">
+                          <input
+                            type="checkbox"
+                            [checked]="service.checked"
+                            (change)="onSelectService(service, $event, employeeService)">
                           <label></label>
                         </td>
                         <td>{{service.title}}</td>
@@ -102,12 +106,9 @@
                       </tr>
                     </table>
                   </div>
-
                 </div>
-
               </div>
               <!-- END SERVICES FOR ALL MASTERS -->
-
               <!-- END SERVICES HERE -->
             </div>
           </div>
@@ -118,18 +119,15 @@
         <div
           *ngIf="showSelectedMasterForMobile"
           class="choose-options-content services-service-content bordered services-service-master-chosen clearfix">
-
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">
-
               <div class="services-service-right-block-first-item active" (click)="backToAllMasterOnMobile()">
                 <div class="services-service-master-title-block">
                   <a class="services-service-title-block-back-btn"><img
                     src="assets/images/svg/arrow-dark-gray.svg"></a>
                   <div
                     class="services-service-pic-container"
-                    [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + selectedMaster.photo + ')'}"
-                  >
+                    [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + selectedMaster.photo + ')'}">
                   </div>
                   <span>
                     <p>{{selectedMaster.first_name}} {{selectedMaster.last_name}}</p>
@@ -142,14 +140,17 @@
                 </div>
               </div>
             </div>
-
-
             <div class="content-right-block-second services-service-right-block-second">
 
               <!-- Search Form Chosen Master -->
               <form class="services-service-search">
                 <div class="search">
-                  <input type="text" class="searchTerm" placeholder="Введите название услуги">
+                  <input
+                    type="text"
+                    class="searchTerm"
+                    placeholder="Введите название услуги"
+                    [(ngModel)]="searchText"
+                    name="search">
                   <button type="submit" class="searchButton">
                     <img src="assets/images/icons/search-orange.png">
                   </button>
@@ -158,95 +159,47 @@
               <!-- End Search Form Chosen Master -->
 
               <!-- Services Chosen Master -->
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Стрижки</p>
-                <table class="">
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч&nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                </table>
-              </div>
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Укладки</p>
-                <table class="">
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка горячими ножницами</td>
-                    <td>1ч&nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                </table>
+              <div *ngFor="let employeeService of employeeServices">
+                <div *ngIf="employeeService.employee_id === selectedMaster.id">
+                  <div class="services-master-service-list" *ngFor="let groups of employeeService.service_groups">
+                    <p class="services-master-service-list-title bold">{{groups.title}}</p>
+                    <table class="">
+                      <tr
+                        [class.active]="service.checked === true"
+                        *ngFor="let service of groups.services | filter : searchText:'title'">
+                        <td>
+                          <input
+                            type="checkbox"
+                            name=""
+                            [checked]="service.checked"
+                            (change)="onSelectService(service, $event, employeeService)">
+                          <label></label>
+                        </td>
+                        <td>{{service.title}}</td>
+                        <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
+                        <td>{{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               </div>
               <!-- End Services Chosen Master -->
             </div>
-
-
           </div>
         </div>
         <!-- End Master Chosen -->
-
 
         <!-- Master Not Chosen -->
         <div
           *ngIf="!showSelectedMasterForMobile"
           class="choose-options-content services-service-content bordered services-service-master-not-chosen clearfix">
-
-
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">
-
-
               <div
                 class="services-service-right-block-first-item"
                 *ngFor="let master of masters"
                 (click)="goToSelectedMaster(master)"
-                [class.active]="master === selectedMaster"
-              >
+                [class.active]="master === selectedMaster">
                 <div class="services-service-master-title-block">
                   <div
                     class="services-service-pic-container"
@@ -255,20 +208,17 @@
                   </div>
                   <span>
                     <p>{{master.first_name}} {{master.last_name}}</p>
-                    <!--<p>Сергеева<p>&nbsp;-->
-                    <!--<p>Анна</p>-->
+                    <!--<p>Сергеева<p>&nbsp;--><!--<p>Анна</p>-->
 										</span>
                 </div>
                 <div class="services-service-master-info">
                   <p class="services-service-master-position">{{master.position.title}}</p>
                   <p class="services-service-count-container">
-                    <span class="services-service-count bold"> 1 </span>
+                    <span class="services-service-count bold"> {{master.count}} </span>
                     &nbsp;
                     услуга выбрана
                   </p>
                 </div>
-
-
               </div>
             </div>
           </div>
@@ -286,6 +236,7 @@
         </div>
         <!-- End Master Not Chosen -->
 
+        <!-- FOOTER HERE -->
         <div class="nav-bottom services-service-bottom bordered">
           <button (click)="goBack()" class="semi-bold pull-left">
             <div
@@ -308,8 +259,7 @@
             </div>
           </button>
         </div>
-
-
+        <!-- FOOTER END -->
       </div>
     </div>
   </div>

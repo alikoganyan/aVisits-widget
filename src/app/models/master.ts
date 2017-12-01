@@ -9,6 +9,7 @@ export class Master {
   position_id: number;
   public_position?: number;
   sex?: string;
+  count?: number;
 }
 
 export class Position {
