@@ -11,9 +11,9 @@
           <app-sidebar></app-sidebar>
 
           <div class="content-right-block services-service-right-block">
+
+            <!-- MASTERS -->
             <div class="content-right-block-first services-service-right-block-first">
-
-
               <div
                 class="services-service-right-block-first-item"
                 *ngFor="let master of masters"
@@ -37,12 +37,14 @@
                 <div class="services-service-master-info">
                   <p class="services-service-master-position">{{master.position.title}}</p>
                   <p class="services-service-count-container"><span class="services-service-count bold">1</span> &nbsp;
-                    услуга выбрана</p>
+                    услуга выбрана
+                  </p>
                 </div>
               </div>
-
-
             </div>
+            <!-- END MASTERS -->
+
+            <!-- SEARCH INPUT -->
             <div class="content-right-block-second services-service-right-block-second">
               <form class="services-service-search">
                 <div class="search">
@@ -52,80 +54,64 @@
                   </button>
                 </div>
               </form>
+              <!-- END SEARCH INPUT -->
 
-
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Стрижки</p>
-                <table class="">
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч &nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                </table>
+              <!-- SERVICES HERE -->
+              <!-- SERVICES FOR ONLY FIRST MASTER -->
+              <div *ngIf="only_first_masterServices === 'show'">
+                <div
+                  class="services-master-service-list"
+                  *ngFor="let service_group of firstMaster.service_groups"
+                >
+                  <p class="services-master-service-list-title bold">{{service_group.title}}</p>
+                  <table class="">
+                    <tr class="" *ngFor="let service of service_group.services">
+                      <td>
+                        <input type="checkbox" name="" (change)="onSelectService(service, $event)" #checkbox>
+                        <label></label>
+                      </td>
+                      <td>{{service.title}}</td>
+                      <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
+                      <td>{{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                    </tr>
+                  </table>
+                </div>
               </div>
+              <!-- END SERVICES FOR ONLY FIRST MASTER -->
 
+              <!-- SERVICES FOR ALL MASTERS -->
+              <div *ngFor="let employeeService of employeeServices">
 
-              <div class="services-master-service-list">
-                <p class="services-master-service-list-title bold">Укладки</p>
-                <table class="">
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка горячими ножницами</td>
-                    <td>1ч &nbsp; 90м</td>
-                    <td>2 000 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Стрижка</td>
-                    <td>1ч&nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                  <tr class="active">
-                    <td>
-                      <input type="checkbox" name="">
-                      <label></label>
-                    </td>
-                    <td>Окрашивание волос</td>
-                    <td>1ч&nbsp; 45м</td>
-                    <td>900 <span><img src="assets/images/icons/ruble-gray.png"></span></td>
-                  </tr>
-                </table>
+                <div *ngIf="selectedMaster && employeeService.employee_id === selectedMaster.id">
+
+                  <div
+                    class="services-master-service-list"
+                    *ngFor="let service_group of employeeService.service_groups"
+                  >
+                    <p class="services-master-service-list-title bold">{{service_group.title}}</p>
+                    <table class="">
+                      <tr class="" *ngFor="let service of service_group.services">
+                        <td>
+                          <input type="checkbox" name="" [checked]="service.checked"
+                                 (change)="onSelectService(service, $event)">
+                          <label></label>
+                        </td>
+                        <td>{{service.title}}</td>
+                        <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
+                        <td>{{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                      </tr>
+                    </table>
+                  </div>
+
+                </div>
+
               </div>
+              <!-- END SERVICES FOR ALL MASTERS -->
 
-
+              <!-- END SERVICES HERE -->
             </div>
           </div>
         </div>
-
 
 
         <!-- Master Chosen -->
@@ -147,8 +133,8 @@
                   </div>
                   <span>
                     <p>{{selectedMaster.first_name}} {{selectedMaster.last_name}}</p>
-											<!--<p>Сергеева<p> &nbsp;-->
-											<!--<p>Анна</p>-->
+                    <!--<p>Сергеева<p> &nbsp;-->
+                    <!--<p>Анна</p>-->
 									<div class="services-service-master-info">
 										<p class="services-service-master-position">{{selectedMaster.position.title}}</p>
 									</div>
@@ -240,14 +226,9 @@
             </div>
 
 
-
           </div>
         </div>
         <!-- End Master Chosen -->
-
-
-
-
 
 
         <!-- Master Not Chosen -->
@@ -274,8 +255,8 @@
                   </div>
                   <span>
                     <p>{{master.first_name}} {{master.last_name}}</p>
-											<!--<p>Сергеева<p>&nbsp;-->
-											<!--<p>Анна</p>-->
+                    <!--<p>Сергеева<p>&nbsp;-->
+                    <!--<p>Анна</p>-->
 										</span>
                 </div>
                 <div class="services-service-master-info">
@@ -293,10 +274,11 @@
           </div>
 
 
-
           <span class="services-count-result responsive">Добавлено:
-            <span class="bold">3</span> &nbsp; услуги на сумму
-            <span class="bold">12 000</span>
+            <span class="bold"> {{totalCount}} </span> &nbsp; услуги на сумму
+            <span class="bold">
+              {{totalPrice}}
+            </span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>
 
@@ -312,9 +294,13 @@
               Назад
             </div>
           </button>
-          <span class="services-count-result">Добавлено: <span class="bold">3</span>  &nbsp; услуги на сумму <span
-            class="bold">12 000</span> <span><img src="assets/images/icons/ruble.png"></span></span>
-          <button (click)="goNext('select-date-time')" class="semi-bold pull-right">
+          <span class="services-count-result">Добавлено: <span class="bold"> {{totalCount}} </span>  &nbsp; услуги на сумму
+            <span class="bold">
+              {{totalPrice}}
+            </span>
+            <span><img src="assets/images/icons/ruble.png"></span>
+          </span>
+          <button (click)="goNext()" class="semi-bold pull-right">
             <div
               class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
               Далее
@@ -322,7 +308,6 @@
             </div>
           </button>
         </div>
-
 
 
       </div>

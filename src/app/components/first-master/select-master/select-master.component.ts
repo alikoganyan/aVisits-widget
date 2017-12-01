@@ -51,7 +51,6 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     } else {
       this.selectedMasters.push(master);
     }
-    console.log(this.selectedMasters);
   }
 
 
@@ -79,6 +78,12 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
+    const employees = [];
+    this.selectedMasters.map((value) => {
+      employees.push(value.id);
+    });
+
+    this.cityService.employees = employees;
     this.switcherService.selectMasters(this.selectedMasters);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }

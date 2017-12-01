@@ -20,12 +20,15 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class CityService {
+
   apiUrl = 'http://api.avisits.com/api/';
   private headers = new Headers({'Content-Type': 'application/json'});
 
   city: string;
-  id: number;
+  id: number;      // example v37
   salonId: number;
+  employees: number[];
+
 
   constructor(private http: Http) {
   }
@@ -42,8 +45,7 @@ export class CityService {
   }
 
   getCityLatLong() {
-    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=Yerevan&callback=angular2GoogleMapsLazyMapsAPILoader&key=AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
-    // return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=Moskva&callback=angular2GoogleMapsLazyMapsAPILoader&key=AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
+    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.city + '&callback=angular2GoogleMapsLazyMapsAPILoader&key=AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
       .map((response: Response) => {
         return response.json();
       })
@@ -57,7 +59,7 @@ export class CityService {
   getSalons() {
     return this.http.post(
       this.apiUrl + 'widget/' + this.id + '/salons_address',
-      {city: this.city},
+      JSON.stringify({city: this.city}),
       {headers: this.headers}
     )
       .map((response: Response) => {
@@ -73,8 +75,28 @@ export class CityService {
   getEmployees() {
     return this.http.post(
       this.apiUrl + 'widget/' + this.id + '/employees',
-      {salon_id: this.salonId},
+      JSON.stringify({salon_id: this.salonId}),
       {headers: this.headers})
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        });
+  }
+
+
+  getServices() {
+    return this.http.post(
+      this.apiUrl + 'widget/' + this.id + '/services',
+      JSON.stringify(
+        {
+          salon_id: this.salonId,
+          employees: this.employees
+        }),
+      {headers: this.headers}
+    )
       .map((response: Response) => {
         return response.json();
       })
