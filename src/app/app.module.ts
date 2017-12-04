@@ -28,6 +28,7 @@ import {CityService} from './services/city.service';
 import {ActiveDirective} from './directives/active.directive';
 /* Pipe */
 import {FilterPipe} from './filter.pipe';
+import { CalendarComponent } from './layouts/calendar/calendar.component';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import {FilterPipe} from './filter.pipe';
     InterruptRecordComponent,
     LoaderComponent,
     MainComponent,
-    FilterPipe
+    FilterPipe,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,

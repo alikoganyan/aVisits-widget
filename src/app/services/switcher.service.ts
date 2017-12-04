@@ -8,6 +8,26 @@ export class SwitcherService {
 
   clickedStart = new Subject<string>();
 
+  private clickedStatus = new BehaviorSubject('select-city'); // status here
+  status = this.clickedStatus.asObservable();
+
+  private messageSource = new BehaviorSubject('default message');  // Master or Service first
+  currentMessage = this.messageSource.asObservable();
+
+  /* Navbar switcher here */
+
+  private count = new BehaviorSubject(1);  // count for adding active class navbar
+  active = this.count.asObservable();
+
+
+  private interruptStatus = new BehaviorSubject(false); // show hide interrupt components
+  interrupt = this.interruptStatus.asObservable();
+
+  /* Navbar switcher end */
+
+
+  /* Sidebar switcher here */
+
 
   private selectedCity = new BehaviorSubject('default message'); // selected city
   cityTitle = this.selectedCity.asObservable();
@@ -15,23 +35,16 @@ export class SwitcherService {
   private selectedAddress = new BehaviorSubject('default message');  // selected address
   salonAddress = this.selectedAddress.asObservable();
 
-  private messageSource = new BehaviorSubject('default message');  // Master or Service first
-  currentMessage = this.messageSource.asObservable();
-
-  private count = new BehaviorSubject(1);  // count for adding active class navbar
-  active = this.count.asObservable();
-
   private userContacts = new BehaviorSubject({email: '', name: '', tel: ''});  // userContacts here
   contact = this.userContacts.asObservable();
 
   private selectedMasters = new BehaviorSubject([]);  // selected masters here
   masters = this.selectedMasters.asObservable();
 
-  private clickedStatus = new BehaviorSubject('select-city'); // status here
-  status = this.clickedStatus.asObservable();
+  private totalPriceAndCount = new BehaviorSubject({totalCount: 0, totalPrice: 0});  // chosen services price and count
+  priceAndCount = this.totalPriceAndCount.asObservable();
 
-  private interruptStatus = new BehaviorSubject(false); // show hide interrupt components
-  interrupt = this.interruptStatus.asObservable();
+  /* End sidebar switcher */
 
 
   // sequence = [
@@ -57,24 +70,28 @@ export class SwitcherService {
   constructor() {
   }
 
-  onSequence(sequence) {
-    this.resSequence.next(sequence);
+  onClickedStatus(status: string) {
+    this.clickedStatus.next(status);
   }
 
+  changeMessage(message: string) {
+    this.messageSource.next(message);
+  }
+
+  /* Navbar switcher here */
+
+  changeCount(count: number) {
+    this.count.next(count);
+  }
 
   changeInterruptStatus(interrupt: boolean) {   // show hide interrupt components
     this.interruptStatus.next(interrupt);
   }
 
-
-  onClickedStatus(status: string) {
-    this.clickedStatus.next(status);
-  }
+  /* Navbar switcher end */
 
 
-  changeMessage(message: string) {
-    this.messageSource.next(message);
-  }
+  /* Sidebar switcher here */
 
   selectCity(city: string) {   // selected city
     this.selectedCity.next(city);
@@ -84,9 +101,6 @@ export class SwitcherService {
     this.selectedAddress.next(address);
   }
 
-  changeCount(count: number) {
-    this.count.next(count);
-  }
 
   userContact(contacts: { email: string, name: string, notes?: string, tel: string }) {
     this.userContacts.next(contacts);
@@ -94,6 +108,17 @@ export class SwitcherService {
 
   selectMasters(masters: Master[]) {   // selected masters
     this.selectedMasters.next(masters);
+  }
+
+  getPriceAndCount(priceAndCount: {totalCount: number, totalPrice: number}) {
+    this.totalPriceAndCount.next(priceAndCount);
+  }
+
+  /* End sidebar switcher */
+
+
+  onSequence(sequence) {
+    this.resSequence.next(sequence);
   }
 
 

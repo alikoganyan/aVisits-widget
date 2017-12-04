@@ -2555,3 +2555,64 @@ label {
 .avisits-item {
   display: inline-block;
 }
+
+
+
+
+
+
+
+
+
+
+.time-master.calendar {
+  overflow: hidden;
+  position: relative;
+}
+
+
+.avisits-date_slider {
+  //width: 2700px;
+  opacity: 1;
+  position: relative;
+  transition: 1s;
+  /* transform: translate3d(-560px, 0px, 0px); */
+}
+
+
+.avisits-item {
+  display: inline-block;
+  width: 100px;
+  border: 1px solid #B4B4B4;
+}
+
+.slick-prev.slick-arrow {
+  background-color: white !important;
+  background: url(./assets/images/svg/arrow-gray.svg);
+  background-size: 32%;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border: 1px solid #dfdfdf;
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+
+.slick-next.slick-arrow {
+  background-color: white !important;
+  background: url(./assets/images/svg/arrow-gray.svg);
+  background-size: 32%;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  border: 1px solid #dfdfdf;
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  padding: 0;
+  z-index: 1;
+}

@@ -198,7 +198,7 @@
               <div
                 class="services-service-right-block-first-item"
                 *ngFor="let master of masters"
-                (click)="goToSelectedMaster(master)"
+                (click)="onSelectMaster(master)"
                 [class.active]="master === selectedMaster">
                 <div class="services-service-master-title-block">
                   <div
@@ -225,9 +225,9 @@
 
 
           <span class="services-count-result responsive">Добавлено:
-            <span class="bold"> {{totalCount}} </span> &nbsp; услуги на сумму
+            <span class="bold"> {{priceAndCount.totalCount}} </span> &nbsp; услуги на сумму
             <span class="bold">
-              {{totalPrice}}
+              {{priceAndCount.totalPrice}}
             </span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>
@@ -245,9 +245,9 @@
               Назад
             </div>
           </button>
-          <span class="services-count-result">Добавлено: <span class="bold"> {{totalCount}} </span>  &nbsp; услуги на сумму
+          <span class="services-count-result">Добавлено: <span class="bold"> {{priceAndCount.totalCount}} </span>  &nbsp; услуги на сумму
             <span class="bold">
-              {{totalPrice}}
+              {{priceAndCount.totalPrice}}
             </span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>

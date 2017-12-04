@@ -30,14 +30,19 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   showSelectedMasterForMobile = false;
 
-  totalCount = 0;
-  totalPrice = 0;
+  priceAndCount = {
+    totalCount: 0,
+    totalPrice: 0
+  };
+
+
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService) {
   }
 
   onSelectService(service, event, employeeService) {
+
     service.checked = event.target.checked;
     if (event.target.checked) {
       if (typeof this.selectedMaster !== 'undefined') {
@@ -45,16 +50,16 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
       } else {
         this.masters[0].id === employeeService.employee_id && this.masters[0].count++; // dis is for first master services
       }
-      this.totalCount++;
-      this.totalPrice = this.totalPrice + parseInt(service.price);
+      this.priceAndCount.totalCount++;
+      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice + parseInt(service.price);
     } else {
       if (typeof this.selectedMaster !== 'undefined') {
         this.selectedMaster.id === employeeService.employee_id && this.selectedMaster.count--;
       } else {
         this.masters[0].id === employeeService.employee_id && this.masters[0].count--; // dis is for first master services
       }
-      this.totalCount--;
-      this.totalPrice = this.totalPrice - parseInt(service.price);
+      this.priceAndCount.totalCount--;
+      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice - parseInt(service.price);
     }
   }
 
@@ -84,22 +89,15 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
 
   onSelectMaster(master: Master) {
+    this.showSelectedMasterForMobile = true;
     this.selectedMaster = master;
     this.only_first_masterServices = 'hide';
-  }
-
-
-  /* FOR MOBILE VERSION */
-  goToSelectedMaster(master: Master) {
-    this.selectedMaster = master;
-    this.showSelectedMasterForMobile = true;
   }
 
   /* FOR MOBILE VERSION */
   backToAllMasterOnMobile() {
     this.showSelectedMasterForMobile = false;
   }
-
 
   ngOnInit() {
     this.getSubscriptions();
@@ -113,7 +111,9 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
+    console.log(this.priceAndCount);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+    this.switcherService.getPriceAndCount(this.priceAndCount);
   }
 
   onClose() {

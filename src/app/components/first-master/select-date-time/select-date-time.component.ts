@@ -8,6 +8,7 @@ import {SwitcherService} from '../../../services/switcher.service';
 })
 export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
+
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -16,7 +17,14 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   index: number;
   subSequence: Subscription;
 
+  data: string;
+
+
   constructor(private switcherService: SwitcherService) {
+  }
+
+  getStr(data) {
+    this.data = data;
   }
 
   ngOnInit() {
@@ -41,7 +49,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   onClose() {
     this.interrapt = true;
   }
-
 
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
