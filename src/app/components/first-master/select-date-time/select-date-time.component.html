@@ -14,129 +14,84 @@
 
           <div class="content-right-block time-master-right-block">
 
-            <app-calendar (sendedDate)="getStr($event)" ></app-calendar>
+            <app-calendar (sendedDate)="getStr($event)"></app-calendar>
 
             <div class="time-master-book-schedule-container-all-inner">
-              <div class="time-master-book-schedule-container">
-                <div class="time-master-title-block">
-                  <div class="master-title-block-pic-container"></div>
-                  <div class="master-title-block-text">
-                    <p class="bold">Сергеева Анна</p>
-                    <p class="time-master-master-position">Парикмахер-стилист</p>
-                  </div>
-                </div>
-                <div class="time-master-time-schedule">
-                  <div class="table">
-                    <div class="tr">
-                      <div class="td"><a href="">10:00</a></div>
-                      <div class="td active"><a href="">10:30</a></div>
-                      <div class="td"><a href="">11:00</a></div>
-                      <div class="td"><a href="">11:30</a></div>
-                      <div class="td"><a href="">12:00</a></div>
-                      <div class="td"><a href="">12:30</a></div>
 
-
-                      <div class="td"><a href="">13:00</a></div>
-                      <div class="td"><a href="">13:30</a></div>
-                      <div class="td"><a href="">14:00</a></div>
-                      <div class="td"><a href="">14:30</a></div>
-                      <div class="td"><a href="">15:00</a></div>
-                      <div class="td"><a href="">15:30</a></div>
-
-
-                      <div class="td"><a href="">16:00</a></div>
-                      <div class="td"><a href="">16:30</a></div>
-                      <div class="td"><a href="">17:00</a></div>
-                      <div class="td"><a href="">17:30</a></div>
-                      <div class="td"><a href="">18:00</a></div>
-                      <div class="td"><a href="">18:30</a></div>
-
-
-                      <div class="td"><a href="">19:00</a></div>
-                      <div class="td"><a href="">19:30</a></div>
-                      <div class="td"><a href="">20:00</a></div>
-                      <div class="td"><a href="">20:30</a></div>
-                      <div class="td"><a href="">21:00</a></div>
-                      <div class="td"><a href="">21:30</a></div>
+              <ng-container *ngFor="let employeesService of employeesServices">
+                <div class="time-master-book-schedule-container">
+                  <div class="time-master-title-block">
+                    <div class="master-title-block-pic-container"
+                         [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + employeesService.photo + ')'}"></div>
+                    <div class="master-title-block-text">
+                      <p class="bold">{{employeesService.father_name}} {{employeesService.first_name}}</p>
+                      <p class="time-master-master-position">{{employeesService.position.title}}</p>
                     </div>
+                  </div>
+
+
+                  <div class="time-master-time-schedule">
+                    <div class="table">
+                      <div class="tr">
+                        <div class="td" *ngFor="let time of employeesService.dates"><a href="">10:00</a></div>
+                        <div class="td active"><a href="">{{time}}</a></div>
+                       <!-- <div class="td"><a href="">11:00</a></div>
+                        <div class="td"><a href="">11:30</a></div>
+                        <div class="td"><a href="">12:00</a></div>
+                        <div class="td"><a href="">12:30</a></div>
+
+
+                        <div class="td"><a href="">13:00</a></div>
+                        <div class="td"><a href="">13:30</a></div>
+                        <div class="td"><a href="">14:00</a></div>
+                        <div class="td"><a href="">14:30</a></div>
+                        <div class="td"><a href="">15:00</a></div>
+                        <div class="td"><a href="">15:30</a></div>
+
+
+                        <div class="td"><a href="">16:00</a></div>
+                        <div class="td"><a href="">16:30</a></div>
+                        <div class="td"><a href="">17:00</a></div>
+                        <div class="td"><a href="">17:30</a></div>
+                        <div class="td"><a href="">18:00</a></div>
+                        <div class="td"><a href="">18:30</a></div>
+
+
+                        <div class="td"><a href="">19:00</a></div>
+                        <div class="td"><a href="">19:30</a></div>
+                        <div class="td"><a href="">20:00</a></div>
+                        <div class="td"><a href="">20:30</a></div>
+                        <div class="td"><a href="">21:00</a></div>
+                        <div class="td"><a href="">21:30</a></div>-->
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="clearfix"></div>
+                  <div class="time-master-service-list clearfix">
+                    <table class="">
+                      <tr class="" *ngFor="let service of employeesService.employeeServices">
+                        <td>{{service.title}}</td>
+                        <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
+                        <td>{{service.price}}
+                          <span>
+                          <img src="assets/images/icons/ruble-gray.png" class="ruble-icon">
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
                   </div>
                 </div>
                 <div class="clearfix"></div>
-                <div class="time-master-service-list clearfix">
-                  <table class="">
-                    <tr class="">
-                      <td>Стрижка горячими ножницами</td>
-                      <td>1ч &nbsp; 90м</td>
-                      <td>2 000 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                    </tr>
-                    <tr class="">
-                      <td>Стрижка</td>
-                      <td>1ч &nbsp; 45м</td>
-                      <td>900 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                    </tr>
-                    <tr class="active">
-                      <td>Окрашивание волос</td>
-                      <td>1ч &nbsp; 45м</td>
-                      <td>900 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-              <div class="clearfix"></div>
-              <div class="time-master-book-schedule-container clearfix">
-                <div class="time-master-title-block">
-                  <div class="master-title-block-pic-container"
-                       style="background-image: url(../../../../assets/images/master-pic4.png);"></div>
-                  <div class="master-title-block-text">
-                    <p class="bold">Любовь Соболь</p>
-                    <p class="time-master-master-position">Мастер ногтевого сервиса</p>
-                  </div>
-                </div>
-                <div class="time-master-time-schedule">
-                  <div class="table">
-                    <div class="tr">
-                      <div class="td"><a href="">12:00</a></div>
-                      <div class="td"><a href="">13:00</a></div>
-                      <div class="td"><a href="">14:00</a></div>
-                      <div class="td"><a href="">15:00</a></div>
-                      <div class="td active"><a href="">16:00</a></div>
-                      <div class="td"><a href="">17:00</a></div>
+              </ng-container>
 
-
-                      <div class="td"><a href="">18:00</a></div>
-                      <div class="td"><a href="">19:00</a></div>
-                      <div class="td"><a href="">20:00</a></div>
-                      <div class="td"><a href="">21:00</a></div>
-                      <div class="td"><a href="">22:00</a></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="clearfix"></div>
-                <div class="time-master-service-list clearfix">
-                  <table class="">
-                    <tr class="">
-                      <td>Стрижка горячими ножницами</td>
-                      <td>1ч &nbsp; 90м</td>
-                      <td>2 000 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                    </tr>
-                    <tr class="">
-                      <td>Стрижка</td>
-                      <td>1ч &nbsp; 45м</td>
-                      <td>900 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                    </tr>
-                    <tr class="active">
-                      <td>Окрашивание волос</td>
-                      <td>1ч &nbsp; 45м</td>
-                      <td>900 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-              <div class="clearfix"></div>
             </div>
           </div>
 
         </div>
+
+
         <div class="nav-bottom address-master-bottom bordered">
           <button (click)="goBack()" class="pull-left">
             <div

@@ -45,7 +45,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     });
     this.subPriceAndCount = this.switcherService.priceAndCount.subscribe(priceAndCount => {
       this.priceAndCount = priceAndCount;
-      console.log(priceAndCount);
     });
   }
 
@@ -61,7 +60,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 }
 
 class Contacts {
-  constructor(public email: string, public name: string, public notes?: string, public tel?: string) {
+  constructor(public email: string, public first_name: string, public comment?: string, public phone?: string) {
   }
 }
 

@@ -21,7 +21,7 @@
                     type="tel"
                     [(ngModel)]="savedContacts.phone"
                     minlength="18"
-                    name="tel"
+                    name="phone"
                     required
                     placeholder="+7 (___) -___-__-__"
                     class="inp-medium phone"
@@ -38,7 +38,7 @@
                     type="text"
                     class="inp-medium name"
                     [(ngModel)]="savedContacts.nameUser"
-                    name="name"
+                    name="first_name"
                     required
                     #name="ngModel">
                   <span class="userNameStar">*</span>
@@ -68,7 +68,7 @@
               <div class="contacts-master-right-block-second">
                 <div class="contacts-master-note form-item">
                   <label class="bold">Примечание</label>
-                  <textarea [(ngModel)]="savedContacts.textArea" name="notes">{{textArea}}</textarea>
+                  <textarea [(ngModel)]="savedContacts.textArea" name="comment">{{textArea}}</textarea>
                 </div>
               </div>
               <div class="contacts-master-email-spam">

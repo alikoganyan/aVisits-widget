@@ -14,6 +14,8 @@ export class CityService {
   id: number;      // example v37
   salonId: number;
   employees: number[];
+  date: string;
+  employeesID: number[];
 
 
   constructor(private http: Http) {
@@ -31,7 +33,9 @@ export class CityService {
   }
 
   getCityLatLong() {
-    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.city + '&callback=angular2GoogleMapsLazyMapsAPILoader&key=AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
+    return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' +
+      this.city + '&callback=angular2GoogleMapsLazyMapsAPILoader&key=' +
+      'AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
       .map((response: Response) => {
         return response.json();
       })
@@ -97,9 +101,9 @@ export class CityService {
     return this.http.post(
       'http://api.avisits.com/api/widget/' + this.id + '/times',
       JSON.stringify({
-        salon_id: 3,
-        employee_id: 2,
-        date: '2018-12-02'
+        salon_id: this.salonId,
+        employees: this.employeesID,
+        date: this.date
       }),
       {headers: this.headers}
     )
@@ -113,6 +117,20 @@ export class CityService {
   }
 
 
+  newClient(client) {
+    return this.http.post(
+      'http://api.avisits.com/api/widget/' + this.id + '/client',
+      JSON.stringify(client),
+      {headers: this.headers}
+    )
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        });
+  }
 
 }
 

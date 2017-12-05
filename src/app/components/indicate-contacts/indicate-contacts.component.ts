@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
+import {CityService} from "../../services/city.service";
 
 @Component({
   selector: 'app-indicate-contacts',
@@ -31,12 +32,41 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
     nameUser: '',
   };
 
-  constructor(private switcherService: SwitcherService) {
+  constructor(private switcherService: SwitcherService,
+              private cityService: CityService) {
   }
 
 
 
   ngOnInit() {
+    this.getSubscriptions();
+    this.switcherService.changeCount(this.index);
+  }
+
+  onSubmit() {
+    // console.log(this.contactForm.value, this.contactForm.valid);
+  }
+
+  goBack() {
+    this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
+    this.switcherService.userContact({email: '', first_name: '', comment: '', phone: ''});
+  }
+
+  goNext() {
+    this.onSubmit();
+    this.switcherService.userContact(this.contactForm.value);
+    this.cityService.newClient(this.contactForm.value);
+    let choose: string;
+    this.chosenOrder === 'Master' ? choose = this.sequence[this.index + 1] : choose = 'select_services';
+    this.switcherService.onClickedStatus(choose);
+  }
+
+  onClose() {
+    this.interrapt = true;
+  }
+
+
+  getSubscriptions() {
     this.subChosenOrder = this.switcherService.currentMessage.subscribe(message => {
       this.chosenOrder = message;
     });
@@ -47,29 +77,6 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
       this.index = sequence.indexOf('indicate_contacts');
       this.sequence = sequence;
     });
-    this.switcherService.changeCount(this.index);
-  }
-
-  onSubmit() {
-    // console.log(this.contactForm.value, this.contactForm.valid);
-  }
-
-  goBack() {
-    this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
-    this.switcherService.userContact({email: '', name: '', notes: '', tel: ''});
-  }
-
-  goNext() {
-    this.onSubmit();
-    this.switcherService.userContact(this.contactForm.value);
-    console.log(this.contactForm.value);
-    let choose: string;
-    this.chosenOrder === 'Master' ? choose = this.sequence[this.index + 1] : choose = 'select_services';
-    this.switcherService.onClickedStatus(choose);
-  }
-
-  onClose() {
-    this.interrapt = true;
   }
 
   ngOnDestroy() {

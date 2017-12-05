@@ -10,6 +10,7 @@ export class Master {
   public_position?: number;
   sex?: string;
   count?: number;
+  employeeServices?: any;
 }
 
 export class Position {

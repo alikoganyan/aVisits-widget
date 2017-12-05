@@ -10,7 +10,7 @@ export class CalendarComponent implements OnInit {
 
   @Output() sendedDate = new EventEmitter<string>();
 
-  days = [1, 2, 3, 4, 5, 6, 7];
+  days = [0, 1, 2, 3, 4, 5, 6];
 
   myOwnCalendarDays: Date[] = [];
   selectedDate: Date;
@@ -24,9 +24,6 @@ export class CalendarComponent implements OnInit {
 
   onSelectDate(date: Date) {
     this.selectedDate = date;
-    // console.log(this.selectedDate);
-    // console.log(moment().month('декабрь').format('M'));
-    // console.log(moment().locale('ru').day('вторник').get('date'));
     const time = `${date.year}-${moment().month(date.month).format('M')}-${date.day}`;
     this.sendedDate.emit(time);
   }
@@ -35,10 +32,10 @@ export class CalendarComponent implements OnInit {
     const lastDate = this.myOwnCalendarDays.length + 1;
     this.myOwnCalendarDays.push(
       {
-        day: moment().day(lastDate).get('date'),
-        weekday: moment().locale('ru').day(lastDate).format('dddd'),
-        month: moment().locale('ru').day(lastDate).format('MMMM'),
-        year: moment().locale('ru').day(lastDate).format('Y')
+        day: moment(new Date()).add(lastDate, 'days').get('date'),
+        weekday: moment(new Date()).locale('ru').add(lastDate, 'days').format('dddd'),
+        month: moment(new Date()).locale('ru').add(lastDate, 'days').format('MMMM'),
+        year: moment(new Date()).locale('ru').add(lastDate, 'days').format('Y')
       }
     );
     this.positionSlider -= 100;
@@ -58,13 +55,12 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     this.days.map(v => {
       this.myOwnCalendarDays.push({
-        day: moment().day(v).get('date'),
-        weekday: moment().locale('ru').day(v).format('dddd'),
-        month: moment().locale('ru').day(v).format('MMMM'),
-        year: moment().locale('ru').day(v).format('Y')
+        day: moment(new Date()).add(v, 'days').get('date'),
+        weekday: moment(new Date()).locale('ru').add(v, 'days').format('dddd'),
+        month: moment(new Date()).locale('ru').add(v, 'days').format('MMMM'),
+        year: moment(new Date()).locale('ru').add(v, 'days').format('Y')
       });
     });
-    console.log(this.myOwnCalendarDays);
   }
 
 }

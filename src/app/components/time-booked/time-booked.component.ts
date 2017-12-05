@@ -28,7 +28,7 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
   goNext() {
     this.switcherService.onClickedStatus(this.sequence);
     this.switcherService.selectMasters([]);
-    this.switcherService.userContact({ email: '', name: '', notes: '', tel: '' });
+    this.switcherService.userContact({ email: '', first_name: '', comment: '', phone: '' });
   }
 
   onClose() {

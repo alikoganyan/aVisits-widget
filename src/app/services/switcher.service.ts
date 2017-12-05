@@ -35,7 +35,7 @@ export class SwitcherService {
   private selectedAddress = new BehaviorSubject('default message');  // selected address
   salonAddress = this.selectedAddress.asObservable();
 
-  private userContacts = new BehaviorSubject({email: '', name: '', tel: ''});  // userContacts here
+  private userContacts = new BehaviorSubject({email: '', first_name: '', phone: ''});  // userContacts here
   contact = this.userContacts.asObservable();
 
   private selectedMasters = new BehaviorSubject([]);  // selected masters here
@@ -43,6 +43,9 @@ export class SwitcherService {
 
   private totalPriceAndCount = new BehaviorSubject({totalCount: 0, totalPrice: 0});  // chosen services price and count
   priceAndCount = this.totalPriceAndCount.asObservable();
+
+  private selectedEmployeesServices = new BehaviorSubject([]);
+  employeesServices = this.selectedEmployeesServices.asObservable();
 
   /* End sidebar switcher */
 
@@ -102,7 +105,7 @@ export class SwitcherService {
   }
 
 
-  userContact(contacts: { email: string, name: string, notes?: string, tel: string }) {
+  userContact(contacts: { email: string, first_name: string, comment?: string, phone: string }) {
     this.userContacts.next(contacts);
   }
 
@@ -112,6 +115,10 @@ export class SwitcherService {
 
   getPriceAndCount(priceAndCount: {totalCount: number, totalPrice: number}) {
     this.totalPriceAndCount.next(priceAndCount);
+  }
+
+  getSelectedEmployeesServices(selectedEmployeesServices) {
+    this.selectedEmployeesServices.next(selectedEmployeesServices);
   }
 
   /* End sidebar switcher */
