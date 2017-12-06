@@ -33,36 +33,9 @@
                   <div class="time-master-time-schedule">
                     <div class="table">
                       <div class="tr">
-                        <div class="td" *ngFor="let time of employeesService.dates"><a href="">10:00</a></div>
-                        <div class="td active"><a href="">{{time}}</a></div>
-                       <!-- <div class="td"><a href="">11:00</a></div>
-                        <div class="td"><a href="">11:30</a></div>
-                        <div class="td"><a href="">12:00</a></div>
-                        <div class="td"><a href="">12:30</a></div>
-
-
-                        <div class="td"><a href="">13:00</a></div>
-                        <div class="td"><a href="">13:30</a></div>
-                        <div class="td"><a href="">14:00</a></div>
-                        <div class="td"><a href="">14:30</a></div>
-                        <div class="td"><a href="">15:00</a></div>
-                        <div class="td"><a href="">15:30</a></div>
-
-
-                        <div class="td"><a href="">16:00</a></div>
-                        <div class="td"><a href="">16:30</a></div>
-                        <div class="td"><a href="">17:00</a></div>
-                        <div class="td"><a href="">17:30</a></div>
-                        <div class="td"><a href="">18:00</a></div>
-                        <div class="td"><a href="">18:30</a></div>
-
-
-                        <div class="td"><a href="">19:00</a></div>
-                        <div class="td"><a href="">19:30</a></div>
-                        <div class="td"><a href="">20:00</a></div>
-                        <div class="td"><a href="">20:30</a></div>
-                        <div class="td"><a href="">21:00</a></div>
-                        <div class="td"><a href="">21:30</a></div>-->
+                          <div
+                            class="td"
+                            *ngFor="let time of employeesService.dates; let i = index"><a>{{time}}</a></div>
                       </div>
                     </div>
                   </div>

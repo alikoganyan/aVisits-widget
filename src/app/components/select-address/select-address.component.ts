@@ -42,20 +42,20 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   getSalons() {
     this.cityService.getSalons().subscribe(response => {
-      this.loader = false;
-      console.log(response.data.salons);
-      this.salons = response.data.salons;
-    });
+        this.loader = false;
+        this.salons = response.data.salons;
+      },
+      error => { console.log(error); this.loader = false; });
   }
 
   getCityLatLong() {
     this.cityService.getCityLatLong().subscribe(city => {
-      if (city.status === 'OK') {
-        this.cityLocation = city.results[0].geometry.location;
-      } else {
-        console.log(city.status);
-      }
-    },
+        if (city.status === 'OK') {
+          this.cityLocation = city.results[0].geometry.location;
+        } else {
+          console.log(city.status);
+        }
+      },
       error => console.log(error));
   }
 

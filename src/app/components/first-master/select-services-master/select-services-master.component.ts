@@ -94,6 +94,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   getServices() {
     this.cityService.getServices().subscribe(response => {
+      console.log(response);
       response.data.employees.map((employee) => {
         this.firstMaster = response.data.employees[0];  // this is for show first master services
         employee.service_groups.map((group) => {

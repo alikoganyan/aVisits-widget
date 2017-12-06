@@ -2572,18 +2572,20 @@ label {
 
 
 .avisits-date_slider {
-  //width: 2700px;
   opacity: 1;
   position: relative;
   transition: 1s;
-  /* transform: translate3d(-560px, 0px, 0px); */
+
 }
 
 
 .avisits-item {
   display: inline-block;
   width: 100px;
-  border: 1px solid #B4B4B4;
+  //border: 1px solid #B4B4B4;
+  border-top: 1px solid #dfdfdf;
+  border-right: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 .slick-prev.slick-arrow {

@@ -27,7 +27,50 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
   getTimes() {
     this.cityService.getTimes().subscribe(response => {
-        response.data['employees'].map((employee, index) => {
+      console.log(response);
+        this.timeLogic(response.data['employees']);
+        this.compareDates();
+      },
+      error => console.log(error));
+    console.log(this.employeesServices);
+  }
+
+  getStr(data) {
+    this.cityService.date = data;
+    this.cityService.getTimes().subscribe(response => {
+        this.timeLogic(response.data['employees']);
+        // this.compareDates();
+      },
+      error => console.log(error));
+  }
+
+
+  compareDates() {
+    this.employeesServices.map(employee => {
+
+      const dates = employee.dates;
+      const free_dates = employee.free_dates;
+      let bookedDates;
+
+      if (dates !== undefined && free_dates !== undefined) {
+        bookedDates = dates.filter(arr1Item => !free_dates.includes(arr1Item));
+        employee.bookedDates = bookedDates;
+        console.log(bookedDates);
+      }
+    });
+  }
+
+  timeLogic(param) {
+    param.map((employee, index) => {
+      if (employee.schedule !== null) {
+
+
+
+
+
+        /* FOR ALL PERIODS */
+        if (employee.schedule['periods'].length > 0) {
+
           employee.schedule.dates = [];
           employee.schedule['periods'].map(period => {
 
@@ -56,19 +99,61 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
               r.push(previous);
               previous = current;
             } while (currentHr !== endHr);
+            r.push(current);
             employee.schedule.dates.push(r);
           });
           this.employeesServices[index].dates = employee.schedule.dates.reduce((a, b) => a.concat(b));
-        });
-      },
-      error => console.log(error));
-    console.log(this.employeesServices);
+        } else {
+          this.employeesServices[index].dates = [];
+        }
+
+
+
+
+
+        /* ONLY FOR FREE PERIODS */
+        if (employee.schedule['free_periods'].length > 0) {
+          employee.schedule.free_dates = [];
+
+          employee.schedule['free_periods'].map(free_period => {
+
+            let increment: any = 15;
+            const startTime = free_period.start.toString().split(':');
+            const endTime = free_period.end.toString().split(':');
+            increment = parseInt(increment, 10);
+
+
+            const pad = (n) => (n < 10) ? '0' + n.toString() : n;
+            const startHr = parseInt(startTime[0], 10);
+            const startMin = parseInt(startTime[1], 10);
+            const endHr = parseInt(endTime[0], 10);
+            const endMin = parseInt(endTime[1], 10);
+            let currentHr = startHr, currentMin = startMin,
+              previous = currentHr + ':' + pad(currentMin),
+              current = '';
+            const r = [];
+            do {
+              currentMin += increment;
+              if ((currentMin % 60) === 0 || currentMin > 60) {
+                currentMin = (currentMin === 60) ? 0 : currentMin - 60;
+                currentHr += 1;
+              }
+              current = currentHr + ':' + pad(currentMin);
+              // r.push(previous + ' - ' + current);
+              r.push(previous);
+              previous = current;
+            } while (currentHr !== endHr);
+            r.push(current);
+            employee.schedule.free_dates.push(r);
+          });
+          this.employeesServices[index].free_dates = employee.schedule.free_dates.reduce((a, b) => a.concat(b));
+        } else {
+          this.employeesServices[index].free_dates = [];
+        }
+      }
+    });
   }
 
-  getStr(data) {
-    this.cityService.date = data;
-    this.cityService.getTimes();
-  }
 
   ngOnInit() {
     this.getSubscriptions();

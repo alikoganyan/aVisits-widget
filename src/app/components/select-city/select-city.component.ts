@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
+import {SwitcherService} from '../../services/switcher.service';
 import {CityService} from '../../services/city.service';
 
 @Component({

@@ -70,12 +70,18 @@
                       [class.active]="service.checked === true"
                       *ngFor="let service of service_group.services | filter : searchText:'title'">
                       <td>
-                        <input type="checkbox" name="" (change)="onSelectService(service, $event, firstMaster)">
+                        <input
+                          [id]="service.id"
+                          type="checkbox"
+                          name=""
+                          (change)="onSelectService(service, $event, firstMaster)">
                         <label></label>
                       </td>
-                      <td>{{service.title}}</td>
-                      <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
-                      <td>{{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                      <td><label [for]="service.id">{{service.title}}</label></td>
+                      <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                      <td><label [for]="service.id">{{service.price}} </label>
+                        <span><img src="assets/images/icons/ruble-gray.png"></span>
+                      </td>
                     </tr>
                   </table>
                 </div>
@@ -95,14 +101,17 @@
                         *ngFor="let service of service_group.services | filter : searchText">
                         <td>
                           <input
+                            [id]="service.id"
                             type="checkbox"
                             [checked]="service.checked"
                             (change)="onSelectService(service, $event, employeeService)">
                           <label></label>
                         </td>
-                        <td>{{service.title}}</td>
-                        <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
-                        <td>{{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                        <td><label [for]="service.id"> {{service.title}}</label></td>
+                        <td><label [for]="service.id"> {{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                        <td><label [for]="service.id">{{service.price}}</label>
+                          <span><img src="assets/images/icons/ruble-gray.png"></span>
+                        </td>
                       </tr>
                     </table>
                   </div>
@@ -169,15 +178,17 @@
                         *ngFor="let service of groups.services | filter : searchText:'title'">
                         <td>
                           <input
+                            [id]="service.id"
                             type="checkbox"
                             name=""
                             [checked]="service.checked"
                             (change)="onSelectService(service, $event, employeeService)">
                           <label></label>
                         </td>
-                        <td>{{service.title}}</td>
-                        <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
-                        <td>{{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                        <td><label [for]="service.id">{{service.title}}</label></td>
+                        <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                        <td><label [for]="service.id">{{service.price}}</label><span><img
+                          src="assets/images/icons/ruble-gray.png"></span></td>
                       </tr>
                     </table>
                   </div>

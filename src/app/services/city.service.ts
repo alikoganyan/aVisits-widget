@@ -66,7 +66,8 @@ export class CityService {
     return this.http.post(
       this.apiUrl + 'widget/' + this.id + '/employees',
       JSON.stringify({salon_id: this.salonId}),
-      {headers: this.headers})
+      {headers: this.headers}
+      )
       .map((response: Response) => {
         return response.json();
       })
@@ -133,5 +134,6 @@ export class CityService {
   }
 
 }
+
 
 

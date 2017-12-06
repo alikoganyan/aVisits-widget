@@ -61,6 +61,7 @@ export class CalendarComponent implements OnInit {
         year: moment(new Date()).locale('ru').add(v, 'days').format('Y')
       });
     });
+    this.selectedDate = this.myOwnCalendarDays[0];
   }
 
 }
