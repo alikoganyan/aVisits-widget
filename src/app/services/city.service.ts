@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
 
 
+
 @Injectable()
 export class CityService {
 
@@ -67,7 +68,7 @@ export class CityService {
       this.apiUrl + 'widget/' + this.id + '/employees',
       JSON.stringify({salon_id: this.salonId}),
       {headers: this.headers}
-      )
+    )
       .map((response: Response) => {
         return response.json();
       })
@@ -132,6 +133,34 @@ export class CityService {
           return Observable.throw('Something went wrong');
         });
   }
+
+
+  getClient(phone: string) {
+    return this.http.get('http://api.avisits.com/api/widget/' + this.id + '/client/' + phone)
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        });
+  }
+
+  updateClient(client) {
+    return this.http.put(
+      'http://api.avisits.com/api/widget/' + this.id + '/client/' + client.id,
+      JSON.stringify(client),
+      {headers: this.headers}
+    )
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        });
+  }
+
 
 }
 

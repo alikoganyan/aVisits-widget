@@ -82,7 +82,6 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     this.selectedMasters.map((value) => {
       employees.push(value.id);
     });
-    console.log(employees);
     this.cityService.employees = employees;
     this.switcherService.selectMasters(this.selectedMasters);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);

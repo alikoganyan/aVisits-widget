@@ -67,6 +67,9 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   totalCount = 0;
   totalPrice = 0;
 
+  sequence: string[];
+  subSequence: Subscription;
+  index: number;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService) {
@@ -94,27 +97,39 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.switcherService.changeCount(3);
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
-      this.interrapt = interrapt;
-    });
+    this.getSubscriptions();
+    this.switcherService.changeCount(this.index);
   }
 
 
-  goBack(selectCity: string) {
-    this.switcherService.onClickedStatus(selectCity);
+  goBack() {
+    this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
   }
 
-  goNext(enterContact: string) {
-    this.switcherService.onClickedStatus(enterContact);
+  goNext() {
+    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+    console.log(this.index + 1);
+
   }
 
   onClose() {
     this.interrapt = true;
   }
 
+  getSubscriptions() {
+    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+      this.interrapt = interrapt;
+    });
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.index = sequence.indexOf('select_services');
+      this.sequence = sequence;
+    });
+  }
+
+
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
+    this.subSequence.unsubscribe();
   }
 
 }

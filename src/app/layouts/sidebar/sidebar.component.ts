@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
 import {Master} from '../../models/master';
+import {Client} from '../../models/client';
 
 @Component({
   selector: 'app-sidebar',
@@ -59,14 +60,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
 }
 
-class Contacts {
-  constructor(public email: string, public first_name: string, public comment?: string, public phone?: string) {
-  }
-}
 
 class CheckedInfo {
-  contacts: Contacts;
-  priceAndCount: {totalCount: number, totalPrice: number};
+  contacts: Client;
+  priceAndCount: { totalCount: number, totalPrice: number };
+
   constructor(city?: string, address?: string) {
   }
+
 }
+
+

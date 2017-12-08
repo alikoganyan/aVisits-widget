@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,6 +9,9 @@ export class AppComponent {
 
   allTimes: string[] = [];
   bookedTimes: string[] = [];
+
+  allTimesMinut = [];
+  bookedTimesMinut = [];
 
   constructor() {
 
@@ -42,81 +44,157 @@ export class AppComponent {
       previous = current;
     } while (currentHr !== endHr);
     r.push(current);
-    endMin % 60 !== 0 && r.push(`${endHr}:${endMin}`);
+    // endMin % 60 !== 0 && r.push(`${endHr}:${endMin}`);
     // console.log(r);
 
     this.allTimes = r;
 */
-    this.second();
-    this.logic();
 
+    let startTime: any = '10:00';
+    let endTime: any = '18:20';
+
+    const interval = 120;
+    startTime = startTime.toString().split(':');
+    endTime = endTime.toString().split(':');
+    const start = (+startTime[0]) * 60 + (+startTime[1]);
+    const end = (+endTime[0]) * 60 + (+endTime[1]);
+    let stHour = 0;
+    let stMin: any = 0;
+    let currentDate: any = 0;
+    const times = [];
+
+    for (let i = start; i <= end; i += interval) {
+      this.allTimesMinut.push(i);
+      stHour = Math.floor(i / 60);
+      stMin = i % 60 !== 0 ? i % 60 : (i % 60).toString() + '0';
+      currentDate = `${stHour}:${stMin}`;
+      times.push(currentDate);
+    }
+    end !== this.allTimesMinut[this.allTimesMinut.length - 1] && this.allTimesMinut.push(end);
+
+    this.allTimes = times;
+
+
+    console.log(this.allTimes);
+    console.log(this.allTimesMinut);
+
+    this.freeTimes();
+    // this.TimesLogic();
+    // this.finisheMethod();
 
   }
 
 
-  second() {
+  freeTimes() {
+
+    const allFreeTimes: any = [
+      {start: '10:00', end: '13:00'},
+      {start: '15:00', end: '15:40'},
+      {start: '17:35', end: '18:00'}
+    ];
+
+    let stHour = 0;
+    let stMin: any = 0;
+    let currentDate: any = 0;
+    const times = [];
+
+    allFreeTimes.map((value, index) => {
 
 
-   /* let increment: any = 15;
-    const start = '10:00';
-    const end = '10:45';
-
-    const startTime = start.toString().split(':');   // [10, 00]   split to array
-    const endTime = end.toString().split(':');       // [10, 45]   split to array
-    increment = parseInt(increment, 10);    // 15
+      let startTime = value.start;
+      let endTime = value.end;
 
 
-    const pad = (n) => (n < 10) ? '0' + n.toString() : n;
-    const startHr = parseInt(startTime[0], 10);      // 10  get start number
-    const startMin = parseInt(startTime[1], 10);     // 0   get start number
-    const endHr = parseInt(endTime[0], 10);          // 10   get end number
-
-    const endMin = parseInt(endTime[1], 10);
-
-    let currentHr = startHr;
-    let currentMin = startMin;
-    let previous = currentHr + ':' + pad(currentMin);    // first date -> 10:00
-
-    let current = '';
-
-    const r = [];
+      const interval = 30;
+      startTime = startTime.toString().split(':');
+      endTime = endTime.toString().split(':');
+      const start = (+startTime[0]) * 60 + (+startTime[1]);
+      const end = (+endTime[0]) * 60 + (+endTime[1]);
 
 
-    do {
-      currentMin += increment;
 
-      if ((currentMin % 60) === 0 || currentMin > 60) {
-        currentMin = (currentMin === 60) ? 0 : currentMin - 60;
-        currentHr += 1;
+
+      for (let ind = start; ind <= end; ind += interval) {
+        this.allTimesMinut.push(ind);
+        stHour = Math.floor(ind / 60);
+        stMin = ind % 60 !== 0 ? ind % 60 : (ind % 60).toString() + '0';
+        currentDate = `${stHour}:${stMin}`;
+        times.push(currentDate);
       }
 
-      current = currentHr + ':' + pad(currentMin);
+      // end !== times[times.length - 1] && times.push(end);
 
-      r.push(previous + ' - ' + current);
-      console.log(current);
-      // r.push(previous);
-      previous = current;
-      console.log(currentHr, endHr);
-    } while (currentHr !== endHr);
+    });
 
-    // r.push(current);
-    // if ((endMin % 60 !== 0) || endMin > 60 ) {
-    //   r.push(`${endHr}:${endMin}`);
-    // }
-    // endMin % 60 !== 0 && r.push(`${endHr}:${endMin}`);
-    console.log(r);
 
-    this.bookedTimes = r;*/
+
+
+
+
+    console.log(times);
+
   }
 
 
-  logic() {
+  /*TimesLogic() {
+
+    let startTime: any = '17:40';
+    let endTime: any = '18:00';
+    const interval = 15;
+
+    startTime = startTime.toString().split(':');
+    endTime = endTime.toString().split(':');
+    const start = (+startTime[0]) * 60 + (+startTime[1]);
+    const end = (+endTime[0]) * 60 + (+endTime[1]);
 
 
-    // const finish = this.allTimes.filter(arr1Item => !this.bookedTimes.includes(arr1Item));
-    // console.log(finish);
-  }
+    let stHour = 0;
+    let stMin: any = 0;
+    let currentDate: any = 0;
+    const times = [];
 
+    for (let i = start; i <= end; i += interval) {
+      this.bookedTimesMinut.push(i);
+      stHour = Math.floor(i / 60);
+      stMin = i % 60 !== 0 ? i % 60 : (i % 60).toString() + '0';
+      currentDate = `${stHour}:${stMin}`;
+      times.push(currentDate);
+    }
+    end !== this.bookedTimesMinut[this.bookedTimesMinut.length - 1] && this.bookedTimesMinut.push(end);
+    this.bookedTimes = times;
+    console.log(this.bookedTimes);
+    console.log(this.bookedTimesMinut);
+  }*/
+
+
+  /*finisheMethod() {
+
+
+    const interval = 15;
+    let lastTime: any = 0;
+    const stHour = this.bookedTimesMinut[0];
+    const stMin: any = this.bookedTimesMinut[this.bookedTimesMinut.length - 1];
+
+    const temp = [];
+    let isFreeTime = false;
+    this.allTimesMinut.map((time, index) => {   // start =  600 630 660
+      isFreeTime = true;
+      lastTime = time;
+      while (stHour <= lastTime && lastTime <= stMin) {
+        lastTime += interval;
+        if (lastTime >= this.allTimesMinut[index + 1]) {
+          isFreeTime = false;
+          break;
+        }
+      }
+      if (isFreeTime === true && temp.includes(lastTime) === false) {
+        temp.push(lastTime);
+      }
+    });
+    console.log(temp);
+
+
+  }*/
 
 
 }

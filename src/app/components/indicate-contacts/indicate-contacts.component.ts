@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
-import {CityService} from "../../services/city.service";
+import {CityService} from '../../services/city.service';
+
 
 @Component({
   selector: 'app-indicate-contacts',
@@ -11,7 +12,6 @@ import {CityService} from "../../services/city.service";
 export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   @ViewChild('f') contactForm: NgForm;
-
 
   mask: any[] = ['+', '7', ' ', '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
 
@@ -26,21 +26,44 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   subSequence: Subscription;
 
   savedContacts = {
+    id: null,
     phone: '',
-    textArea: '',
+    comment: '',
     email: '',
-    nameUser: '',
+    first_name: '',
+    last_name: '',
   };
+
+  userFounded = false;
+
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService) {
   }
 
 
-
   ngOnInit() {
     this.getSubscriptions();
     this.switcherService.changeCount(this.index);
+  }
+
+  getUserByPhone(event) {
+    if (event.target.value.length === 18) {
+      this.cityService.getClient(event.target.value).subscribe(response => {
+        if (response.data.client !== null) {
+          this.savedContacts = response.data.client;
+          console.log(response.data.client);
+          this.userFounded = true;
+        } else {
+          this.savedContacts.comment = '';
+          this.savedContacts.email = '';
+          this.savedContacts.first_name = '';
+          this.savedContacts.last_name = '';
+          delete this.savedContacts.id;
+          this.userFounded = false;
+        }
+      });
+    }
   }
 
   onSubmit() {
@@ -49,16 +72,35 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
-    this.switcherService.userContact({email: '', first_name: '', comment: '', phone: ''});
+    this.switcherService.userContact({id: null, email: '', first_name: '', comment: '', phone: ''});
   }
 
   goNext() {
     this.onSubmit();
-    this.switcherService.userContact(this.contactForm.value);
-    this.cityService.newClient(this.contactForm.value);
     let choose: string;
     this.chosenOrder === 'Master' ? choose = this.sequence[this.index + 1] : choose = 'select_services';
-    this.switcherService.onClickedStatus(choose);
+    if (this.userFounded === true) {
+      this.cityService.updateClient(this.savedContacts).subscribe(response => {
+          console.log(response.data.client);
+          this.savedContacts = response.data.client;
+          this.switcherService.userContact(this.savedContacts);
+          this.switcherService.onClickedStatus(choose);
+        },
+        error => console.log(error));
+      this.userFounded = false;
+    } else {
+      this.cityService.newClient(this.contactForm.value).subscribe(response => {
+          this.savedContacts = response.data.client;
+          this.switcherService.userContact(this.savedContacts);
+          console.log(response.data.client);
+          this.switcherService.onClickedStatus(choose);
+        },
+        error => console.log(error));
+    }
+
+
+
+
   }
 
   onClose() {

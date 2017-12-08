@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Master} from '../models/master';
+import {Client} from '../models/client';
 
 @Injectable()
 export class SwitcherService {
@@ -35,7 +36,7 @@ export class SwitcherService {
   private selectedAddress = new BehaviorSubject('default message');  // selected address
   salonAddress = this.selectedAddress.asObservable();
 
-  private userContacts = new BehaviorSubject({email: '', first_name: '', phone: ''});  // userContacts here
+  private userContacts = new BehaviorSubject(new Client());  // userContacts here
   contact = this.userContacts.asObservable();
 
   private selectedMasters = new BehaviorSubject([]);  // selected masters here
@@ -58,13 +59,22 @@ export class SwitcherService {
   //   'select-date-time'
   // ];
 
-  private resSequence = new BehaviorSubject([
+/*  private resSequence = new BehaviorSubject([
     'select_city',
     'select_address',
     'indicate_contacts',
     'select_master',
     'select_services_master',
     'select_date_time',
+    'time_booked'
+  ]);*/
+
+  private resSequence = new BehaviorSubject([
+    'select_city',
+    'select_address',
+    'indicate_contacts',
+    'select_services',
+    'select_time_master',
     'time_booked'
   ]);
   sequence = this.resSequence.asObservable();
@@ -105,7 +115,7 @@ export class SwitcherService {
   }
 
 
-  userContact(contacts: { email: string, first_name: string, comment?: string, phone: string }) {
+  userContact(contacts: Client) {
     this.userContacts.next(contacts);
   }
 

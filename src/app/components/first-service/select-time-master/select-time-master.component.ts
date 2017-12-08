@@ -11,27 +11,37 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
   interrapt = false;
   subInterrupt: Subscription;
 
+  sequence: string[];
+  subSequence: Subscription;
+  index: number;
+
   constructor(private switcherService: SwitcherService) { }
 
   ngOnInit() {
-    this.switcherService.changeCount(4);
+    this.getSubscriptions();
+    this.switcherService.changeCount(this.index);
+  }
+
+  goBack() {
+    this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
+  }
+
+  goNext() {
+    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+  }
+
+  onClose() {
+    this.interrapt = true;
+  }
+
+  getSubscriptions() {
     this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
-  }
-
-  goBack(selectCity: string) {
-    this.switcherService.onClickedStatus(selectCity);
-  }
-
-  goNext(enterContact: string) {
-    this.switcherService.onClickedStatus(enterContact);
-  }
-
-  onClose(hide: string, status: string) {
-    // this.switcherService.clickedStart.next(hide);
-    // this.switcherService.onClickedStatus(status);
-    this.interrapt = true;
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.index = sequence.indexOf('select_time_master');
+      this.sequence = sequence;
+    });
   }
 
   ngOnDestroy() {
