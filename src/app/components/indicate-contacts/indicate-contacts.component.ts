@@ -3,6 +3,9 @@ import {NgForm} from '@angular/forms';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {CityService} from '../../services/city.service';
+import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
+import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
+import {ClientService} from '../../services/client.service';
 
 
 @Component({
@@ -38,21 +41,25 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
 
   constructor(private switcherService: SwitcherService,
-              private cityService: CityService) {
+              private cityService: CityService,
+              private navbarSwitcherService: NavbarSwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService,
+              private clientService: ClientService) {
   }
 
 
   ngOnInit() {
     this.getSubscriptions();
-    this.switcherService.changeCount(this.index);
+    this.navbarSwitcherService.changeCount(this.index);
   }
 
   getUserByPhone(event) {
     if (event.target.value.length === 18) {
-      this.cityService.getClient(event.target.value).subscribe(response => {
-        if (response.data.client !== null) {
-          this.savedContacts = response.data.client;
-          console.log(response.data.client);
+      this.clientService.getClient(event.target.value).subscribe(response => {
+        console.log(response['data'].client);
+        if (response['data'].client !== null) {
+          this.savedContacts = response['data'].client;
+          console.log(response['data'].client);
           this.userFounded = true;
         } else {
           this.savedContacts.comment = '';
@@ -72,7 +79,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
-    this.switcherService.userContact({id: null, email: '', first_name: '', comment: '', phone: ''});
+    this.sidebarSwitcherService.userContact({id: null, email: '', first_name: '', comment: '', phone: ''});
   }
 
   goNext() {
@@ -83,7 +90,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
       this.cityService.updateClient(this.savedContacts).subscribe(response => {
           console.log(response.data.client);
           this.savedContacts = response.data.client;
-          this.switcherService.userContact(this.savedContacts);
+          this.sidebarSwitcherService.userContact(this.savedContacts);
           this.switcherService.onClickedStatus(choose);
         },
         error => console.log(error));
@@ -91,7 +98,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
     } else {
       this.cityService.newClient(this.contactForm.value).subscribe(response => {
           this.savedContacts = response.data.client;
-          this.switcherService.userContact(this.savedContacts);
+          this.sidebarSwitcherService.userContact(this.savedContacts);
           console.log(response.data.client);
           this.switcherService.onClickedStatus(choose);
         },
@@ -112,7 +119,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
     this.subChosenOrder = this.switcherService.currentMessage.subscribe(message => {
       this.chosenOrder = message;
     });
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {

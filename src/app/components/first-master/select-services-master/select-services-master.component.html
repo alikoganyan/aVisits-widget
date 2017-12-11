@@ -262,7 +262,7 @@
             </span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>
-          <button (click)="goNext()" class="semi-bold pull-right">
+          <button [disabled]="!selectedDates.length > 0"  (click)="goNext()" class="semi-bold pull-right">
             <div
               class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
               Далее

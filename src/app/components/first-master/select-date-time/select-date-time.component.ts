@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {CityService} from '../../../services/city.service';
+import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
+import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 
 @Component({
   selector: 'app-select-date-time',
@@ -19,9 +21,17 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   employeesServices: any = [];
   subEmployeesServices: Subscription;
 
+  periods = [];
+  freePeriods = [];
 
   constructor(private switcherService: SwitcherService,
-              private cityService: CityService) {
+              private cityService: CityService,
+              private navbarSwitcherService: NavbarSwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService) {
+  }
+
+  onSelectTime(time: string, index: number) {
+    console.log(time, index);
   }
 
 
@@ -36,203 +46,101 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   getStr(data) {
     this.cityService.date = data;
     console.log(data);
-    /*this.cityService.getTimes().subscribe(response => {
+    this.cityService.getTimes().subscribe(response => {
         this.timeLogic(response.data['employees']);
       },
-      error => console.log(error));*/
+      error => console.log(error));
+  }
+
+  parseTimeToInteger(time) {
+    const temp = time.split(':');
+    return (parseInt(temp[0], 10) * 60) + parseInt(temp[1], 10);
+  }
+
+  intoFreeTime(start, end) {
+    let isFree = false;
+    this.freePeriods.map((v, k) => {
+      const startInt = this.parseTimeToInteger(v.start);
+      const endInt = this.parseTimeToInteger(v.end);
+      if (startInt <= start && start <= endInt) {
+        isFree = true;
+        return false;
+      }
+    });
+    return isFree;
   }
 
 
   timeLogic(param) {
     console.log(param);
     param.map((employee, index) => {
+      this.employeesServices[index].dates = [];
         if (employee.schedule !== null) {
-
-
-
-          /* FOR ALL PERIODS */
           if (employee.schedule['periods'].length > 0) {
 
-            employee.schedule.allPeriudsMinute = [];
-            employee.schedule['periods'].map(period => {
+            const searchStep = 15;
+            const displayStep = 30;
+            const timesToDisplay = [];
 
-              const interval = 30;
-              const startTime = period.start.toString().split(':');
-              const endTime = period.end.toString().split(':');
-              const start = (+startTime[0]) * 60 + (+startTime[1]);
-              const end = (+endTime[0]) * 60 + (+endTime[1]);
+            this.periods = employee.schedule['periods'];
+            this.freePeriods = employee.schedule['free_periods'];
 
+            employee.dates = [];
 
-              let stHour = 0;
-              let stMin: any = 0;
-              let currentDate: any = 0;
-              const times = [];
-
-
-              for (let i = start; i <= end; i += interval) {
-                employee.schedule.allPeriudsMinute.push(i);
-
-                stHour = Math.floor(i / 60);
-                stMin = i % 60 !== 0 ? i % 60 : (i % 60).toString() + '0';
-                currentDate = `${stHour}:${stMin}`;
-                times.push(currentDate);
-
-              }
-              console.log(times);
-              end !== employee.schedule.allPeriudsMinute[employee.schedule.allPeriudsMinute.length - 1] && employee.schedule.allPeriudsMinute.push(end);
-            });
-            this.employeesServices[index].allPeriudsMinute = employee.schedule.allPeriudsMinute;
-          } else {
-            this.employeesServices[index].allPeriudsMinute = [];
-          }
-
-
-          /* ONLY FOR FREE PERIODS */
-          if (employee.schedule['free_periods'].length > 0) {
-
-            employee.schedule.allFree_PeriudsMinute = [];
-            employee.schedule['free_periods'].map(free_period => {
-
-              const interval = 30;
-              const startTime = free_period.start.toString().split(':');
-              const endTime = free_period.end.toString().split(':');
-              const start = (+startTime[0]) * 60 + (+startTime[1]);
-              const end = (+endTime[0]) * 60 + (+endTime[1]);
-
-
-              let stHour = 0;
-              let stMin: any = 0;
-              let currentDate: any = 0;
-              const times = [];
-
-
-              for (let i = start; i <= end; i += interval) {
-                employee.schedule.allFree_PeriudsMinute.push(i);
-
-
-
-                stHour = Math.floor(i / 60);
-                stMin = i % 60 !== 0 ? i % 60 : (i % 60).toString() + '0';
-                currentDate = `${stHour}:${stMin}`;
-                times.push(currentDate);
-
-
-              }
-              console.log('free');
-              console.log(times);
-              end !== employee.schedule.allFree_PeriudsMinute[employee.schedule.allFree_PeriudsMinute.length - 1] && employee.schedule.allFree_PeriudsMinute.push(end);
-            });
-            this.employeesServices[index].allFree_PeriudsMinute = employee.schedule.allFree_PeriudsMinute;
-          } else {
-            this.employeesServices[index].allFree_PeriudsMinute = [];
-          }
-
-
-          let beazyTimesMinut = employee.schedule.allPeriudsMinute.filter(arr1Item => !employee.schedule.allFree_PeriudsMinute.includes(arr1Item));
-          beazyTimesMinut = beazyTimesMinut.sort((a, b) => a - b);
-          console.log(beazyTimesMinut);
-
-
-
-          const perLength = beazyTimesMinut.length / 2;   // half of all busy times
-          console.log(beazyTimesMinut.length);
-          console.log(perLength);
-          const arr = [];
-          let a;
-          for (let i = 0; i <= perLength; ++i) {
-            if (beazyTimesMinut.length > 0) {
-              a = beazyTimesMinut.splice(0, perLength);
-              arr.push(a);
-            }
-          }
-          console.log(arr);
-
-
-          arr.map((ar, arInd) => {
-
-
-            const intervall = 15;
-            let lastTime: any = 0;
-            const stHour = arr[arInd][0];
-            const stMin: any = arr[arInd][arr[arInd].length - 1];
-
-            const temp = [];
-            let isFreeTime = false;
-            employee.schedule.allPeriudsMinute.map((time, ind) => {
-              isFreeTime = true;
-              lastTime = time;
-              while (stHour <= lastTime && lastTime <= stMin) {
-                lastTime += intervall;
-                if (lastTime >= employee.schedule.allPeriudsMinute[ind + 1]) {
-                  isFreeTime = false;
-                  break;
+            this.periods.map((v, k) => {
+              timesToDisplay[k] = [];
+              let tempStart = this.parseTimeToInteger(v.start);
+              const tempEnd = this.parseTimeToInteger(v.end);
+              let next = tempStart + displayStep;
+              let lastLoop = false;
+              while (tempStart <= tempEnd && !lastLoop) {
+                if (tempStart === tempEnd) {
+                  lastLoop = true;
+                }
+                if (this.intoFreeTime(tempStart, tempEnd)) {
+                  timesToDisplay[k].push(tempStart);
+                  tempStart = (next >= tempEnd) ? tempEnd : next;
+                  next += displayStep;
+                } else {
+                  tempStart += searchStep;
+                  if (tempStart >= next) {
+                    tempStart = (next >= tempEnd) ? tempEnd : next;
+                    next += displayStep;
+                  }
                 }
               }
-              if (isFreeTime === true && temp.includes(lastTime) === false) {
-                temp.push(lastTime);
-              }
             });
-            console.log(temp);
+            console.log(timesToDisplay);
 
+            const allTimes = timesToDisplay.reduce((a, b) => {
+              return a.concat(b);
+            });
 
-            const rest = employee.schedule.allFree_PeriudsMinute.filter(arr1Item => !temp.includes(arr1Item));
+            allTimes.map((v, i) => {
+              const hr = Math.floor(v / 60);
+              let min: any = Math.ceil(((v / 60) - hr) * 60);
+              if (min === 0) {
+                min = min.toString() + '0';
+              }
 
-            // let beazyTimesMinut = employee.schedule.allPeriudsMinute.filter(arr1Item => !employee.schedule.allFree_PeriudsMinute.includes(arr1Item));
-            // console.log(arr[arInd][0], arr[arInd][arr[arInd].length - 1]);
-            console.log(rest);
+              const time = `${hr}:${min}`;
+              employee.dates.push(time);
+            });
+            this.employeesServices[index].dates = employee.dates;
+          } else {
+            this.employeesServices[index].dates = [];
+          }
 
-
-          });
-
-
-          /* if (employee.schedule['free_periods'].length > 0) {
-             employee.schedule.free_dates = [];
-
-             employee.schedule['free_periods'].map(free_period => {
-
-               let increment: any = 15;
-               const startTime = free_period.start.toString().split(':');
-               const endTime = free_period.end.toString().split(':');
-               increment = parseInt(increment, 10);
-
-
-               const pad = (n) => (n < 10) ? '0' + n.toString() : n;
-               const startHr = parseInt(startTime[0], 10);
-               const startMin = parseInt(startTime[1], 10);
-               const endHr = parseInt(endTime[0], 10);
-               const endMin = parseInt(endTime[1], 10);
-               let currentHr = startHr, currentMin = startMin,
-                 previous = currentHr + ':' + pad(currentMin),
-                 current = '';
-               const r = [];
-               do {
-                 currentMin += increment;
-                 if ((currentMin % 60) === 0 || currentMin > 60) {
-                   currentMin = (currentMin === 60) ? 0 : currentMin - 60;
-                   currentHr += 1;
-                 }
-                 current = currentHr + ':' + pad(currentMin);
-                 // r.push(previous + ' - ' + current);
-                 r.push(previous);
-                 previous = current;
-               } while (currentHr !== endHr);
-               r.push(current);
-               employee.schedule.free_dates.push(r);
-             });
-             this.employeesServices[index].free_dates = employee.schedule.free_dates.reduce((a, b) => a.concat(b));
-           } else {
-             this.employeesServices[index].free_dates = [];
-           } */
         }
-      }
-    );
+      });
+    console.log(this.employeesServices);
   }
 
 
   ngOnInit() {
     this.getSubscriptions();
     this.getTimes();
-    this.switcherService.changeCount(this.index);
+    this.navbarSwitcherService.changeCount(this.index);
   }
 
   goBack() {
@@ -248,14 +156,14 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   getSubscriptions() {
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
       this.index = sequence.indexOf('select_date_time');
       this.sequence = sequence;
     });
-    this.subEmployeesServices = this.switcherService.employeesServices.subscribe(employeesServices => {
+    this.subEmployeesServices = this.sidebarSwitcherService.employeesServices.subscribe(employeesServices => {
       this.employeesServices = employeesServices;
     });
   }

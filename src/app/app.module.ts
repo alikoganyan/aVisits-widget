@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {HttpClientModule} from '@angular/common/http';
 import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
@@ -19,16 +20,19 @@ import {SelectDateTimeComponent} from './components/first-master/select-date-tim
 import {SelectTimeMasterComponent} from './components/first-service/select-time-master/select-time-master.component';
 import {TimeBookedComponent} from './components/time-booked/time-booked.component';
 import {InterruptRecordComponent} from './components/interrupt-record/interrupt-record.component';
-import { MainComponent } from './layouts/main/main.component';
+import {MainComponent} from './layouts/main/main.component';
 import {LoaderComponent} from './layouts/loader/loader.component';
 /* Services */
 import {SwitcherService} from './services/switcher.service';
 import {CityService} from './services/city.service';
+import {NavbarSwitcherService} from './services/navbar-switcher.service';
+import {SidebarSwitcherService} from './services/sidebar-switcher.service';
 /* Directives */
 import {ActiveDirective} from './directives/active.directive';
 /* Pipe */
 import {FilterPipe} from './filter.pipe';
-import { CalendarComponent } from './layouts/calendar/calendar.component';
+import {CalendarComponent} from './layouts/calendar/calendar.component';
+import {ClientService} from './services/client.service';
 
 
 @NgModule({
@@ -56,6 +60,7 @@ import { CalendarComponent } from './layouts/calendar/calendar.component';
     BrowserModule,
     FormsModule,
     HttpModule,
+    HttpClientModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc',
@@ -63,7 +68,13 @@ import { CalendarComponent } from './layouts/calendar/calendar.component';
     }),
     TextMaskModule
   ],
-  providers: [SwitcherService, CityService],
+  providers: [
+    SwitcherService,
+    CityService,
+    NavbarSwitcherService,
+    SidebarSwitcherService,
+    ClientService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

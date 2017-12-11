@@ -29,17 +29,19 @@
                     </div>
                   </div>
 
-
+                  <!-- SCHEDULE HERE -->
                   <div class="time-master-time-schedule">
                     <div class="table">
                       <div class="tr">
-                          <div
-                            class="td"
-                            *ngFor="let time of employeesService.dates; let i = index"><a>{{time}}</a></div>
+                        <div
+                          (click)="onSelectTime(time, i)"
+                          class="td"
+                          *ngFor="let time of employeesService.dates; let i = index"><a>{{time}}</a></div>
                       </div>
                     </div>
                   </div>
-
+                  <ng-template #weekand>Не работает</ng-template>
+                  <!-- END SCHEDULE HERE -->
 
                   <div class="clearfix"></div>
                   <div class="time-master-service-list clearfix">

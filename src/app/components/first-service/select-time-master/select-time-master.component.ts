@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
+import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 
 @Component({
   selector: 'app-select-time-master',
@@ -15,11 +16,23 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
   subSequence: Subscription;
   index: number;
 
-  constructor(private switcherService: SwitcherService) { }
+  constructor(private switcherService: SwitcherService,
+              private navbarSwitcherService: NavbarSwitcherService) { }
+
+
+
+  getStr(data) {
+    // this.cityService.date = data;
+    console.log(data);
+    /*this.cityService.getTimes().subscribe(response => {
+        this.timeLogic(response.data['employees']);
+      },
+      error => console.log(error));*/
+  }
 
   ngOnInit() {
     this.getSubscriptions();
-    this.switcherService.changeCount(this.index);
+    this.navbarSwitcherService.changeCount(this.index);
   }
 
   goBack() {
@@ -35,7 +48,7 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
   }
 
   getSubscriptions() {
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {

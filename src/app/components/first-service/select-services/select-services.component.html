@@ -12,6 +12,8 @@
 
 
           <div class="content-right-block services-service-right-block services-master">
+
+
             <div class="content-right-block-first services-service-right-block-first">
 
 
@@ -26,6 +28,7 @@
 
 
             <div class="content-right-block-second services-service-right-block-second">
+              <!-- SEARCH INPUT -->
               <form class="services-service-search">
                 <div class="search">
                   <input
@@ -39,17 +42,17 @@
                   </button>
                 </div>
               </form>
-
+              <!-- END SEARCH INPUT -->
 
               <div *ngIf="selected_service_cat">
                 <div
                   class="services-master-service-list"
-                  *ngFor="let groups of selected_service_cat.service_groups">
-                  <p class="services-master-service-list-title bold">{{groups.title}}</p>
+                  *ngFor="let group of selected_service_cat.groups">
+                  <p class="services-master-service-list-title bold">{{group.title}}</p>
                   <table class="">
                     <tr
                       [class.active]="service.checked === true"
-                      *ngFor="let service of groups.services | filter : searchText:'title'">
+                      *ngFor="let service of group.services | filter : searchText:'title'">
                       <td>
                         <input
                           type="checkbox"
@@ -108,7 +111,7 @@
               </form>
               <!-- End search input -->
 
-              <div class="services-master-service-list" *ngFor="let group of selected_service_cat.service_groups">
+              <div class="services-master-service-list" *ngFor="let group of selected_service_cat.groups">
                 <p class="services-master-service-list-title bold">{{group.title}}</p>
                 <table class="">
                   <tr
@@ -155,8 +158,8 @@
 
           <span class="services-count-result responsive">
             Добавлено:
-            <span class="bold"> {{totalCount}} </span> &nbsp;  услуги на сумму
-            <span class="bold"> {{totalPrice}} </span>
+            <span class="bold"> {{priceAndCount.totalCount}} </span> &nbsp;  услуги на сумму
+            <span class="bold"> {{priceAndCount.totalPrice}} </span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>
         </div>
@@ -174,8 +177,8 @@
 
           <span class="services-count-result">
             Добавлено:
-            <span class="bold"> {{totalCount}} </span> &nbsp; услуги на сумму
-            <span class="bold"> {{totalPrice}} </span>
+            <span class="bold"> {{priceAndCount.totalCount}} </span> &nbsp; услуги на сумму
+            <span class="bold"> {{priceAndCount.totalPrice}} </span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>
           <a (click)="goNext()" class="semi-bold pull-right">

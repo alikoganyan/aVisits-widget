@@ -34,7 +34,8 @@ export class CalendarComponent implements OnInit {
       {
         day: moment(new Date()).add(lastDate, 'days').get('date'),
         weekday: moment(new Date()).locale('ru').add(lastDate, 'days').format('dddd'),
-        month: moment(new Date()).locale('ru').add(lastDate, 'days').format('MMMM'),
+        month: moment(new Date()).locale('ru').add(lastDate, 'days').format('MMMM').charAt(0).toUpperCase() +
+        moment(new Date()).locale('ru').add(lastDate, 'days').format('MMMM').slice(1),
         year: moment(new Date()).locale('ru').add(lastDate, 'days').format('Y')
       }
     );
@@ -57,7 +58,8 @@ export class CalendarComponent implements OnInit {
       this.myOwnCalendarDays.push({
         day: moment(new Date()).add(v, 'days').get('date'),
         weekday: moment(new Date()).locale('ru').add(v, 'days').format('dddd'),
-        month: moment(new Date()).locale('ru').add(v, 'days').format('MMMM'),
+        month: moment(new Date()).locale('ru').add(v, 'days').format('MMMM').charAt(0).toUpperCase() +
+        moment(new Date()).locale('ru').add(v, 'days').format('MMMM').slice(1),
         year: moment(new Date()).locale('ru').add(v, 'days').format('Y')
       });
     });

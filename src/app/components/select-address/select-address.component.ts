@@ -3,6 +3,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {Salon} from '../../models/salon';
 import {CityService} from '../../services/city.service';
+import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
+import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 
 
 @Component({
@@ -36,7 +38,9 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   zoom = 11;
 
   constructor(private switcherService: SwitcherService,
-              private cityService: CityService) {
+              private cityService: CityService,
+              private navbarSwitcherService: NavbarSwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
 
@@ -63,7 +67,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
     this.getSubscriptions();
     this.getSalons();
     this.getCityLatLong();
-    this.switcherService.changeCount(this.index);
+    this.navbarSwitcherService.changeCount(this.index);
   }
 
   switchMode(event) {
@@ -72,7 +76,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   onSelectSalon(salon: any) {
     this.selectedSalon = salon;
-    this.switcherService.selectAddress(salon.address);
+    this.sidebarSwitcherService.selectAddress(salon.address);
   }
 
   goBack() {
@@ -90,7 +94,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
   getSubscriptions() {
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {

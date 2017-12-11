@@ -2,6 +2,10 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {CityService} from '../../services/city.service';
+import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
+import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
+import {SVariables} from '../../services/sVariables';
+
 
 @Component({
   selector: 'app-select-city',
@@ -24,7 +28,10 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   masterOrService = '';
 
 
-  constructor(private switcherService: SwitcherService, private cityService: CityService) {
+  constructor(private switcherService: SwitcherService,
+              private cityService: CityService,
+              private navbarSwitcherService: NavbarSwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
   getCities() {
@@ -41,7 +48,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getCities();
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
@@ -53,8 +60,8 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
 
   onSelectCity(city: string) {
-    this.switcherService.selectCity(city);
-    this.cityService.city = city;
+    this.sidebarSwitcherService.selectCity(city);
+    SVariables.city = city;
     this.selectCity = city;
     if (this.masterOrService !== '') {
       this.switcherService.onClickedStatus(this.sequence[this.index + 1]);

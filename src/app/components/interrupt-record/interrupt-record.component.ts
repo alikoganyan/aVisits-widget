@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
+import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 
 @Component({
   selector: 'app-interrupt-record',
@@ -11,7 +12,8 @@ export class InterruptRecordComponent implements OnInit, OnDestroy {
   status: string;
   subStatus: Subscription;
 
-  constructor(private switcherService: SwitcherService) {}
+  constructor(private switcherService: SwitcherService,
+              private navbarSwitcherService: NavbarSwitcherService) {}
 
   ngOnInit() {
     this.subStatus = this.switcherService.status.subscribe((status: string) => {
@@ -31,7 +33,7 @@ export class InterruptRecordComponent implements OnInit, OnDestroy {
   }
 
   onClose() {
-    this.switcherService.changeInterruptStatus(false);
+    this.navbarSwitcherService.changeInterruptStatus(false);
   }
 
   ngOnDestroy() {

@@ -4,6 +4,8 @@ import * as moment from 'moment';
 import {SwitcherService} from '../../../services/switcher.service';
 import {Master} from '../../../models/master';
 import {CityService} from '../../../services/city.service';
+import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
+import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 
 @Component({
   selector: 'app-select-services-master',
@@ -39,7 +41,9 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   selectedDates = [];
 
   constructor(private switcherService: SwitcherService,
-              private cityService: CityService) {
+              private cityService: CityService,
+              private navbarSwitcherService: NavbarSwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
   onSelectService(service, event, employeeService) {
@@ -52,7 +56,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
         this.masters[0].id === employeeService.employee_id && this.masters[0].count++; // this is for first master services
       }
       this.priceAndCount.totalCount++;
-      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice + parseInt(service.price);
+      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice + parseInt(service.price, 10);
     } else {
       if (typeof this.selectedMaster !== 'undefined') {
         this.selectedMaster.id === employeeService.employee_id && this.selectedMaster.count--;
@@ -60,7 +64,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
         this.masters[0].id === employeeService.employee_id && this.masters[0].count--; // this is for first master services
       }
       this.priceAndCount.totalCount--;
-      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice - parseInt(service.price);
+      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice - parseInt(service.price, 10);
     }
 
     let checked = null;
@@ -75,7 +79,9 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
         } else {
           this.selectedDates.map((m, ind) => {
             m.employeeServices.map((s, i) => {
-              if (s.id === service.id) checked = i;
+              if (s.id === service.id) {
+                checked = i;
+              }
             });
             if (checked !== null) {
               master.employeeServices.splice(checked, 1);
@@ -94,7 +100,6 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   getServices() {
     this.cityService.getServices().subscribe(response => {
-      console.log(response);
       response.data.employees.map((employee) => {
         this.firstMaster = response.data.employees[0];  // this is for show first master services
         employee.service_groups.map((group) => {
@@ -128,29 +133,34 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getSubscriptions();
     this.getServices();
-    this.switcherService.changeCount(this.index);
+    this.navbarSwitcherService.changeCount(this.index);
   }
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
-    this.switcherService.getPriceAndCount({totalCount: 0, totalPrice: 0});
+    this.sidebarSwitcherService.getPriceAndCount({totalCount: 0, totalPrice: 0});
   }
 
   goNext() {
-    console.log(this.employeeServices);
-    const employeesID: number[] = [];
-    this.selectedDates.map(mId => {
-      employeesID.push(mId.id);
-    });
     const year = `${moment(new Date()).locale('ru').add(0, 'days').format('Y')}`;
     const month = `${moment(new Date()).locale('ru').add(0, 'days').format('M')}`;
     const day = `${moment(new Date()).add(0, 'days').get('date')}`;
     const date = `${year}-${month}-${day}`;
-    this.cityService.date = date;
-    this.cityService.employeesID = employeesID;
-    this.switcherService.getSelectedEmployeesServices(this.selectedDates);
-    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-    this.switcherService.getPriceAndCount(this.priceAndCount);
+    const employeesID: number[] = [];
+
+    this.selectedDates.map(mId => {
+      mId.selectedTime = 0;
+      employeesID.push(mId.id);
+      mId.employeeServices.map(v => {
+        mId.selectedTime += v.duration;
+      });
+    });
+
+      this.cityService.date = date;
+      this.cityService.employeesID = employeesID;
+      this.sidebarSwitcherService.getSelectedEmployeesServices(this.selectedDates);
+      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+      this.sidebarSwitcherService.getPriceAndCount(this.priceAndCount);
   }
 
   onClose() {
@@ -158,11 +168,11 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   }
 
   getSubscriptions() {
-    this.subMasters = this.switcherService.masters.subscribe(masters => {
+    this.subMasters = this.sidebarSwitcherService.masters.subscribe(masters => {
       masters.map(value => value.count = 0);
       this.masters = masters;
     });
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {

@@ -2,17 +2,13 @@ import {Injectable} from '@angular/core';
 import {Http, Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/Rx';
-
+import {SVariables} from './sVariables';
 
 
 @Injectable()
 export class CityService {
 
-  apiUrl = 'http://api.avisits.com/api/';
   private headers = new Headers({'Content-Type': 'application/json'});
-
-  city: string;
-  id: number;      // example v37
   salonId: number;
   employees: number[];
   date: string;
@@ -23,7 +19,7 @@ export class CityService {
   }
 
   getCities() {
-    return this.http.get(this.apiUrl + 'widget/' + this.id + '/cities')
+    return this.http.get(SVariables.apiUrl + 'widget/' + SVariables.chainId + '/cities')
       .map((response: Response) => {
         return response.json();
       })
@@ -35,7 +31,7 @@ export class CityService {
 
   getCityLatLong() {
     return this.http.get('https://maps.googleapis.com/maps/api/geocode/json?address=' +
-      this.city + '&callback=angular2GoogleMapsLazyMapsAPILoader&key=' +
+      SVariables.city + '&callback=angular2GoogleMapsLazyMapsAPILoader&key=' +
       'AIzaSyDBGVDv5fOFgfW4ixNZL_2krgkriGu6vvc&libraries=places')
       .map((response: Response) => {
         return response.json();
@@ -49,8 +45,8 @@ export class CityService {
 
   getSalons() {
     return this.http.post(
-      this.apiUrl + 'widget/' + this.id + '/salons_address',
-      JSON.stringify({city: this.city}),
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/salons_address',
+      JSON.stringify({city: SVariables.city}),
       {headers: this.headers}
     )
       .map((response: Response) => {
@@ -65,7 +61,7 @@ export class CityService {
 
   getEmployees() {
     return this.http.post(
-      this.apiUrl + 'widget/' + this.id + '/employees',
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employees',
       JSON.stringify({salon_id: this.salonId}),
       {headers: this.headers}
     )
@@ -81,7 +77,7 @@ export class CityService {
 
   getServices() {
     return this.http.post(
-      this.apiUrl + 'widget/' + this.id + '/services',
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/services',
       JSON.stringify(
         {
           salon_id: this.salonId,
@@ -99,9 +95,28 @@ export class CityService {
   }
 
 
+  getAllServices() {
+    return this.http.post(
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/services',
+      JSON.stringify(
+        {
+          salon_id: this.salonId
+        }),
+      {headers: this.headers}
+    )
+      .map((response: Response) => {
+        return response.json();
+      })
+      .catch(
+        (error: Response) => {
+          return Observable.throw('Something went wrong');
+        });
+  }
+
+
   getTimes() {
     return this.http.post(
-      'http://api.avisits.com/api/widget/' + this.id + '/times',
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/times',
       JSON.stringify({
         salon_id: this.salonId,
         employees: this.employeesID,
@@ -121,7 +136,7 @@ export class CityService {
 
   newClient(client) {
     return this.http.post(
-      'http://api.avisits.com/api/widget/' + this.id + '/client',
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/client',
       JSON.stringify(client),
       {headers: this.headers}
     )
@@ -136,7 +151,8 @@ export class CityService {
 
 
   getClient(phone: string) {
-    return this.http.get('http://api.avisits.com/api/widget/' + this.id + '/client/' + phone)
+    return this.http.get(
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/client/' + phone)
       .map((response: Response) => {
         return response.json();
       })
@@ -148,7 +164,7 @@ export class CityService {
 
   updateClient(client) {
     return this.http.put(
-      'http://api.avisits.com/api/widget/' + this.id + '/client/' + client.id,
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/client/' + client.id,
       JSON.stringify(client),
       {headers: this.headers}
     )

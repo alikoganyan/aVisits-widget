@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Master} from '../models/master';
-import {Client} from '../models/client';
 
 @Injectable()
 export class SwitcherService {
@@ -15,41 +13,6 @@ export class SwitcherService {
   private messageSource = new BehaviorSubject('default message');  // Master or Service first
   currentMessage = this.messageSource.asObservable();
 
-  /* Navbar switcher here */
-
-  private count = new BehaviorSubject(1);  // count for adding active class navbar
-  active = this.count.asObservable();
-
-
-  private interruptStatus = new BehaviorSubject(false); // show hide interrupt components
-  interrupt = this.interruptStatus.asObservable();
-
-  /* Navbar switcher end */
-
-
-  /* Sidebar switcher here */
-
-
-  private selectedCity = new BehaviorSubject('default message'); // selected city
-  cityTitle = this.selectedCity.asObservable();
-
-  private selectedAddress = new BehaviorSubject('default message');  // selected address
-  salonAddress = this.selectedAddress.asObservable();
-
-  private userContacts = new BehaviorSubject(new Client());  // userContacts here
-  contact = this.userContacts.asObservable();
-
-  private selectedMasters = new BehaviorSubject([]);  // selected masters here
-  masters = this.selectedMasters.asObservable();
-
-  private totalPriceAndCount = new BehaviorSubject({totalCount: 0, totalPrice: 0});  // chosen services price and count
-  priceAndCount = this.totalPriceAndCount.asObservable();
-
-  private selectedEmployeesServices = new BehaviorSubject([]);
-  employeesServices = this.selectedEmployeesServices.asObservable();
-
-  /* End sidebar switcher */
-
 
   // sequence = [
   //   'select-address',
@@ -59,7 +22,7 @@ export class SwitcherService {
   //   'select-date-time'
   // ];
 
-/*  private resSequence = new BehaviorSubject([
+  private resSequence = new BehaviorSubject([
     'select_city',
     'select_address',
     'indicate_contacts',
@@ -67,16 +30,16 @@ export class SwitcherService {
     'select_services_master',
     'select_date_time',
     'time_booked'
-  ]);*/
+  ]);
 
-  private resSequence = new BehaviorSubject([
+ /* private resSequence = new BehaviorSubject([
     'select_city',
     'select_address',
     'indicate_contacts',
     'select_services',
     'select_time_master',
     'time_booked'
-  ]);
+  ]);*/
   sequence = this.resSequence.asObservable();
 
 
@@ -90,48 +53,6 @@ export class SwitcherService {
   changeMessage(message: string) {
     this.messageSource.next(message);
   }
-
-  /* Navbar switcher here */
-
-  changeCount(count: number) {
-    this.count.next(count);
-  }
-
-  changeInterruptStatus(interrupt: boolean) {   // show hide interrupt components
-    this.interruptStatus.next(interrupt);
-  }
-
-  /* Navbar switcher end */
-
-
-  /* Sidebar switcher here */
-
-  selectCity(city: string) {   // selected city
-    this.selectedCity.next(city);
-  }
-
-  selectAddress(address: string) {
-    this.selectedAddress.next(address);
-  }
-
-
-  userContact(contacts: Client) {
-    this.userContacts.next(contacts);
-  }
-
-  selectMasters(masters: Master[]) {   // selected masters
-    this.selectedMasters.next(masters);
-  }
-
-  getPriceAndCount(priceAndCount: {totalCount: number, totalPrice: number}) {
-    this.totalPriceAndCount.next(priceAndCount);
-  }
-
-  getSelectedEmployeesServices(selectedEmployeesServices) {
-    this.selectedEmployeesServices.next(selectedEmployeesServices);
-  }
-
-  /* End sidebar switcher */
 
 
   onSequence(sequence) {

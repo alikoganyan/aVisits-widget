@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
+import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 
 @Component({
   selector: 'app-time-booked',
@@ -12,7 +13,8 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
   sequence: string;
   subSequence: Subscription;
 
-  constructor(private switcherService: SwitcherService) { }
+  constructor(private switcherService: SwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService) { }
 
   ngOnInit() {
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
@@ -27,8 +29,8 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
 
   goNext() {
     this.switcherService.onClickedStatus(this.sequence);
-    this.switcherService.selectMasters([]);
-    this.switcherService.userContact({id: null, email: '', first_name: '', comment: '', phone: '' });
+    this.sidebarSwitcherService.selectMasters([]);
+    this.sidebarSwitcherService.userContact({id: null, email: '', first_name: '', comment: '', phone: '' });
   }
 
   onClose() {

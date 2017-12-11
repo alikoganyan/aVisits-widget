@@ -3,6 +3,8 @@ import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {Master} from '../../../models/master';
 import {CityService} from '../../../services/city.service';
+import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
+import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 
 @Component({
   selector: 'app-select-master',
@@ -25,7 +27,9 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
 
   constructor(private switcherService: SwitcherService,
-              private cityService: CityService) {
+              private cityService: CityService,
+              private navbarSwitcherService: NavbarSwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
 
@@ -69,12 +73,12 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getEmployees();
     this.getSubscriptions();
-    this.switcherService.changeCount(this.index);
+    this.navbarSwitcherService.changeCount(this.index);
   }
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
-    this.switcherService.selectMasters([]);
+    this.sidebarSwitcherService.selectMasters([]);
   }
 
   goNext() {
@@ -83,7 +87,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
       employees.push(value.id);
     });
     this.cityService.employees = employees;
-    this.switcherService.selectMasters(this.selectedMasters);
+    this.sidebarSwitcherService.selectMasters(this.selectedMasters);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 
@@ -94,7 +98,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
 
   getSubscriptions() {
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {

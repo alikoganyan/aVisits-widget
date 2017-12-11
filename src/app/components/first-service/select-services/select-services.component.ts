@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {CityService} from '../../../services/city.service';
+import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
+import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 
 @Component({
   selector: 'app-select-services',
@@ -14,67 +16,32 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   interrapt = false;
   subInterrupt: Subscription;
 
-  services_cat = [
-    {
-      title: 'Парикмахерские услуги',
-      service_groups: [
-        {
-          title: 'Стрижки',
-          services: [
-            {title: 'Стрижка горячими ножницами', checked: false, price: 50},
-            {title: 'Стрижка', checked: false, price: 50},
-            {title: 'Окрашивание волос', checked: false, price: 50}
-          ]
-        },
-        {
-          title: 'Укладки',
-          services: [
-            {title: 'Окрашивание волос', checked: false, price: 50},
-            {title: 'Стрижка', checked: false, price: 50},
-            {title: 'Стрижка горячими ножницами', checked: false, price: 50}
-          ]
-        }
-      ]
-    },
-    {
-      title: 'Уход за руками',
-      service_groups: [
-        {
-          title: 'Укладки',
-          services: [
-            {title: 'Окрашивание волос', checked: false, price: 50},
-            {title: 'Стрижка горячими ножницами', checked: false, price: 50},
-            {title: 'Стрижка', checked: false, price: 50}
-          ]
-        },
-        {
-          title: 'Стрижки',
-          services: [
-            {title: 'Стрижка', checked: false, price: 50},
-            {title: 'Окрашивание волос', checked: false, price: 50},
-            {title: 'Стрижка горячими ножницами', checked: false, price: 50}
-          ]
-        }
-      ]
-    },
-    {title: ' Косметология'},
-    {title: ' Визаж'}
-  ];
+  services_cat = [];
   selected_service_cat;
 
   showservicesFormobile = 'hide';
 
-  totalCount = 0;
-  totalPrice = 0;
+  priceAndCount = {
+    totalCount: 0,
+    totalPrice: 0
+  };
 
   sequence: string[];
   subSequence: Subscription;
   index: number;
 
   constructor(private switcherService: SwitcherService,
-              private cityService: CityService) {
+              private cityService: CityService,
+              private navbarSwitcherService: NavbarSwitcherService,
+              private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
+  getAllServices() {
+    this.cityService.getAllServices().subscribe(response => {
+      this.services_cat = response.data.categories;
+      this.selected_service_cat = this.services_cat[0];
+    });
+  }
 
   onSelectServiceCat(service_cat) {
     this.selected_service_cat = service_cat;
@@ -84,11 +51,11 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   onSelectService(service, event) {
     service.checked = event.target.checked;
     if (event.target.checked === true) {
-      this.totalCount++;
-      this.totalPrice = this.totalPrice + service.price;
+      this.priceAndCount.totalCount++;
+      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice + service.price;
     } else {
-      this.totalCount--;
-      this.totalPrice = this.totalPrice - service.price;
+      this.priceAndCount.totalCount--;
+      this.priceAndCount.totalPrice = this.priceAndCount.totalPrice - service.price;
     }
   }
 
@@ -98,18 +65,21 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getSubscriptions();
-    this.switcherService.changeCount(this.index);
+    this.getAllServices();
+    this.navbarSwitcherService.changeCount(this.index);
   }
 
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
+    this.sidebarSwitcherService.getPriceAndCount({totalCount: 0, totalPrice: 0});
+    console.log(this.priceAndCount);
   }
 
   goNext() {
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-    console.log(this.index + 1);
-
+    this.sidebarSwitcherService.getPriceAndCount(this.priceAndCount);
+    console.log(this.priceAndCount);
   }
 
   onClose() {
@@ -117,7 +87,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   }
 
   getSubscriptions() {
-    this.subInterrupt = this.switcherService.interrupt.subscribe(interrapt => {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
@@ -134,10 +104,10 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
 }
 
-interface Service {
-  title: string;
-}
-
-interface GroupsServices {
-  title: string;
-}
+// interface Service {
+//   title: string;
+// }
+//
+// interface GroupsServices {
+//   title: string;
+// }

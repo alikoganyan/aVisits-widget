@@ -2,7 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {ActivatedRoute} from '@angular/router';
-import {CityService} from '../../services/city.service';
+import {SVariables} from '../../services/sVariables';
+
 
 @Component({
   selector: 'app-main',
@@ -18,7 +19,6 @@ export class MainComponent implements OnInit, OnDestroy {
   subRoutId: Subscription;
 
   constructor(private switcherService: SwitcherService,
-              private cityService: CityService,
               private route: ActivatedRoute) {
   }
 
@@ -40,7 +40,7 @@ export class MainComponent implements OnInit, OnDestroy {
     });
     this.subRoutId = this.route.params.subscribe(params => {
       const id = params['widget'];
-      this.cityService.id = +id.substr(1);
+      SVariables.chainId = +id.substr(1);
     });
   }
 

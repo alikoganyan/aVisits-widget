@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
 import {Master} from '../../models/master';
 import {Client} from '../../models/client';
+import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -24,7 +24,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   priceAndCount: any;
 
-  constructor(private switcherService: SwitcherService) {
+  constructor(private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
   ngOnInit() {
@@ -32,19 +32,19 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   subscriptionsMethod() {
-    this.subCityTitle = this.switcherService.cityTitle.subscribe(cityTitle => {
+    this.subCityTitle = this.sidebarSwitcherService.cityTitle.subscribe(cityTitle => {
       this.checkedInfo['city'] = cityTitle;
     });
-    this.subSalonAddress = this.switcherService.salonAddress.subscribe(salonAddress => {
+    this.subSalonAddress = this.sidebarSwitcherService.salonAddress.subscribe(salonAddress => {
       this.checkedInfo['address'] = salonAddress;
     });
-    this.subContacts = this.switcherService.contact.subscribe(contacts => {
+    this.subContacts = this.sidebarSwitcherService.contact.subscribe(contacts => {
       this.checkedInfo['contacts'] = contacts;
     });
-    this.subMasters = this.switcherService.masters.subscribe(masters => {
+    this.subMasters = this.sidebarSwitcherService.masters.subscribe(masters => {
       this.masters = masters;
     });
-    this.subPriceAndCount = this.switcherService.priceAndCount.subscribe(priceAndCount => {
+    this.subPriceAndCount = this.sidebarSwitcherService.priceAndCount.subscribe(priceAndCount => {
       this.priceAndCount = priceAndCount;
     });
   }

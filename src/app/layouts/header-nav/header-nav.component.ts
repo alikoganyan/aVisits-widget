@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
+import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 
 @Component({
   selector: 'app-header-nav',
@@ -52,14 +53,15 @@ export class HeaderNavComponent implements OnInit, OnDestroy {
     {stage: 4, title1: 'Выберите', title2: 'мастера и время ', active: 4}
   ];
 
-  constructor(private switcherService: SwitcherService) {
+  constructor(private switcherService: SwitcherService,
+              private navbarSwitcherService: NavbarSwitcherService) {
   }
 
   ngOnInit() {
     this.sub = this.switcherService.currentMessage.subscribe(message => {
       message === 'Master' ? this.chackedNavbar = this.navbarMasters : this.chackedNavbar = this.navbarServices;
     });
-    this.subCount = this.switcherService.active.subscribe(active => {
+    this.subCount = this.navbarSwitcherService.active.subscribe(active => {
       this.active = active;
     });
   }
