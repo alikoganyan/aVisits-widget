@@ -32,7 +32,7 @@ export class SwitcherService {
     'time_booked'
   ]);
 
- /* private resSequence = new BehaviorSubject([
+/*  private resSequence = new BehaviorSubject([
     'select_city',
     'select_address',
     'indicate_contacts',

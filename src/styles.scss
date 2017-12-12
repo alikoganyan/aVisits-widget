@@ -1547,6 +1547,7 @@ label {
           display: table-cell;
           border: 1px solid $color-light-gray;
           background-color: #f5f5f5;
+          width: 50%;
 
           &:last-child {
             border-left: none;
@@ -2080,6 +2081,10 @@ label {
   }
 
   //.switcherMode {display: none;}
+
+  .page-wrapper .page-container .address-master-content {
+    box-shadow: 0px -1px 15px -4px rgba(0, 0, 0, 0.2), -5px 2px 47px -6px rgba(0, 0, 0, 0.19);
+  }
 
 }
 

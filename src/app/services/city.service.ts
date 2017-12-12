@@ -9,9 +9,7 @@ import {SVariables} from './sVariables';
 export class CityService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  salonId: number;
   employees: number[];
-  date: string;
   employeesID: number[];
 
 
@@ -62,7 +60,7 @@ export class CityService {
   getEmployees() {
     return this.http.post(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employees',
-      JSON.stringify({salon_id: this.salonId}),
+      JSON.stringify({salon_id: SVariables.salonId}),
       {headers: this.headers}
     )
       .map((response: Response) => {
@@ -80,7 +78,7 @@ export class CityService {
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/services',
       JSON.stringify(
         {
-          salon_id: this.salonId,
+          salon_id: SVariables.salonId,
           employees: this.employees
         }),
       {headers: this.headers}
@@ -100,7 +98,7 @@ export class CityService {
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/services',
       JSON.stringify(
         {
-          salon_id: this.salonId
+          salon_id: SVariables.salonId
         }),
       {headers: this.headers}
     )
@@ -118,9 +116,9 @@ export class CityService {
     return this.http.post(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/times',
       JSON.stringify({
-        salon_id: this.salonId,
+        salon_id: SVariables.salonId,
         employees: this.employeesID,
-        date: this.date
+        date: SVariables.date
       }),
       {headers: this.headers}
     )

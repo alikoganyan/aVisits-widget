@@ -38,6 +38,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   getAllServices() {
     this.cityService.getAllServices().subscribe(response => {
+      console.log(response.data.categories);
       this.services_cat = response.data.categories;
       this.selected_service_cat = this.services_cat[0];
     });
@@ -104,10 +105,3 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
 }
 
-// interface Service {
-//   title: string;
-// }
-//
-// interface GroupsServices {
-//   title: string;
-// }

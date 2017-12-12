@@ -14,11 +14,11 @@
 
           <div class="content-right-block time-master-right-block">
 
-            <app-calendar (sendedDate)="getStr($event)"></app-calendar>
+            <app-calendar (sendedDate)="getSelectedDate($event)"></app-calendar>
 
             <div class="time-master-book-schedule-container-all-inner">
 
-              <ng-container *ngFor="let employeesService of employeesServices">
+              <ng-container *ngFor="let employeesService of employeesServices; let i = index">
                 <div class="time-master-book-schedule-container">
                   <div class="time-master-title-block">
                     <div class="master-title-block-pic-container"
@@ -33,10 +33,15 @@
                   <div class="time-master-time-schedule">
                     <div class="table">
                       <div class="tr">
-                        <div
-                          (click)="onSelectTime(time, i)"
-                          class="td"
-                          *ngFor="let time of employeesService.dates; let i = index"><a>{{time}}</a></div>
+                        <ng-container *ngFor="let times of employeesService.times; let ind = index">
+                          <div
+                            class="td"
+                            *ngFor="let time of times; let i = index"
+                            (click)="onSelectTime(employeesService, ind, times, i, time)"
+                            [class.active]="isActive(i, ind)"
+                            [id]="i"><a>{{time}}</a></div>
+                        </ng-container>
+
                       </div>
                     </div>
                   </div>

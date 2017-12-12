@@ -4,6 +4,9 @@ import {SwitcherService} from '../../../services/switcher.service';
 import {CityService} from '../../../services/city.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
+import {SDate} from '../../../models/date';
+import * as moment from 'moment';
+import {SVariables} from '../../../services/sVariables';
 
 @Component({
   selector: 'app-select-date-time',
@@ -24,28 +27,84 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   periods = [];
   freePeriods = [];
 
+  active_minutes_indexes_array = [];
+  selected_minutes_array_index: number;
+
+
+  date: SDate = {
+    day: moment(new Date()).add(0, 'days').get('date'),
+    weekday: moment(new Date()).locale('ru').add(0, 'days').format('dddd'),
+    month: moment(new Date()).locale('ru').add(0, 'days').format('MMMM').charAt(0).toUpperCase() +
+    moment(new Date()).locale('ru').add(0, 'days').format('MMMM').slice(1),
+    year: moment(new Date()).locale('ru').add(0, 'days').format('Y')
+  };
+
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
               private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
-  onSelectTime(time: string, index: number) {
-    console.log(time, index);
+  onSelectTime(employeesService: any, ind: number, times: number[], i: number, time: string) {
+    this.selected_minutes_array_index = ind;
+    const selectedTime = employeesService.selectedTime;
+    const timesInMinute = employeesService.timesToDisplay[ind];
+    const clickedTime = timesInMinute[i];
+    const interval = timesInMinute[timesInMinute.length - 1] - timesInMinute[0];
+    const displayInterval = 30;
+
+
+    if (selectedTime <= interval) {
+      if (selectedTime <= (timesInMinute[timesInMinute.length - 1] - clickedTime)) {
+
+        const arr = [];
+        for (let j = 0; j <= Math.ceil(selectedTime / displayInterval); ++j) {
+          arr.push(i++);
+        }
+        this.active_minutes_indexes_array = arr;
+
+        console.log(Math.ceil(selectedTime / displayInterval));
+        const hourST = Math.floor(clickedTime / 60);
+        let minST: any = (((clickedTime / 60) - hourST) * 60);
+        if (minST === 0) {
+          minST = minST.toString() + '0';
+        }
+        employeesService.startHour = `${hourST}:${minST}`;
+        // console.log(`${hourST}:${minST}`);   // "from_time": "11:00"
+
+        const hourND = Math.floor((clickedTime + selectedTime) / 60);
+        let minND: any = ((((clickedTime + selectedTime) / 60) - hourND) * 60);
+        if (minND === 0) {
+          minND = minND.toString() + '0';
+        }
+        // console.log(`${hourND}:${minND}`);  // "to_time": "13:00"
+      }
+    }
   }
 
+
+  isActive(i: number, ind: number) {
+    let exist = false;
+    this.active_minutes_indexes_array.map(v => {
+      if (v === i && this.selected_minutes_array_index === ind) {
+        exist = true;
+      }
+    });
+    return exist;
+  }
 
   getTimes() {
     this.cityService.getTimes().subscribe(response => {
         this.timeLogic(response.data['employees']);
       },
       error => console.log(error));
-    console.log(this.employeesServices);
   }
 
-  getStr(data) {
-    this.cityService.date = data;
-    console.log(data);
+  getSelectedDate(date: SDate) {
+    this.active_minutes_indexes_array = [];
+    SVariables.date = `${date.year}-${moment().month(date.month).format('M')}-${date.day}`;
+    console.log(date);
     this.cityService.getTimes().subscribe(response => {
         this.timeLogic(response.data['employees']);
       },
@@ -74,65 +133,72 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   timeLogic(param) {
     console.log(param);
     param.map((employee, index) => {
-      this.employeesServices[index].dates = [];
-        if (employee.schedule !== null) {
-          if (employee.schedule['periods'].length > 0) {
+      this.employeesServices[index].timesToDisplay = [];
+      this.employeesServices[index].times = [];
+      this.employeesServices[index].times = [];
+      this.employeesServices[index].date = this.date;
+      if (employee.schedule !== null) {
+        if (employee.schedule['periods'].length > 0) {
 
-            const searchStep = 15;
-            const displayStep = 30;
-            const timesToDisplay = [];
+          const searchStep = 15;
+          const displayStep = 30;
+          const timesToDisplay = [];
 
-            this.periods = employee.schedule['periods'];
-            this.freePeriods = employee.schedule['free_periods'];
+          this.periods = employee.schedule['periods'];
+          this.freePeriods = employee.schedule['free_periods'];
 
-            employee.dates = [];
+          employee.dates = [];
+          employee.times = [];
 
-            this.periods.map((v, k) => {
-              timesToDisplay[k] = [];
-              let tempStart = this.parseTimeToInteger(v.start);
-              const tempEnd = this.parseTimeToInteger(v.end);
-              let next = tempStart + displayStep;
-              let lastLoop = false;
-              while (tempStart <= tempEnd && !lastLoop) {
-                if (tempStart === tempEnd) {
-                  lastLoop = true;
-                }
-                if (this.intoFreeTime(tempStart, tempEnd)) {
-                  timesToDisplay[k].push(tempStart);
+          this.periods.map((v, k) => {
+            timesToDisplay[k] = [];
+            let tempStart = this.parseTimeToInteger(v.start);
+            const tempEnd = this.parseTimeToInteger(v.end);
+            let next = tempStart + displayStep;
+            let lastLoop = false;
+            while (tempStart <= tempEnd && !lastLoop) {
+              if (tempStart === tempEnd) {
+                lastLoop = true;
+              }
+              if (this.intoFreeTime(tempStart, tempEnd)) {
+                timesToDisplay[k].push(tempStart);
+                tempStart = (next >= tempEnd) ? tempEnd : next;
+                next += displayStep;
+              } else {
+                tempStart += searchStep;
+                if (tempStart >= next) {
                   tempStart = (next >= tempEnd) ? tempEnd : next;
                   next += displayStep;
-                } else {
-                  tempStart += searchStep;
-                  if (tempStart >= next) {
-                    tempStart = (next >= tempEnd) ? tempEnd : next;
-                    next += displayStep;
-                  }
                 }
               }
-            });
-            console.log(timesToDisplay);
+            }
+          });
+          console.log(timesToDisplay);
+          this.employeesServices[index].timesToDisplay = timesToDisplay;
 
-            const allTimes = timesToDisplay.reduce((a, b) => {
-              return a.concat(b);
-            });
-
-            allTimes.map((v, i) => {
+          timesToDisplay.map((val, ind) => {
+            const times = [];
+            val.map((v, i) => {
               const hr = Math.floor(v / 60);
               let min: any = Math.ceil(((v / 60) - hr) * 60);
               if (min === 0) {
                 min = min.toString() + '0';
               }
-
               const time = `${hr}:${min}`;
-              employee.dates.push(time);
+              times.push(time);
             });
-            this.employeesServices[index].dates = employee.dates;
-          } else {
-            this.employeesServices[index].dates = [];
-          }
+            employee.times.push(times);
+          });
 
+
+          this.employeesServices[index].times = employee.times;
+        } else {
+          this.employeesServices[index].timesToDisplay = [];
+          this.employeesServices[index].times = [];
         }
-      });
+
+      }
+    });
     console.log(this.employeesServices);
   }
 

@@ -6,6 +6,7 @@ import {Master} from '../../../models/master';
 import {CityService} from '../../../services/city.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
+import {SVariables} from '../../../services/sVariables';
 
 @Component({
   selector: 'app-select-services-master',
@@ -156,11 +157,11 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
       });
     });
 
-      this.cityService.date = date;
-      this.cityService.employeesID = employeesID;
-      this.sidebarSwitcherService.getSelectedEmployeesServices(this.selectedDates);
-      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-      this.sidebarSwitcherService.getPriceAndCount(this.priceAndCount);
+    SVariables.date = date;
+    this.cityService.employeesID = employeesID;
+    this.sidebarSwitcherService.getSelectedEmployeesServices(this.selectedDates);
+    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+    this.sidebarSwitcherService.getPriceAndCount(this.priceAndCount);
   }
 
   onClose() {

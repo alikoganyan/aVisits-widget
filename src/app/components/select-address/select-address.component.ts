@@ -5,7 +5,7 @@ import {Salon} from '../../models/salon';
 import {CityService} from '../../services/city.service';
 import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
-
+import {SVariables} from '../../services/sVariables';
 
 @Component({
   selector: 'app-select-address',
@@ -85,7 +85,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   goNext() {
     console.log(this.selectedSalon.id);
-    this.cityService.salonId = this.selectedSalon.id;
+    SVariables.salonId = this.selectedSalon.id;
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 

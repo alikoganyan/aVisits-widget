@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {SDate} from '../../models/date';
 import * as moment from 'moment';
 
 @Component({
@@ -8,12 +9,12 @@ import * as moment from 'moment';
 })
 export class CalendarComponent implements OnInit {
 
-  @Output() sendedDate = new EventEmitter<string>();
+  @Output() sendedDate = new EventEmitter<SDate>();
 
   days = [0, 1, 2, 3, 4, 5, 6];
 
-  myOwnCalendarDays: Date[] = [];
-  selectedDate: Date;
+  myOwnCalendarDays: SDate[] = [];
+  selectedDate: SDate;
 
   positionSlider = 0;
   calendarLength = 2500;
@@ -22,10 +23,9 @@ export class CalendarComponent implements OnInit {
   constructor() {
   }
 
-  onSelectDate(date: Date) {
+  onSelectDate(date: SDate) {
     this.selectedDate = date;
-    const time = `${date.year}-${moment().month(date.month).format('M')}-${date.day}`;
-    this.sendedDate.emit(time);
+    this.sendedDate.emit(date);
   }
 
   nextDate() {
@@ -68,10 +68,10 @@ export class CalendarComponent implements OnInit {
 
 }
 
-interface Date {
-  day: number;
-  weekday: string;
-  month: string;
-  year: string;
-}
+// interface Date {
+//   day: number;
+//   weekday: string;
+//   month: string;
+//   year: string;
+// }
 

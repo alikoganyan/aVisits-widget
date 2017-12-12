@@ -16,13 +16,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
   masters: Master[] = [];
   subMasters: Subscription;
 
+  priceAndCount: { totalCount: number, totalPrice: number };
+  subPriceAndCount: Subscription;
 
   subCityTitle: Subscription;
   subSalonAddress: Subscription;
   subContacts: Subscription;
-  subPriceAndCount: Subscription;
 
-  priceAndCount: any;
 
   constructor(private sidebarSwitcherService: SidebarSwitcherService) {
   }
@@ -63,9 +63,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
 class CheckedInfo {
   contacts: Client;
-  priceAndCount: { totalCount: number, totalPrice: number };
-
-  constructor(city?: string, address?: string) {
+  constructor() {
   }
 
 }

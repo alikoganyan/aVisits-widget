@@ -6,7 +6,7 @@ import {Master} from '../models/master';
 @Injectable()
 export class SidebarSwitcherService {
 
-  private selectedCity = new BehaviorSubject('default message'); // selected city
+  private selectedCity = new BehaviorSubject('Moskva'); // selected city
   cityTitle = this.selectedCity.asObservable();
 
   private selectedAddress = new BehaviorSubject('default message');  // selected address
@@ -21,7 +21,7 @@ export class SidebarSwitcherService {
   private totalPriceAndCount = new BehaviorSubject({totalCount: 0, totalPrice: 0});  // chosen services price and count
   priceAndCount = this.totalPriceAndCount.asObservable();
 
-  private selectedEmployeesServices = new BehaviorSubject([]);
+  private selectedEmployeesServices = new BehaviorSubject([]);  // employee services
   employeesServices = this.selectedEmployeesServices.asObservable();
 
 
