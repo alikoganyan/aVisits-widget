@@ -132,7 +132,7 @@ export class CityService {
   }
 
 
-  newClient(client) {
+  /*newClient(client) {
     return this.http.post(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/client',
       JSON.stringify(client),
@@ -145,10 +145,9 @@ export class CityService {
         (error: Response) => {
           return Observable.throw('Something went wrong');
         });
-  }
+  }*/
 
-
-  getClient(phone: string) {
+  /*getClient(phone: string) {
     return this.http.get(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/client/' + phone)
       .map((response: Response) => {
@@ -158,22 +157,18 @@ export class CityService {
         (error: Response) => {
           return Observable.throw('Something went wrong');
         });
-  }
+  }*/
 
-  updateClient(client) {
-    return this.http.put(
-      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/client/' + client.id,
-      JSON.stringify(client),
-      {headers: this.headers}
-    )
-      .map((response: Response) => {
-        return response.json();
-      })
-      .catch(
-        (error: Response) => {
-          return Observable.throw('Something went wrong');
-        });
-  }
+  /* updateClient(client) {
+     return this.http.put(
+       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/client/' + client.id,
+       JSON.stringify(client),
+       {headers: this.headers}
+     )
+       .map((response: Response) => {
+         return response.json();
+       });
+   }*/
 
 
 }

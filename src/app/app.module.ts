@@ -27,6 +27,7 @@ import {SwitcherService} from './services/switcher.service';
 import {CityService} from './services/city.service';
 import {NavbarSwitcherService} from './services/navbar-switcher.service';
 import {SidebarSwitcherService} from './services/sidebar-switcher.service';
+import {AppointmentService} from './services/appointment.service';
 /* Directives */
 import {ActiveDirective} from './directives/active.directive';
 /* Pipe */
@@ -70,10 +71,11 @@ import {ClientService} from './services/client.service';
   ],
   providers: [
     SwitcherService,
-    CityService,
     NavbarSwitcherService,
     SidebarSwitcherService,
-    ClientService
+    CityService,
+    ClientService,
+    AppointmentService
   ],
   bootstrap: [AppComponent]
 })

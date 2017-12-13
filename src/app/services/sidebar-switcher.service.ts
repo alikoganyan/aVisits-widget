@@ -12,7 +12,7 @@ export class SidebarSwitcherService {
   private selectedAddress = new BehaviorSubject('default message');  // selected address
   salonAddress = this.selectedAddress.asObservable();
 
-  private userContacts = new BehaviorSubject(new Client());  // userContacts here
+  private userContacts = new BehaviorSubject({email: '', first_name: '', id: null, phone: ''});  // userContacts here
   contact = this.userContacts.asObservable();
 
   private selectedMasters = new BehaviorSubject([]);  // selected masters here

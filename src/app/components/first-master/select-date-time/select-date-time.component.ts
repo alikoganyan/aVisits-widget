@@ -1,12 +1,14 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
+import * as moment from 'moment';
 import {SwitcherService} from '../../../services/switcher.service';
 import {CityService} from '../../../services/city.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 import {SDate} from '../../../models/date';
-import * as moment from 'moment';
 import {SVariables} from '../../../services/sVariables';
+import {Appointment} from '../../../models/appointment';
+import {AppointmentService} from '../../../services/appointment.service';
 
 @Component({
   selector: 'app-select-date-time',
@@ -40,10 +42,13 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   };
 
 
+  appointment: Appointment[] = [];
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
-              private sidebarSwitcherService: SidebarSwitcherService) {
+              private sidebarSwitcherService: SidebarSwitcherService,
+              private appointmentService: AppointmentService) {
   }
 
   onSelectTime(employeesService: any, ind: number, times: number[], i: number, time: string) {
@@ -72,13 +77,16 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
         }
         employeesService.startHour = `${hourST}:${minST}`;
         // console.log(`${hourST}:${minST}`);   // "from_time": "11:00"
+        employeesService.from_time = `${hourST}:${minST}`;
 
         const hourND = Math.floor((clickedTime + selectedTime) / 60);
+        console.log(hourND);
         let minND: any = ((((clickedTime + selectedTime) / 60) - hourND) * 60);
         if (minND === 0) {
           minND = minND.toString() + '0';
         }
         // console.log(`${hourND}:${minND}`);  // "to_time": "13:00"
+        employeesService.to_time = `${hourND}:${minND}`;
       }
     }
   }
@@ -86,11 +94,14 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
   isActive(i: number, ind: number) {
     let exist = false;
-    this.active_minutes_indexes_array.map(v => {
-      if (v === i && this.selected_minutes_array_index === ind) {
-        exist = true;
-      }
-    });
+    if (this.active_minutes_indexes_array[0] === i && this.selected_minutes_array_index === ind) {
+      exist = true;
+    }
+    // this.active_minutes_indexes_array.map(v => {
+    //   if (v === i && this.selected_minutes_array_index === ind) {
+    //     exist = true;
+    //   }
+    // });
     return exist;
   }
 
@@ -190,16 +201,13 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
             employee.times.push(times);
           });
 
-
           this.employeesServices[index].times = employee.times;
         } else {
           this.employeesServices[index].timesToDisplay = [];
           this.employeesServices[index].times = [];
         }
-
       }
     });
-    console.log(this.employeesServices);
   }
 
 
@@ -214,7 +222,33 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
-    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+    console.log(this.employeesServices);
+    this.employeesServices.map((v, i) => {
+      const appointment = {
+        salon_id: null,
+        employee_id: null,
+        from_time: '',
+        to_time: '',
+        day: '',
+        client_id: null,
+        services: []
+      };
+      appointment.salon_id = SVariables.salonId;
+      appointment.employee_id = v.id;
+      appointment.from_time = v.from_time;
+      appointment.to_time = v.to_time;
+      appointment.day = SVariables.date;
+      appointment.client_id = SVariables.clientId;
+      v.employeeServices.map((val, ind) => {
+        appointment.services.push(val.id);
+      });
+      this.appointment.push(appointment);
+    });
+    console.log(this.appointment);
+    this.appointmentService.createAppointment(this.appointment).subscribe(response => {
+      console.log(response);
+      response['status'] === 'OK' && this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+    });
   }
 
   onClose() {

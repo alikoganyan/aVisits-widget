@@ -6,7 +6,8 @@ import {CityService} from '../../services/city.service';
 import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {ClientService} from '../../services/client.service';
-
+import {SVariables} from '../../services/sVariables';
+import {Client} from '../../models/client';
 
 @Component({
   selector: 'app-indicate-contacts',
@@ -28,13 +29,13 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   index: number;
   subSequence: Subscription;
 
-  savedContacts = {
-    id: null,
-    phone: '',
+  savedContacts: Client = {
     comment: '',
     email: '',
     first_name: '',
+    id: null,
     last_name: '',
+    phone: '',
   };
 
   userFounded = false;
@@ -56,10 +57,8 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   getUserByPhone(event) {
     if (event.target.value.length === 18) {
       this.clientService.getClient(event.target.value).subscribe(response => {
-        console.log(response['data'].client);
         if (response['data'].client !== null) {
           this.savedContacts = response['data'].client;
-          console.log(response['data'].client);
           this.userFounded = true;
         } else {
           this.savedContacts.comment = '';
@@ -79,7 +78,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
-    this.sidebarSwitcherService.userContact({id: null, email: '', first_name: '', comment: '', phone: ''});
+    this.sidebarSwitcherService.userContact(new Client());
   }
 
   goNext() {
@@ -87,27 +86,23 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
     let choose: string;
     this.chosenOrder === 'Master' ? choose = this.sequence[this.index + 1] : choose = 'select_services';
     if (this.userFounded === true) {
-      this.cityService.updateClient(this.savedContacts).subscribe(response => {
-          console.log(response.data.client);
-          this.savedContacts = response.data.client;
+      this.clientService.updateClient(this.savedContacts).subscribe(response => {
+          SVariables.clientId = response['data'].client.id;
+          this.savedContacts = response['data'].client;
           this.sidebarSwitcherService.userContact(this.savedContacts);
           this.switcherService.onClickedStatus(choose);
         },
         error => console.log(error));
       this.userFounded = false;
     } else {
-      this.cityService.newClient(this.contactForm.value).subscribe(response => {
-          this.savedContacts = response.data.client;
+      this.clientService.newClient(this.contactForm.value).subscribe(response => {
+           SVariables.clientId = response['data'].client.id;
+          this.savedContacts = response['data'].client;
           this.sidebarSwitcherService.userContact(this.savedContacts);
-          console.log(response.data.client);
           this.switcherService.onClickedStatus(choose);
         },
         error => console.log(error));
     }
-
-
-
-
   }
 
   onClose() {

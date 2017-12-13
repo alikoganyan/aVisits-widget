@@ -4,5 +4,6 @@ export class SVariables {
   public static city: string;
   public static salonId: number;
   public static date: string;
+  public static clientId: number;
 }
 

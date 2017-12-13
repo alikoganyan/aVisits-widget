@@ -41,6 +41,16 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
       console.log(response.data.categories);
       this.services_cat = response.data.categories;
       this.selected_service_cat = this.services_cat[0];
+      response.data.categories.map(value => {
+        value.groups.map(group => {
+          group.services.map(service => {
+            service.prices = [];
+            service.service_price.map(sp => {
+              service.prices.push(sp.max_price);
+            });
+          });
+        });
+      });
     });
   }
 

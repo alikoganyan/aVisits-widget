@@ -9,7 +9,6 @@ import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 })
 export class TimeBookedComponent implements OnInit, OnDestroy {
 
-
   sequence: string;
   subSequence: Subscription;
 
@@ -33,7 +32,6 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
     this.getSubscriptions();
   }
 
-
   goBack(selectCity: string) {
     this.switcherService.onClickedStatus(selectCity);
   }
@@ -48,6 +46,10 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
   onClose() {
     this.switcherService.clickedStart.next('button');
     this.switcherService.onClickedStatus('');
+
+    this.sidebarSwitcherService.selectMasters([]);
+    this.sidebarSwitcherService.getPriceAndCount({totalCount: 0, totalPrice: 0});
+    this.sidebarSwitcherService.userContact({id: null, email: '', first_name: '', comment: '', phone: ''});
   }
 
 
