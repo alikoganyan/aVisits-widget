@@ -1,5 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
+import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {SwitcherService} from '../../../services/switcher.service';
 import {CityService} from '../../../services/city.service';
@@ -9,6 +10,7 @@ import {SDate} from '../../../models/date';
 import {SVariables} from '../../../services/sVariables';
 import {Appointment} from '../../../models/appointment';
 import {AppointmentService} from '../../../services/appointment.service';
+import {GetDataService} from '../../../services/get-data.service';
 
 @Component({
   selector: 'app-select-date-time',
@@ -48,7 +50,8 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
               private sidebarSwitcherService: SidebarSwitcherService,
-              private appointmentService: AppointmentService) {
+              private appointmentService: AppointmentService,
+              private getDataService: GetDataService) {
   }
 
   onSelectTime(employeesService: any, ind: number, times: number[], i: number, time: string) {
@@ -58,7 +61,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
     const clickedTime = timesInMinute[i];
     const interval = timesInMinute[timesInMinute.length - 1] - timesInMinute[0];
     const displayInterval = 30;
-
 
     if (selectedTime <= interval) {
       if (selectedTime <= (timesInMinute[timesInMinute.length - 1] - clickedTime)) {
@@ -106,20 +108,32 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   getTimes() {
-    this.cityService.getTimes().subscribe(response => {
-        this.timeLogic(response.data['employees']);
+    this.getDataService.getTimes().subscribe(response => {
+        this.timeLogic(response['data']['employees']);
       },
-      error => console.log(error));
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
   }
 
   getSelectedDate(date: SDate) {
     this.active_minutes_indexes_array = [];
     SVariables.date = `${date.year}-${moment().month(date.month).format('M')}-${date.day}`;
     console.log(date);
-    this.cityService.getTimes().subscribe(response => {
-        this.timeLogic(response.data['employees']);
+    this.getDataService.getTimes().subscribe(response => {
+        this.timeLogic(response['data']['employees']);
       },
-      error => console.log(error));
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
   }
 
   parseTimeToInteger(time) {

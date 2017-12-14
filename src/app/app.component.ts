@@ -7,17 +7,17 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
 
-  /*periods = [];
+  periods = [];
   freePeriods = [];
   searchStep = 15;
   displayStep = 30;
   timesToDisplay = [];
 
   finisheDates = [];
-  dates = [];*/
+  dates = [];
 
   constructor() {
-    /*this.periods = this.getPeriods();
+    this.periods = this.getPeriods();
     this.freePeriods = this.getFreePeriods();
     this.periods.map((v, k) => {
       this.timesToDisplay[k] = [];
@@ -42,11 +42,12 @@ export class AppComponent {
         }
       }
     });
-    this.met();*/
+    this.met();
+    this.hourToMin();
   }
 
 
-  /*met() {
+  met() {
     this.finisheDates = this.timesToDisplay.reduce((a, b) => {
       return a.concat(b);
     });
@@ -59,6 +60,7 @@ export class AppComponent {
       const time = `${hr}:${min}`;
       this.dates.push(time);
     });
+    console.log(this.dates);
   }
 
   getPeriods() {
@@ -111,9 +113,31 @@ export class AppComponent {
       }
     });
     return isFree;
-  }*/
+  }
+
+
+  hourToMin() {
+
+    // const oneHour = 60;
+    // const min = service.duration / oneHour;
+    // const hour = Math.floor(min);
+    // const count2 = min - hour;
+    // const minute = count2 * oneHour;
+
+    const time = 145;
+    const hour = Math.floor(time / 60);
+    const min = time % 60;
+    console.log(hour, min);
+
+    const price = '1000.00';
+    console.log(parseInt(price, 10).toFixed());
+
+
+  };
 
 }
+
+
 
 
 

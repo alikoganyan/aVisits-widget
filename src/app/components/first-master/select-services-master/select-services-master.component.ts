@@ -7,6 +7,8 @@ import {CityService} from '../../../services/city.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 import {SVariables} from '../../../services/sVariables';
+import {GetServicesService} from '../../../services/get-services.service';
+import {GetDataService} from '../../../services/get-data.service';
 
 @Component({
   selector: 'app-select-services-master',
@@ -44,7 +46,9 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
-              private sidebarSwitcherService: SidebarSwitcherService) {
+              private sidebarSwitcherService: SidebarSwitcherService,
+              private getServicesService: GetServicesService,
+              private getDataService: GetDataService) {
   }
 
   onSelectService(service, event, employeeService) {
@@ -100,23 +104,20 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   }
 
   getServices() {
-    this.cityService.getServices().subscribe(response => {
-      response.data.employees.map((employee) => {
-        this.firstMaster = response.data.employees[0];  // this is for show first master services
+    this.getServicesService.getEmployeeServices().subscribe(response => {
+      response['data'].employees.map((employee) => {
+        this.firstMaster = response['data'].employees[0];  // this is for show first master services
         employee.service_groups.map((group) => {
           group.services.map((service) => {
-            const oneHour = 60;
-            const min = service.duration / oneHour;
-            const hour = Math.floor(min);
-            const count2 = min - hour;
-            const minute = count2 * oneHour;
+            const hour = Math.floor(service.duration / 60);
+            const min = service.duration % 60;
             service.hour = hour;
-            service.min = Math.floor(minute);
+            service.min = Math.floor(min);
             service.checked = false;
           });
         });
       });
-      this.employeeServices = response.data.employees;
+      this.employeeServices = response['data'].employees;
     });
   }
 
@@ -158,7 +159,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
     });
 
     SVariables.date = date;
-    this.cityService.employeesID = employeesID;
+    this.getDataService.employeesID = employeesID;
     this.sidebarSwitcherService.getSelectedEmployeesServices(this.selectedDates);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
     this.sidebarSwitcherService.getPriceAndCount(this.priceAndCount);

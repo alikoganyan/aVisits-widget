@@ -5,6 +5,9 @@ import {Master} from '../../../models/master';
 import {CityService} from '../../../services/city.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
+import {GetServicesService} from '../../../services/get-services.service';
+import {GetDataService} from '../../../services/get-data.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-select-master',
@@ -29,16 +32,25 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
-              private sidebarSwitcherService: SidebarSwitcherService) {
+              private sidebarSwitcherService: SidebarSwitcherService,
+              private getServicesService: GetServicesService,
+              private getDataService: GetDataService) {
   }
 
 
   getEmployees() {
-    this.cityService.getEmployees().subscribe((response) => {
+    this.getDataService.getEmployees().subscribe((response) => {
       this.loader = false;
-      this.masters = response.data.employees;
-      console.log(response.data.employees);
-    });
+      this.masters = response['data'].employees;
+      console.log(response['data'].employees);
+    },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
   }
 
   onSelectMaster(master: Master) {
@@ -86,7 +98,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     this.selectedMasters.map((value) => {
       employees.push(value.id);
     });
-    this.cityService.employees = employees;
+    this.getServicesService.employees = employees;
     this.sidebarSwitcherService.selectMasters(this.selectedMasters);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }

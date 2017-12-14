@@ -53,17 +53,21 @@
                     <tr
                       [class.active]="service.checked === true"
                       *ngFor="let service of group.services | filter : searchText:'title'">
-                      <td>
-                        <input
-                          type="checkbox"
-                          name=""
-                          [checked]="service.checked"
-                          (change)="onSelectService(service, $event)">
-                        <label></label>
-                      </td>
-                      <td>{{service.title}}</td>
-                      <td>1ч &nbsp; 90м</td>
-                      <td> {{service.price}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                        <td>
+                          <input
+                            [id]="service.id"
+                            type="checkbox"
+                            [checked]="service.checked"
+                            (change)="onSelectService(service, $event)">
+                          <label></label>
+                        </td>
+                        <td><label [for]="service.id">{{service.title}}</label></td>
+                        <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                        <td>
+                          <label [for]="service.id"> {{service.min_max_prices.min_price}} - {{service.min_max_prices.max_price}}
+                          <span><img src="assets/images/icons/ruble-gray.png"></span>
+                        </label>
+                        </td>
                     </tr>
                   </table>
                 </div>
@@ -119,15 +123,20 @@
                     *ngFor="let service of group.services | filter : searchText:'title'">
                     <td>
                       <input
+                        [id]="service.id"
                         type="checkbox"
                         name=""
                         [checked]="service.checked"
                         (change)="onSelectService(service, $event)">
                       <label></label>
                     </td>
-                    <td>{{service.title}}</td>
-                    <td>1ч &nbsp; 90м</td>
-                    <td> {{service.prices[0]}} - {{service.prices[service.prices.length - 1]}} <span><img src="assets/images/icons/ruble-gray.png"></span></td>
+                    <td><label [for]="service.id">{{service.title}}</label></td>
+                    <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                    <td>
+                      <label [for]="service.id"> {{service.min_max_prices.min_price}} - {{service.min_max_prices.max_price}}
+                      <span><img src="assets/images/icons/ruble-gray.png"></span>
+                    </label>
+                    </td>
                   </tr>
                 </table>
               </div>
@@ -178,7 +187,7 @@
           <span class="services-count-result">
             Добавлено:
             <span class="bold"> {{priceAndCount.totalCount}} </span> &nbsp; услуги на сумму
-            <span class="bold"> {{priceAndCount.totalPrice}} </span>
+            <span class="bold"> {{priceAndCount.totalPrice}}</span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>
           <a (click)="goNext()" class="semi-bold pull-right">

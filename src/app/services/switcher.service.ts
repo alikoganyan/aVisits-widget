@@ -22,7 +22,7 @@ export class SwitcherService {
   //   'select-date-time'
   // ];
 
-  /*private resSequence = new BehaviorSubject([
+  private resSequence = new BehaviorSubject([
     'select_city',
     'select_address',
     'indicate_contacts',
@@ -30,16 +30,16 @@ export class SwitcherService {
     'select_services_master',
     'select_date_time',
     'time_booked'
-  ]);*/
+  ]);
 
-  private resSequence = new BehaviorSubject([
+  /*private resSequence = new BehaviorSubject([
     'select_city',
     'select_address',
     'indicate_contacts',
     'select_services',
     'select_time_master',
     'time_booked'
-  ]);
+  ]);*/
   sequence = this.resSequence.asObservable();
 
 

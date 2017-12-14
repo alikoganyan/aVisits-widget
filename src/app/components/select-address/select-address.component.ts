@@ -1,4 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {Salon} from '../../models/salon';
@@ -6,6 +7,7 @@ import {CityService} from '../../services/city.service';
 import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {SVariables} from '../../services/sVariables';
+import {GetDataService} from '../../services/get-data.service';
 
 @Component({
   selector: 'app-select-address',
@@ -22,45 +24,54 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   index: number;
   subSequence: Subscription;
 
-
   selectedSalon: Salon;
-
 
   salons: Salon[] = [];
   switcherMode = false;
-
 
   cityLocation: { lat: number, lng: number } = {
     lat: 56.009657,
     lng: 37.9456611
   };
-
   zoom = 11;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
-              private sidebarSwitcherService: SidebarSwitcherService) {
+              private sidebarSwitcherService: SidebarSwitcherService,
+              private getDataService: GetDataService) {
   }
 
-
   getSalons() {
-    this.cityService.getSalons().subscribe(response => {
+    this.getDataService.getSalons().subscribe(response => {
         this.loader = false;
-        this.salons = response.data.salons;
+        this.salons = response['data'].salons;
       },
-      error => { console.log(error); this.loader = false; });
+      (err: HttpErrorResponse) => {
+        this.loader = false;
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message);  // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
   }
 
   getCityLatLong() {
     this.cityService.getCityLatLong().subscribe(city => {
-        if (city.status === 'OK') {
-          this.cityLocation = city.results[0].geometry.location;
+        if (city['status'] === 'OK') {
+          this.cityLocation = city['results'][0].geometry.location;
         } else {
-          console.log(city.status);
+          console.log('Something went wrong!');
         }
       },
-      error => console.log(error));
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
   }
 
   ngOnInit() {

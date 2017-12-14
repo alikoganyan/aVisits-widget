@@ -1,7 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
-import {HttpModule} from '@angular/http';
 import {FormsModule} from '@angular/forms';
 import {AgmCoreModule} from '@agm/core';
 import {TextMaskModule} from 'angular2-text-mask';
@@ -22,18 +21,20 @@ import {TimeBookedComponent} from './components/time-booked/time-booked.componen
 import {InterruptRecordComponent} from './components/interrupt-record/interrupt-record.component';
 import {MainComponent} from './layouts/main/main.component';
 import {LoaderComponent} from './layouts/loader/loader.component';
+import {CalendarComponent} from './layouts/calendar/calendar.component';
 /* Services */
 import {SwitcherService} from './services/switcher.service';
 import {CityService} from './services/city.service';
 import {NavbarSwitcherService} from './services/navbar-switcher.service';
 import {SidebarSwitcherService} from './services/sidebar-switcher.service';
 import {AppointmentService} from './services/appointment.service';
+import {ClientService} from './services/client.service';
+import {GetServicesService} from './services/get-services.service';
+import {GetDataService} from './services/get-data.service';
 /* Directives */
 import {ActiveDirective} from './directives/active.directive';
 /* Pipe */
 import {FilterPipe} from './filter.pipe';
-import {CalendarComponent} from './layouts/calendar/calendar.component';
-import {ClientService} from './services/client.service';
 
 
 @NgModule({
@@ -60,7 +61,6 @@ import {ClientService} from './services/client.service';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
     HttpClientModule,
     AppRoutingModule,
     AgmCoreModule.forRoot({
@@ -75,7 +75,9 @@ import {ClientService} from './services/client.service';
     SidebarSwitcherService,
     CityService,
     ClientService,
-    AppointmentService
+    AppointmentService,
+    GetServicesService,
+    GetDataService
   ],
   bootstrap: [AppComponent]
 })

@@ -45,7 +45,7 @@ export class SidebarSwitcherService {
     this.selectedMasters.next(masters);
   }
 
-  getPriceAndCount(priceAndCount: { totalCount: number, totalPrice: number }) {
+  getPriceAndCount(priceAndCount: { totalCount: number, totalPrice: any }) {
     this.totalPriceAndCount.next(priceAndCount);
   }
 
