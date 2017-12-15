@@ -32,6 +32,20 @@ export class GetDataService {
   }
 
 
+  getEmployeeCalendar(from: string, to: string) {
+    return this.http.post<{ data: ECalendar[] }>(
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employee_calendar',
+      {
+        salon_id: SVariables.salonId,
+        employees: this.employeesID,
+        from: from,
+        to: to
+      },
+      {headers: this.headers}
+    );
+  }
+
+
   getEmployees() {
     return this.http.post(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employees',
@@ -40,5 +54,24 @@ export class GetDataService {
     );
   }
 
+
+  getSettings() {
+    return this.http.get(
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/settings');
+  }
+
+  sendSettings() {
+    return this.http.get(
+      'http://api.avisits.com/api/widget/37/settings?' +
+      'w_steps_service=address,service,employee_time&' +
+      'w_steps_employee=employee,address,service,time&' +
+      'w_color=%4564564');
+  }
+
+
 }
 
+interface ECalendar {
+  date: string;
+  working_status: number;
+}

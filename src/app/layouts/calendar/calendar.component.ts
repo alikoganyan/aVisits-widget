@@ -1,14 +1,14 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 import {SDate} from '../../models/date';
 import * as moment from 'moment';
+import {GetDataService} from '../../services/get-data.service';
 
 @Component({
   selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  templateUrl: './calendar.component.html'
 })
 export class CalendarComponent implements OnInit {
-
   @Output() sendedDate = new EventEmitter<SDate>();
 
   days = [0, 1, 2, 3, 4, 5, 6];
@@ -19,28 +19,49 @@ export class CalendarComponent implements OnInit {
   positionSlider = 0;
   calendarLength = 2500;
 
+  from: string;
+  to: string;
 
-  constructor() {
+  constructor(private getDataService: GetDataService) {
   }
 
   onSelectDate(date: SDate) {
-    this.selectedDate = date;
-    this.sendedDate.emit(date);
+    if (date.working_status === 1) {
+      this.selectedDate = date;
+      this.sendedDate.emit(date);
+    }
   }
 
   nextDate() {
-    const lastDate = this.myOwnCalendarDays.length + 1;
-    this.myOwnCalendarDays.push(
-      {
-        day: moment(new Date()).add(lastDate, 'days').get('date'),
-        weekday: moment(new Date()).locale('ru').add(lastDate, 'days').format('dddd'),
-        month: moment(new Date()).locale('ru').add(lastDate, 'days').format('MMMM').charAt(0).toUpperCase() +
-        moment(new Date()).locale('ru').add(lastDate, 'days').format('MMMM').slice(1),
-        year: moment(new Date()).locale('ru').add(lastDate, 'days').format('Y')
-      }
-    );
+    const lastDay = this.myOwnCalendarDays.length + 1;
+    const lastDate = {
+      day: moment(new Date()).add(lastDay, 'days').format('DD'),
+      weekday: moment(new Date()).locale('ru').add(lastDay, 'days').format('dddd'),
+      month: moment(new Date()).locale('ru').add(lastDay, 'days').format('MMMM').charAt(0).toUpperCase() +
+      moment(new Date()).locale('ru').add(lastDay, 'days').format('MMMM').slice(1),
+      year: moment(new Date()).locale('ru').add(lastDay, 'days').format('Y'),
+      working_status: 1
+    };
+    this.myOwnCalendarDays.push(lastDate);
     this.positionSlider -= 100;
     this.calendarLength += 100;
+
+    const dateString = `${lastDate.year}-${moment().locale('ru').month(lastDate.month).format('MM')}-${lastDate.day}`;
+
+    this.getDataService.getEmployeeCalendar(dateString, dateString).subscribe(response => {
+        lastDate.working_status = response.data['calendar'][0].working_status;
+        console.log(response.data['calendar']);
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
+
+
+    // console.log(lastDate);
   }
 
 
@@ -56,22 +77,38 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     this.days.map(v => {
       this.myOwnCalendarDays.push({
-        day: moment(new Date()).add(v, 'days').get('date'),
+        day: moment(new Date()).add(v, 'days').format('DD'),
         weekday: moment(new Date()).locale('ru').add(v, 'days').format('dddd'),
         month: moment(new Date()).locale('ru').add(v, 'days').format('MMMM').charAt(0).toUpperCase() +
         moment(new Date()).locale('ru').add(v, 'days').format('MMMM').slice(1),
-        year: moment(new Date()).locale('ru').add(v, 'days').format('Y')
+        year: moment(new Date()).locale('ru').add(v, 'days').format('Y'),
+        working_status: 1
       });
     });
     this.selectedDate = this.myOwnCalendarDays[0];
+    this.from = `${this.myOwnCalendarDays[0].year}-${moment().locale('ru').month(this.myOwnCalendarDays[0].month).format('MM')}-${this.myOwnCalendarDays[0].day}`;
+    this.to = `${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].year}-${moment().locale('ru').month(this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].month).format('M')}-${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].day}`;
+    console.log(this.from, this.to);
+    this.getEmployeeCalendar();
+    console.log(this.myOwnCalendarDays);
+  }
+
+
+  getEmployeeCalendar() {
+    this.getDataService.getEmployeeCalendar(this.from, this.to).subscribe(response => {
+        response.data['calendar'].map((val, ind) => {
+          this.myOwnCalendarDays[ind].working_status = val.working_status;
+        });
+        console.log(response.data['calendar']);
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
   }
 
 }
-
-// interface Date {
-//   day: number;
-//   weekday: string;
-//   month: string;
-//   year: string;
-// }
 

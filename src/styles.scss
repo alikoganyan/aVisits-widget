@@ -7,6 +7,7 @@ $color-gray-td: rgb(64, 65, 72);
 $color-orange: #e38044;
 $color-peach: #fff9f5;
 
+
 $shadow: 0px -1px 15px -4px rgba(0, 0, 0, 0.2), -5px 2px 47px -6px rgba(0, 0, 0, 0.19);
 
 * {
@@ -20,7 +21,6 @@ body {
   padding: 0;
   font-family: OpenSans-Regular, sans-serif !important;
   color: #333333;
-  //letter-spacing: 0.3px;
   font-size: 12px !important;
 }
 
@@ -492,7 +492,6 @@ label {
   &::-webkit-scrollbar-thumb {
     border-radius: 5px;
     height: 40px;
-    // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #e4e7e8;
   }
 
@@ -892,7 +891,7 @@ label {
           padding: 10px 8px 20px 20px;
 
           .contacts-master-phone, .contacts-master-name {
-              position: relative;
+            position: relative;
           }
 
         }
@@ -1334,7 +1333,6 @@ label {
     .content-right-block.time-master-right-block {
       width: calc(100% - 170px);
       float: left;
-      //padding: 20px;
       overflow-y: scroll;
       max-height: 402px;
 
@@ -1353,7 +1351,6 @@ label {
       &::-webkit-scrollbar-thumb {
         border-radius: 5px;
         height: 40px;
-        // -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
         background-color: #e4e7e8;
       }
 
@@ -1393,8 +1390,6 @@ label {
           vertical-align: top;
           border-radius: 50px;
           display: inline-block;
-          //background-color: #5c24fa;
-          //background-image: url(./assets/images/master-pic.png);
           background-repeat: no-repeat;
           background-size: cover;
           -webkit-background-size: cover;
@@ -1417,7 +1412,6 @@ label {
 
       .time-master-time-schedule {
         float: right;
-        //text-align: right;
         width: calc(100% - 237px);
 
         .table {
@@ -1473,7 +1467,6 @@ label {
               padding-bottom: 9px;
               color: $color-gray;
 
-
               &:first-child {
                 color: $color-gray-td;
               }
@@ -1495,7 +1488,6 @@ label {
           .time-service-item-title {
             float: left;
             font-size: 14px;
-            // width: 50%;
           }
 
           .time-service-item-info {
@@ -2555,26 +2547,14 @@ label {
   color: #F07C4C;
 }
 
-
-
 .avisits-item {
   display: inline-block;
 }
-
-
-
-
-
-
-
-
-
 
 .time-master.calendar {
   overflow: hidden;
   position: relative;
 }
-
 
 .avisits-date_slider {
   opacity: 1;
@@ -2582,7 +2562,6 @@ label {
   transition: 1s;
 
 }
-
 
 .avisits-item {
   display: inline-block;
@@ -2607,7 +2586,6 @@ label {
   padding: 0;
   z-index: 1;
 }
-
 
 .slick-next.slick-arrow {
   background-color: white !important;

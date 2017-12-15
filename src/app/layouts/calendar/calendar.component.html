@@ -8,7 +8,8 @@
       <div class="avisits-item" *ngFor="let date of myOwnCalendarDays">
         <div class="avisits-col"
              (click)="onSelectDate(date)"
-             [class.avisits-active]="date === selectedDate">
+             [class.avisits-active]="date === selectedDate"
+             [class.disabled]="date.working_status === 0">
           <a>
             <p class="bold">{{date.weekday}}</p>
             <p>{{date.day}} {{date.month}}</p>

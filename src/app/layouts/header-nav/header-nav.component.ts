@@ -5,8 +5,7 @@ import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 
 @Component({
   selector: 'app-header-nav',
-  templateUrl: './header-nav.component.html',
-  styleUrls: ['./header-nav.component.scss']
+  templateUrl: './header-nav.component.html'
 })
 export class HeaderNavComponent implements OnInit, OnDestroy {
   chackedNavbar;

@@ -1,23 +1,26 @@
 import {Component} from '@angular/core';
+import * as moment from 'moment';
+
+
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
 
-  periods = [];
+
+  /*periods = [];
   freePeriods = [];
   searchStep = 15;
   displayStep = 30;
   timesToDisplay = [];
 
   finisheDates = [];
-  dates = [];
+  dates = [];*/
 
   constructor() {
-    this.periods = this.getPeriods();
+    /*this.periods = this.getPeriods();
     this.freePeriods = this.getFreePeriods();
     this.periods.map((v, k) => {
       this.timesToDisplay[k] = [];
@@ -44,10 +47,16 @@ export class AppComponent {
     });
     this.met();
     this.hourToMin();
+
+
+    console.log(moment().locale('ru').month('Январь').format('MM'));*/
+
+
+
   }
 
 
-  met() {
+ /* met() {
     this.finisheDates = this.timesToDisplay.reduce((a, b) => {
       return a.concat(b);
     });
@@ -133,7 +142,8 @@ export class AppComponent {
     console.log(parseInt(price, 10).toFixed());
 
 
-  };
+  }*/
+
 
 }
 

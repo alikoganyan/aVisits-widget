@@ -1,14 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {HttpErrorResponse} from '@angular/common/http';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {ActivatedRoute} from '@angular/router';
 import {SVariables} from '../../services/sVariables';
+import {GetDataService} from '../../services/get-data.service';
 
 
 @Component({
   selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  templateUrl: './main.component.html'
 })
 export class MainComponent implements OnInit, OnDestroy {
 
@@ -19,7 +20,8 @@ export class MainComponent implements OnInit, OnDestroy {
   subRoutId: Subscription;
 
   constructor(private switcherService: SwitcherService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private getDataService: GetDataService) {
   }
 
   onStart() {
@@ -29,6 +31,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getSubscriptions();
+    this.getSettings();
   }
 
   getSubscriptions() {
@@ -44,6 +47,29 @@ export class MainComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  getSettings() {
+    this.getDataService.getSettings().subscribe(response => {
+        console.log(response);
+        this.getDataService.sendSettings().subscribe(res => {
+          console.log(res);
+        },
+          (err: HttpErrorResponse) => {
+            if (err.error instanceof Error) {
+              console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+            } else {
+              console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+            }
+          });
+      },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
+  }
 
   ngOnDestroy() {
     this.startSubscription.unsubscribe();

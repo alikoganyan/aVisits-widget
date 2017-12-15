@@ -36,11 +36,12 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
 
   date: SDate = {
-    day: moment(new Date()).add(0, 'days').get('date'),
+    day: moment(new Date()).add(0, 'days').format('DD'),
     weekday: moment(new Date()).locale('ru').add(0, 'days').format('dddd'),
     month: moment(new Date()).locale('ru').add(0, 'days').format('MMMM').charAt(0).toUpperCase() +
     moment(new Date()).locale('ru').add(0, 'days').format('MMMM').slice(1),
-    year: moment(new Date()).locale('ru').add(0, 'days').format('Y')
+    year: moment(new Date()).locale('ru').add(0, 'days').format('Y'),
+    working_status: null
   };
 
 
@@ -71,7 +72,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
         }
         this.active_minutes_indexes_array = arr;
 
-        console.log(Math.ceil(selectedTime / displayInterval));
         const hourST = Math.floor(clickedTime / 60);
         let minST: any = (((clickedTime / 60) - hourST) * 60);
         if (minST === 0) {
@@ -82,7 +82,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
         employeesService.from_time = `${hourST}:${minST}`;
 
         const hourND = Math.floor((clickedTime + selectedTime) / 60);
-        console.log(hourND);
         let minND: any = ((((clickedTime + selectedTime) / 60) - hourND) * 60);
         if (minND === 0) {
           minND = minND.toString() + '0';
@@ -122,8 +121,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
   getSelectedDate(date: SDate) {
     this.active_minutes_indexes_array = [];
-    SVariables.date = `${date.year}-${moment().month(date.month).format('M')}-${date.day}`;
-    console.log(date);
+    SVariables.date = `${date.year}-${moment().locale('ru').month(date.month).format('MM')}-${date.day}`;
     this.getDataService.getTimes().subscribe(response => {
         this.timeLogic(response['data']['employees']);
       },
@@ -156,7 +154,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
 
   timeLogic(param) {
-    console.log(param);
     param.map((employee, index) => {
       this.employeesServices[index].timesToDisplay = [];
       this.employeesServices[index].times = [];
@@ -198,7 +195,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
               }
             }
           });
-          console.log(timesToDisplay);
           this.employeesServices[index].timesToDisplay = timesToDisplay;
 
           timesToDisplay.map((val, ind) => {
@@ -258,11 +254,18 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
       });
       this.appointment.push(appointment);
     });
-    console.log(this.appointment);
+
     this.appointmentService.createAppointment(this.appointment).subscribe(response => {
-      console.log(response);
       response['status'] === 'OK' && this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-    });
+    },
+      (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+        } else {
+          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+        }
+      });
+
   }
 
   onClose() {
