@@ -31,10 +31,13 @@ import {AppointmentService} from './services/appointment.service';
 import {ClientService} from './services/client.service';
 import {GetServicesService} from './services/get-services.service';
 import {GetDataService} from './services/get-data.service';
+import {SettingService} from "./services/setting.service";
 /* Directives */
 import {ActiveDirective} from './directives/active.directive';
+import { HoverDirective } from './directives/hover.directive';
 /* Pipe */
 import {FilterPipe} from './filter.pipe';
+
 
 
 @NgModule({
@@ -56,7 +59,8 @@ import {FilterPipe} from './filter.pipe';
     LoaderComponent,
     MainComponent,
     FilterPipe,
-    CalendarComponent
+    CalendarComponent,
+    HoverDirective
   ],
   imports: [
     BrowserModule,
@@ -77,7 +81,8 @@ import {FilterPipe} from './filter.pipe';
     ClientService,
     AppointmentService,
     GetServicesService,
-    GetDataService
+    GetDataService,
+    SettingService
   ],
   bootstrap: [AppComponent]
 })

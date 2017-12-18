@@ -8,6 +8,7 @@ import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {SVariables} from '../../services/sVariables';
 import {GetDataService} from '../../services/get-data.service';
+import {Styling} from "../../services/styling";
 
 @Component({
   selector: 'app-select-address',
@@ -34,6 +35,8 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
     lng: 37.9456611
   };
   zoom = 11;
+
+  hover = false;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -85,10 +88,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
     this.switcherMode = event.target.checked;
   }
 
-  onSelectSalon(salon: any) {
-    this.selectedSalon = salon;
-    this.sidebarSwitcherService.selectAddress(salon.address);
-  }
+
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
@@ -109,7 +109,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_address');
+      this.index = sequence.indexOf('address');
       this.sequence = sequence;
     });
   }
@@ -117,6 +117,28 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
     this.subSequence.unsubscribe();
+  }
+
+
+  onSelectSalon(salon: any) {
+    this.selectedSalon = salon;
+    this.sidebarSwitcherService.selectAddress(salon.address);
+  }
+
+  /* STYLES FROM URL COLOR */
+  selectStyle() {
+    return Styling.selectStyle;
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
+  }
+
+
+
+  changeHoverM(event, salon) {
+    // if(this.selectedSalon === salon) return;
+    salon.hover = event.type == 'mouseover' ? true : false;
   }
 
 }

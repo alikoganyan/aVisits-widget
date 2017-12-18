@@ -8,6 +8,7 @@ import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {ClientService} from '../../services/client.service';
 import {SVariables} from '../../services/sVariables';
 import {Client} from '../../models/client';
+import {Styling} from "../../services/styling";
 
 @Component({
   selector: 'app-indicate-contacts',
@@ -18,9 +19,6 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   @ViewChild('f') contactForm: NgForm;
 
   mask: any[] = ['+', '7', ' ', '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, '-', /\d/, /\d/];
-
-  chosenOrder: string;
-  subChosenOrder: Subscription;
 
   interrapt = false;
   subInterrupt: Subscription;
@@ -39,7 +37,6 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   };
 
   userFounded = false;
-
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -83,26 +80,25 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   goNext() {
     this.onSubmit();
-    let choose: string;
-    this.chosenOrder === 'Master' ? choose = this.sequence[this.index + 1] : choose = 'select_services';
     if (this.userFounded === true) {
       this.clientService.updateClient(this.savedContacts).subscribe(response => {
-          SVariables.clientId = response['data'].client.id;
-          this.savedContacts = response['data'].client;
-          this.sidebarSwitcherService.userContact(this.savedContacts);
-          this.switcherService.onClickedStatus(choose);
+          this.gotNextAssigned(response);
         },
         error => console.log(error));
       this.userFounded = false;
     } else {
       this.clientService.newClient(this.contactForm.value).subscribe(response => {
-           SVariables.clientId = response['data'].client.id;
-          this.savedContacts = response['data'].client;
-          this.sidebarSwitcherService.userContact(this.savedContacts);
-          this.switcherService.onClickedStatus(choose);
+          this.gotNextAssigned(response);
         },
         error => console.log(error));
     }
+  }
+
+  gotNextAssigned(response) {
+    SVariables.clientId = response['data'].client.id;
+    this.savedContacts = response['data'].client;
+    this.sidebarSwitcherService.userContact(this.savedContacts);
+    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 
   onClose() {
@@ -111,9 +107,6 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
 
   getSubscriptions() {
-    this.subChosenOrder = this.switcherService.currentMessage.subscribe(message => {
-      this.chosenOrder = message;
-    });
     this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
       this.interrapt = interrapt;
     });
@@ -124,9 +117,18 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subChosenOrder.unsubscribe();
     this.subInterrupt.unsubscribe();
     this.subSequence.unsubscribe();
+  }
+
+  /* STYLES FROM URL COLOR */
+
+  fontColor() {
+    return {color: Styling.color}
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
   }
 
 }

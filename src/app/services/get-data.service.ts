@@ -55,19 +55,6 @@ export class GetDataService {
   }
 
 
-  getSettings() {
-    return this.http.get(
-      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/settings');
-  }
-
-  sendSettings() {
-    return this.http.get(
-      'http://api.avisits.com/api/widget/37/settings?' +
-      'w_steps_service=address,service,employee_time&' +
-      'w_steps_employee=employee,address,service,time&' +
-      'w_color=%4564564');
-  }
-
 
 }
 

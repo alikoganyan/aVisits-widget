@@ -21,7 +21,7 @@
                 *ngFor="let service_cat of services_cat"
                 class="services-service-right-block-first-item"
                 (click)="onSelectServiceCat(service_cat)"
-                [class.active]="service_cat === selected_service_cat">
+                [ngStyle]="service_cat === selected_service_cat && fontColor()">
                 {{service_cat.title}}
               </div>
             </div>
@@ -51,7 +51,7 @@
                   <p class="services-master-service-list-title bold">{{group.title}}</p>
                   <table class="">
                     <tr
-                      [class.active]="service.checked === true"
+                      [ngStyle]="service.checked === true && selectStyle()"
                       *ngFor="let service of group.services | filter : searchText:'title'">
                         <td>
                           <input
@@ -59,7 +59,7 @@
                             type="checkbox"
                             [checked]="service.checked"
                             (change)="onSelectService(service, $event)">
-                          <label></label>
+                          <label [ngStyle]="checkboxStyle()"></label>
                         </td>
                         <td><label [for]="service.id">{{service.title}}</label></td>
                         <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
@@ -119,7 +119,7 @@
                 <p class="services-master-service-list-title bold">{{group.title}}</p>
                 <table class="">
                   <tr
-                    [class.active]="service.checked === true"
+                    [ngStyle]="service.checked === true && selectStyle()"
                     *ngFor="let service of group.services | filter : searchText:'title'">
                     <td>
                       <input
@@ -192,6 +192,7 @@
           </span>
           <a (click)="goNext()" class="semi-bold pull-right">
             <div
+              [ngStyle]="radioStyle()"
               class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
               Далее
               <img src="assets/images/svg/arrow-white.svg">

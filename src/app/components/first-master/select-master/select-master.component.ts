@@ -8,6 +8,7 @@ import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service
 import {GetServicesService} from '../../../services/get-services.service';
 import {GetDataService} from '../../../services/get-data.service';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Styling} from "../../../services/styling";
 
 @Component({
   selector: 'app-select-master',
@@ -114,7 +115,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_master');
+      this.index = sequence.indexOf('m_employee');
       this.sequence = sequence;
     });
   }
@@ -122,6 +123,15 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
     this.subSequence.unsubscribe();
+  }
+
+
+  wrappedStyle() {
+    return Styling.wrappedStyle;
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
   }
 
 }

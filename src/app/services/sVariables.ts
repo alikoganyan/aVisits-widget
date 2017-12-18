@@ -5,5 +5,7 @@ export class SVariables {
   public static salonId: number;
   public static date: string;
   public static clientId: number;
+  public static settings: {steps_employee: string[], steps_service: string[], color: string};
+  public static steps_employee: string[];
+  public static steps_service: string[];
 }
-

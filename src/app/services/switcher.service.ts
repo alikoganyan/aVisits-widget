@@ -10,38 +10,11 @@ export class SwitcherService {
   private clickedStatus = new BehaviorSubject('select-city'); // status here
   status = this.clickedStatus.asObservable();
 
-  private messageSource = new BehaviorSubject('default message');  // Master or Service first
-  currentMessage = this.messageSource.asObservable();
+// ["select_city", "m_employee", "m_service", "address", "m_time", "indicate_contacts", "time_booked"]
+  // ["address", "s_service", "s_employee_time", "indicate_contacts", "time_booked"]
 
-
-  // sequence = [
-  //   'select-address',
-  //   'indicate-contacts',
-  //   'select-master',
-  //   'select-services-master',
-  //   'select-date-time'
-  // ];
-
- /* private resSequence = new BehaviorSubject([
-    'select_city',
-    'select_address',
-    'indicate_contacts',
-    'select_master',
-    'select_services_master',
-    'select_date_time',
-    'time_booked'
-  ]);*/
-
-  private resSequence = new BehaviorSubject([
-    'select_city',
-    'select_address',
-    'indicate_contacts',
-    'select_services',
-    'select_time_master',
-    'time_booked'
-  ]);
+  private resSequence = new BehaviorSubject([]);
   sequence = this.resSequence.asObservable();
-
 
   constructor() {
   }
@@ -50,16 +23,9 @@ export class SwitcherService {
     this.clickedStatus.next(status);
   }
 
-  changeMessage(message: string) {
-    this.messageSource.next(message);
-  }
-
-
-  onSequence(sequence) {
+  onSequence(sequence: string[]) {
     this.resSequence.next(sequence);
   }
 
-
 }
-
 

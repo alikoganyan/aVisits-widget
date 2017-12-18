@@ -3,6 +3,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {SDate} from '../../models/date';
 import * as moment from 'moment';
 import {GetDataService} from '../../services/get-data.service';
+import {Styling} from "../../services/styling";
 
 @Component({
   selector: 'app-calendar',
@@ -59,9 +60,6 @@ export class CalendarComponent implements OnInit {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
         }
       });
-
-
-    // console.log(lastDate);
   }
 
 
@@ -108,6 +106,11 @@ export class CalendarComponent implements OnInit {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
         }
       });
+  }
+
+
+  radioStyle() {
+    return Styling.radioStyle;
   }
 
 }

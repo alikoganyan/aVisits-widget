@@ -83,6 +83,7 @@
           </button>
           <button (click)="goNext()" class="semi-bold pull-right">
             <div
+              [ngStyle]="radioStyle()"
               class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
               Далее
               <img src="assets/images/svg/arrow-white.svg">

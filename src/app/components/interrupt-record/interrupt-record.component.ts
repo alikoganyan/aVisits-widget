@@ -3,6 +3,7 @@ import {SwitcherService} from '../../services/switcher.service';
 import {Subscription} from 'rxjs/Subscription';
 import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
+import {Styling} from "../../services/styling";
 
 @Component({
   selector: 'app-interrupt-record',
@@ -39,5 +40,9 @@ export class InterruptRecordComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subStatus.unsubscribe();
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
   }
 }

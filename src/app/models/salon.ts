@@ -1,7 +1,3 @@
-/*export class Salon {
-  constructor(public address?: string) {}
-}*/
-
 export class Salon {
   address: string;
   city: string;

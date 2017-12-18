@@ -15,7 +15,7 @@
                 class="services-service-right-block-first-item"
                 *ngFor="let master of masters"
                 (click)="onSelectMaster(master)"
-                [class.active]="master === selectedMaster || (firstMaster.employee_id === master.id && only_first_masterServices === 'show')">
+                [ngStyle]="(master === selectedMaster || (firstMaster.employee_id === master.id && only_first_masterServices === 'show')) && backColor()">
                 <div class="services-service-master-title-block">
                   <a class="services-service-title-block-back-btn"><img
                     src="assets/images/svg/arrow-dark-gray.svg"></a>
@@ -67,7 +67,7 @@
                   <p class="services-master-service-list-title bold">{{service_group.title}}</p>
                   <table class="">
                     <tr
-                      [class.active]="service.checked === true"
+                      [ngStyle]="service.checked === true && selectStyle()"
                       *ngFor="let service of service_group.services | filter : searchText:'title'">
                       <td>
                         <input
@@ -96,7 +96,7 @@
                     <p class="services-master-service-list-title bold">{{service_group.title}}</p>
                     <table class="">
                       <tr
-                        [class.active]="service.checked === true"
+                        [ngStyle]="service.checked === true && selectStyle()"
                         *ngFor="let service of service_group.services | filter : searchText">
                         <td>
                           <input
@@ -129,7 +129,7 @@
           class="choose-options-content services-service-content bordered services-service-master-chosen clearfix">
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">
-              <div class="services-service-right-block-first-item active" (click)="backToAllMasterOnMobile()">
+              <div class="services-service-right-block-first-item" [ngStyle]="backColor()" (click)="backToAllMasterOnMobile()">
                 <div class="services-service-master-title-block">
                   <a class="services-service-title-block-back-btn"><img
                     src="assets/images/svg/arrow-dark-gray.svg"></a>
@@ -173,7 +173,7 @@
                     <p class="services-master-service-list-title bold">{{groups.title}}</p>
                     <table class="">
                       <tr
-                        [class.active]="service.checked === true"
+                        [ngStyle]="service.checked === true && selectStyle()"
                         *ngFor="let service of groups.services | filter : searchText:'title'">
                         <td>
                           <input
@@ -209,7 +209,7 @@
                 class="services-service-right-block-first-item"
                 *ngFor="let master of masters"
                 (click)="onSelectMaster(master)"
-                [class.active]="master === selectedMaster">
+                [ngStyle]="master === selectedMaster && backColor()">
                 <div class="services-service-master-title-block">
                   <div
                     class="services-service-pic-container"
@@ -263,6 +263,7 @@
           </span>
           <button [disabled]="!selectedDates.length > 0"  (click)="goNext()" class="semi-bold pull-right">
             <div
+              [ngStyle]="radioStyle()"
               class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">
               Далее
               <img src="assets/images/svg/arrow-white.svg">

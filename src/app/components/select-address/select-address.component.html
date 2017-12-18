@@ -25,14 +25,15 @@
               <app-loader *ngIf="loader"></app-loader>
 
               <div
+                (mouseover)="changeHoverM($event, salon)" (mouseleave)="changeHoverM($event, salon)"
+
                 class="addresses-box-item item"
                 *ngFor="let salon of salons"
                 (click)="onSelectSalon(salon)"
-                [class.active]="salon === selectedSalon"
-              >
+                [ngStyle]="salon === selectedSalon && selectStyle()">
                 <label class="check-container">
                   <div class="addresses-box-pic-container"
-                       [ngStyle]="{'background': 'url(http://api.avisits.com/' + salon.img + ')'}" >
+                       [ngStyle]="{'background': 'url(http://api.avisits.com/' + salon.img + ')'}">
                   </div>
                   <div class="addresses-box-info-container">
                     <p class="semi-bold">{{salon.address}}</p>
@@ -41,7 +42,7 @@
                     </p>
                   </div>
                   <input type="radio" name="radio">
-                  <span class="checkmark"></span>
+                  <span class="checkmark" [ngStyle]="salon === selectedSalon && radioStyle()"></span>
                 </label>
               </div>
 
@@ -89,7 +90,7 @@
           </button>
           <button [disabled]="!selectedSalon" (click)="goNext()" class="semi-bold pull-right">
             <div
-              class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right">
+              class="next nav-bottom-next nav-bottom-item address-master-bottom-item address-master-bottom-next pull-right" [ngStyle]="radioStyle()">
               Далее
               <img src="assets/images/svg/arrow-white.svg">
             </div>

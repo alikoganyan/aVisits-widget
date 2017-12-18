@@ -9,6 +9,7 @@ import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service
 import {SVariables} from '../../../services/sVariables';
 import {GetServicesService} from '../../../services/get-services.service';
 import {GetDataService} from '../../../services/get-data.service';
+import {Styling} from "../../../services/styling";
 
 @Component({
   selector: 'app-select-services-master',
@@ -52,7 +53,6 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   }
 
   onSelectService(service, event, employeeService) {
-
     service.checked = event.target.checked;
     if (event.target.checked) {
       if (typeof this.selectedMaster !== 'undefined') {
@@ -105,6 +105,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   getServices() {
     this.getServicesService.getEmployeeServices().subscribe(response => {
+      console.log(response);
       response['data'].employees.map((employee) => {
         this.firstMaster = response['data'].employees[0];  // this is for show first master services
         employee.service_groups.map((group) => {
@@ -178,7 +179,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_services_master');
+      this.index = sequence.indexOf('m_service');
       this.sequence = sequence;
     });
   }
@@ -187,6 +188,19 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
     this.subInterrupt.unsubscribe();
     this.subSequence.unsubscribe();
     this.subMasters.unsubscribe();
+  }
+
+
+  backColor() {
+    return {backgroundColor: Styling.lightColor}
+  }
+
+  selectStyle() {
+    return Styling.selectStyle;
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
   }
 
 }

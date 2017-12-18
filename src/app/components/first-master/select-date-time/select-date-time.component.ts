@@ -11,6 +11,7 @@ import {SVariables} from '../../../services/sVariables';
 import {Appointment} from '../../../models/appointment';
 import {AppointmentService} from '../../../services/appointment.service';
 import {GetDataService} from '../../../services/get-data.service';
+import {Styling} from "../../../services/styling";
 
 @Component({
   selector: 'app-select-date-time',
@@ -265,7 +266,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
           console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
         }
       });
-
+    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 
   onClose() {
@@ -277,7 +278,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_date_time');
+      this.index = sequence.indexOf('m_time');
       this.sequence = sequence;
     });
     this.subEmployeesServices = this.sidebarSwitcherService.employeesServices.subscribe(employeesServices => {
@@ -290,5 +291,10 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
     this.subSequence.unsubscribe();
     this.subEmployeesServices.unsubscribe();
   }
+
+  radioStyle() {
+    return Styling.radioStyle;
+  }
+
 }
 

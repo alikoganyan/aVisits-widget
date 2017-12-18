@@ -2,19 +2,15 @@
   <div class="choose-options-logo"><img src="assets/images/icons/logo.png"></div>
   <div class="choose-options-container">
     <div class="choose-options-inner-container">
-
-
-      <div class="choose-option" *ngFor="let navbar of sequence; let i = index" [ngClass]="{'active': i + 1 === active}">
+      <div class="choose-option" *ngFor="let navbar of sequence; let i = index" [ngStyle]="i + 1 === active && fontColor()">
         <div class="choose-option-inner">
-          <p class="choose-option-num">{{i + 1}}</p>
+          <p class="choose-option-num" [ngStyle]="i + 1 === active && fontColor()">{{i + 1}}</p>
           <p>
-            <span>{{navbarMasters[navbar].title1}}</span>
-            <span>{{navbarMasters[navbar].title2}}</span>
+            <span>{{checkedNavbar[navbar].title1}}</span>
+            <span>{{checkedNavbar[navbar].title2}}</span>
           </p>
         </div>
       </div>
-
-
     </div>
   </div>
 </div>

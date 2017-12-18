@@ -6,6 +6,7 @@ import {CityService} from '../../../services/city.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 import {GetServicesService} from '../../../services/get-services.service';
+import {Styling} from "../../../services/styling";
 
 @Component({
   selector: 'app-select-services',
@@ -127,7 +128,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_services');
+      this.index = sequence.indexOf('s_service');
       this.sequence = sequence;
     });
   }
@@ -135,6 +136,23 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
     this.subSequence.unsubscribe();
+  }
+
+
+  fontColor() {
+    return {backgroundColor: Styling.lightColor}
+  }
+
+  selectStyle() {
+    return Styling.selectStyle;
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
+  }
+
+  checkboxStyle() {
+    return Styling.checkboxStyle;
   }
 
 }

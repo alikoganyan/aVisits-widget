@@ -16,7 +16,7 @@
                 </div>
               </button>
               <button (click)="onClose()" class="bold pull-right">
-                <div class="continue">
+                <div class="continue" [ngStyle]="radioStyle()">
                   Продолжить запись
                   <img src="assets/images/svg/arrow-white.svg">
                 </div>

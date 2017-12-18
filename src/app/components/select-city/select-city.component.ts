@@ -6,6 +6,7 @@ import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {SVariables} from '../../services/sVariables';
 import {HttpErrorResponse} from '@angular/common/http';
+import {Styling} from '../../services/styling';
 
 
 @Component({
@@ -20,13 +21,18 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   subInterrupt: Subscription;
 
   sequence: string[];
-  index: number;
   subSequence: Subscription;
 
   cities: string[] = [];
   selectCity: string;
 
   masterOrService = '';
+  selectedSequence: string[];
+
+
+  color = '#EF7B4C';
+  lightColor = '#EFD8C8';
+  hover;
 
 
   constructor(private switcherService: SwitcherService,
@@ -34,6 +40,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
               private navbarSwitcherService: NavbarSwitcherService,
               private sidebarSwitcherService: SidebarSwitcherService) {
   }
+
 
   getCities() {
     this.cityService.getCities().subscribe((cities) => {
@@ -51,46 +58,52 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
 
-  ngOnInit() {
-    this.getCities();
-    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
-      this.interrapt = interrapt;
-    });
-    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_city');
-      this.sequence = sequence;
-    });
-  }
-
-
   onSelectCity(city: string) {
     this.sidebarSwitcherService.selectCity(city);
     SVariables.city = city;
     this.selectCity = city;
-    if (this.masterOrService !== '') {
-      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-      this.switcherService.changeMessage(this.masterOrService);
+    if (this.selectedSequence) {
+      this.switcherService.onSequence(this.selectedSequence);
+      const index = this.selectedSequence.indexOf('select_city');
+      this.switcherService.onClickedStatus(this.sequence[index + 1]);
     }
   }
 
   selectMaster() {
-    this.masterOrService = 'Master';
+    this.selectedSequence = SVariables.steps_employee;
     if (this.selectCity !== undefined) {
-      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-      this.switcherService.changeMessage('Master');
+      const index = SVariables.steps_employee.indexOf('select_city');
+      this.switcherService.onSequence(SVariables.steps_employee);
+      this.switcherService.onClickedStatus(this.sequence[index + 1]);
+
     }
   }
 
   selectService() {
-    this.masterOrService = 'Service';
+    this.selectedSequence = SVariables.steps_service;
     if (this.selectCity !== undefined) {
-      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-      this.switcherService.changeMessage('Service');
+      const index = SVariables.steps_service.indexOf('select_city');
+      this.switcherService.onClickedStatus(this.sequence[index + 1]);
+      this.switcherService.onSequence(SVariables.steps_service);
     }
+  }
+
+  ngOnInit() {
+    this.getCities();
+    this.getSubscriptions();
   }
 
   onClose() {
     this.interrapt = true;
+  }
+
+  getSubscriptions() {
+    this.subInterrupt = this.navbarSwitcherService.interrupt.subscribe(interrapt => {
+      this.interrapt = interrapt;
+    });
+    this.subSequence = this.switcherService.sequence.subscribe(sequence => {
+      this.sequence = sequence;
+    });
   }
 
   ngOnDestroy() {
@@ -98,5 +111,48 @@ export class SelectCityComponent implements OnInit, OnDestroy {
     this.subSequence.unsubscribe();
   }
 
+
+
+
+
+
+/* STYLES FROM URL COLOR */
+
+  selectStyle() {
+    return Styling.selectStyle;
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
+  }
+
+  wrappedStyle() {
+    return Styling.wrappedStyle;
+  }
+
+  changeHoverM(event) {
+    if( event.type == 'mouseover') {
+      this.hover = 'master';
+    } else {
+      if (this.masterOrService !== 'Master') {
+        this.hover = false;
+      }
+    }
+      // this.hover = event.type == 'mouseover' ? 'master' : false;
+  }
+
+  changeHoverS(event) {
+    if( event.type == 'mouseover') {
+      this.hover = 'service';
+    } else {
+      if (this.masterOrService !== 'Service') {
+        this.hover = false;
+      }
+    }
+  }
+
+
+
 }
+
 

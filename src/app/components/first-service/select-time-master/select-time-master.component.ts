@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
+import {Styling} from "../../../services/styling";
 
 @Component({
   selector: 'app-select-time-master',
@@ -52,13 +53,17 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('select_time_master');
+      this.index = sequence.indexOf('s_employee_time');
       this.sequence = sequence;
     });
   }
 
   ngOnDestroy() {
     this.subInterrupt.unsubscribe();
+  }
+
+  radioStyle() {
+    return Styling.radioStyle;
   }
 
 }
