@@ -16,7 +16,6 @@ import {Styling} from "../../services/styling";
   styles: ['@media (max-width: 614px) { .switcherMode {display: none;}}']
 })
 export class SelectAddressComponent implements OnInit, OnDestroy {
-  loader = true;
 
   interrapt = false;
   subInterrupt: Subscription;
@@ -36,6 +35,8 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   };
   zoom = 11;
 
+
+
   hover = false;
 
   constructor(private switcherService: SwitcherService,
@@ -47,11 +48,9 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   getSalons() {
     this.getDataService.getSalons().subscribe(response => {
-        this.loader = false;
         this.salons = response['data'].salons;
       },
       (err: HttpErrorResponse) => {
-        this.loader = false;
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message);  // A client-side or network error occurred. Handle it accordingly.
         } else {
@@ -87,8 +86,6 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   switchMode(event) {
     this.switcherMode = event.target.checked;
   }
-
-
 
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
@@ -127,11 +124,11 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   /* STYLES FROM URL COLOR */
   selectStyle() {
-    return Styling.selectStyle;
+    return Styling.globalWidgetsStyles.selectStyle;
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
 

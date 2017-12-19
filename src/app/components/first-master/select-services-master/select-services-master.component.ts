@@ -44,6 +44,9 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   selectedDates = [];
 
+  color = Styling.color;
+  searchInput = false;
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -196,11 +199,11 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   }
 
   selectStyle() {
-    return Styling.selectStyle;
+    return Styling.globalWidgetsStyles.selectStyle;
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
 }

@@ -38,6 +38,15 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
 
   userFounded = false;
 
+
+  inputsActive = {
+    nameInput: false,
+    phoneInput: false,
+    emailInput: false,
+    textareaInput: false
+  };
+  color = Styling.color;
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -124,11 +133,11 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   /* STYLES FROM URL COLOR */
 
   fontColor() {
-    return {color: Styling.color}
+    return Styling.globalWidgetsStyles.fontColor;
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
 }

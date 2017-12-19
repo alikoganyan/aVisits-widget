@@ -23,7 +23,7 @@
     <div class="choose-option-num-container">
 
       <ng-container *ngFor="let navbar of sequence; let i = index" >
-        <p class="choose-option-num" [ngClass]="{'active': i + 1 === active}">{{i+1}}</p>
+        <p class="choose-option-num" [ngStyle]="i + 1 === active && fontColor()">{{i+1}}</p>
         <span *ngIf="sequence.length - 1 !== i">-</span>
       </ng-container>
 

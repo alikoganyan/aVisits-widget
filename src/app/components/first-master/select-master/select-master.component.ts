@@ -16,8 +16,6 @@ import {Styling} from "../../../services/styling";
 })
 export class SelectMasterComponent implements OnInit, OnDestroy {
 
-  loader = true;
-
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -29,6 +27,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   selectedMasters: Master[] = [];
   masters: Master[] = [];
 
+  color = Styling.color;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -41,7 +40,6 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
   getEmployees() {
     this.getDataService.getEmployees().subscribe((response) => {
-      this.loader = false;
       this.masters = response['data'].employees;
       console.log(response['data'].employees);
     },
@@ -126,12 +124,13 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   }
 
 
+   /* STYLES FROM URL COLOR  */
   wrappedStyle() {
-    return Styling.wrappedStyle;
+    return Styling.globalWidgetsStyles.wrappedStyle;
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
 }

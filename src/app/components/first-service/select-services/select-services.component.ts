@@ -6,7 +6,7 @@ import {CityService} from '../../../services/city.service';
 import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 import {GetServicesService} from '../../../services/get-services.service';
-import {Styling} from "../../../services/styling";
+import {Styling} from '../../../services/styling';
 
 @Component({
   selector: 'app-select-services',
@@ -37,6 +37,9 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   subSequence: Subscription;
   index: number;
 
+  color = Styling.color;
+  searchInput = false;
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -46,26 +49,26 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   getAllServices() {
     this.getServicesService.getAllServices().subscribe(response => {
-        console.log(response['data'].categories);
-        this.services_cat = response['data'].categories;
-        this.selected_service_cat = this.services_cat[0];
-        response['data'].categories.map(value => {
-          value.groups.map(group => {
-            group.services.map(service => {
-              if (service.min_max_prices === null) {
-                service.min_max_prices.min_price = 'Цена';
-                service.min_max_prices.max_price = 'не указана';
-              }
-              service.min_max_prices.min_price = +parseInt(service.min_max_prices.min_price, 10).toFixed();
-              console.log(typeof service.min_max_prices.min_price);
-              const time = service.default_duration;
-              const hour = Math.floor(time / 60);
-              const min = time % 60;
-              service.hour = hour;
-              service.min = min;
+        if (response['data'].constructor === Array instanceof Object) {
+          console.log(response['data'].categories);
+          this.services_cat = response['data'].categories;
+          this.selected_service_cat = this.services_cat[0];
+          response['data'].categories.map(value => {
+            value.groups.map(group => {
+              group.services.map(service => {
+                if (service.min_max_prices === null) {
+                  service.min_max_prices.min_price = 'Цена';
+                  service.min_max_prices.max_price = 'не указана';
+                }
+                service.min_max_prices.min_price = +parseInt(service.min_max_prices.min_price, 10).toFixed();
+                const hour = Math.floor(service.default_duration / 60);
+                const min = service.default_duration % 60;
+                service.hour = hour;
+                service.min = min;
+              });
             });
           });
-        });
+        }
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
@@ -140,19 +143,19 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
 
   fontColor() {
-    return {backgroundColor: Styling.lightColor}
+    return {backgroundColor: Styling.lightColor};
   }
 
   selectStyle() {
-    return Styling.selectStyle;
+    return Styling.globalWidgetsStyles.selectStyle;
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
   checkboxStyle() {
-    return Styling.checkboxStyle;
+    return Styling.globalWidgetsStyles.checkboxStyle;
   }
 
 }

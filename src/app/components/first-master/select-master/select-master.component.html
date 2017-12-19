@@ -12,9 +12,6 @@
 
           <div class="content-right-block master-master-right-block">
             <div class="masters-list">
-
-              <app-loader *ngIf="loader"></app-loader>
-
               <div
                 class="masters-list-item"
                 *ngFor="let master of masters; let i = index"
@@ -23,7 +20,18 @@
                 <label class="masters-list-item-label">
                   <br>
                   <div class="master-pic-container-main">
-                    <img src="assets/images/icons/master-checked-icon.png" [ngStyle]="isActive(master) && {'opacity': 1}" class="master-checked-tick">
+
+
+                    <svg [ngStyle]="(isActive(master) && wrappedStyle()) && {'background-color': color} " class="selectedEmployee" version="1.1" id="XMLID_2_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="10px" y="10px"
+	 viewBox="0 0 5.9177 3.9613" enable-background="new 0 0 5.9177 3.9613" xml:space="preserve">
+<path id="tick" fill="#FFFFFF" d="M2.4657,3.9613c-0.1263,0-0.2521-0.0485-0.3484-0.1452L0.1448,1.8355
+	c-0.1931-0.1932-0.1931-0.5066,0-0.7c0.1924-0.1935,0.5045-0.1935,0.6972,0l1.6237,1.6306l2.6103-2.621
+	c0.1922-0.1934,0.5043-0.1934,0.6972,0c0.1926,0.1935,0.1926,0.5068,0,0.7001l-2.9591,2.971
+	C2.718,3.9128,2.5919,3.9613,2.4657,3.9613z"/>
+</svg>
+
+
+                    <!--<img src="assets/images/icons/master-checked-icon.png" [ngStyle]="isActive(master) && {'opacity': 1}" class="master-checked-tick">-->
                     <div class="master-pic-container"
                          [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + master.photo + ')'}">
                     </div>

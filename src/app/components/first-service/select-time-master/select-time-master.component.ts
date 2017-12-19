@@ -63,7 +63,7 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
 }

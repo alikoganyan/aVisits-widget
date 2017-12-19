@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
+import {Styling} from '../../services/styling';
 
 @Component({
   selector: 'app-time-booked',
@@ -79,4 +80,10 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
     this.subCityTitle.unsubscribe();
     this.subSalonAddress.unsubscribe();
   }
+
+  /* STYLES FROM URL COLOR */
+  radioStyle() {
+    return Styling.globalWidgetsStyles.radioStyle;
+  }
+
 }

@@ -108,9 +108,9 @@ export class CalendarComponent implements OnInit {
       });
   }
 
-
+  /* STYLES FROM URL COLOR */
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
 }

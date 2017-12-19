@@ -1,9 +1,8 @@
 export class Styling {
-  public static color;
-  public static lightColor;
-  public static selectStyle;
-  public static radioStyle;
-  public static checkboxStyle;
-  public static wrappedStyle;
+  public static globalWidgetsStyles: any;
+  public static color: string;
+  public static lightColor: string;
+  public static middleColor: string;
+
 }
 

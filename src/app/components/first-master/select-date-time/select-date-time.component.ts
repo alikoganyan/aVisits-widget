@@ -293,7 +293,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
 }

@@ -22,36 +22,7 @@ export class MainComponent implements OnInit, OnDestroy {
   subRoutId: Subscription;
   subSettings: Subscription;
 
-
   settings: Setting;
-
-
-  color = '#EF7B4C';
-  lightColor = '#FFF9F5';
-
-  selectStyle = {
-    backgroundColor: this.lightColor,
-    borderTop: '1px solid' + this.color,
-    borderBottom: '1px solid' + this.color
-  };
-
-  radioStyle = {
-    backgroundColor: this.color,
-    opacity: 1
-  };
-
-  checkboxStyle = {
-    before: {
-      backgroundColor: this.color,
-      border: '1px solid' + this.color
-    },
-  };
-
-  wrappedStyle = {
-    backgroundColor: this.lightColor,
-    border: '1px solid' + this.color
-  };
-
 
   steps_employee: string[];
   steps_service: string[];
@@ -59,12 +30,6 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(private switcherService: SwitcherService,
               private route: ActivatedRoute,
               private settingService: SettingService) {
-    Styling.selectStyle = this.selectStyle;
-    Styling.radioStyle = this.radioStyle;
-    Styling.color = this.color;
-    Styling.lightColor = this.lightColor;
-    Styling.checkboxStyle = this.checkboxStyle;
-    Styling.wrappedStyle = this.wrappedStyle;
   }
 
   onStart() {
@@ -74,41 +39,26 @@ export class MainComponent implements OnInit, OnDestroy {
 
 
   getSettings() {
-    this.settingService.getSettings().subscribe(response => {
-        console.log(response);
-        this.settings = response['data'].settings;
-        if (response['data'].settings.w_let_check_steps === 1) {
+    this.settingService.sendSettings().subscribe(res => {
+        console.log(res);
+        if (res['data'].settings.w_let_check_steps === 1) {
+          this.settings = res['data'].settings;
           this.steps_employee = [];
-          this.firstLetterAdder(response['data'].settings.w_steps_employee, 'm_', this.steps_employee, response['data'].settings);
+          this.firstLetterAdder(res['data'].settings.w_steps_employee, 'm_', this.steps_employee, res['data'].settings);
           this.steps_service = [];
-          this.firstLetterAdder(response['data'].settings.w_steps_service, 's_', this.steps_service, response['data'].settings);
-
-
+          this.firstLetterAdder(res['data'].settings.w_steps_service, 's_', this.steps_service, res['data'].settings);
           SVariables.steps_employee = this.steps_employee;
           SVariables.steps_service = this.steps_service;
-          console.log(SVariables.steps_employee);
-          console.log(this.steps_service);
+          this.switcherService.onSequence(SVariables.steps_employee);  // default steps
 
-          this.settingService.sendSettings().subscribe(res => {
-            // console.log(res);
-              this.settings = res['data'].settings;
-              this.steps_employee = [];
-              this.firstLetterAdder(res['data'].settings.w_steps_employee, 'm_', this.steps_employee, response['data'].settings);
-              this.steps_service = [];
-              this.firstLetterAdder(res['data'].settings.w_steps_service, 's_', this.steps_service, response['data'].settings);
-              SVariables.steps_employee = this.steps_employee;
-              SVariables.steps_service = this.steps_service;
-              this.switcherService.onSequence(SVariables.steps_employee);
-              console.log(SVariables.steps_employee);
-              console.log(this.steps_service);
-            },
-            (err: HttpErrorResponse) => {
-              if (err.error instanceof Error) {
-                console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-              } else {
-                console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-              }
-            });
+          Styling.color = res['data'].settings.w_color;
+          Styling.middleColor = this.lightenDarkenColor(res['data'].settings.w_color, 50);
+          const lightColor = this.lightenDarkenColor(res['data'].settings.w_color, 99);
+          Styling.lightColor = lightColor;
+          Styling.globalWidgetsStyles = this.globalWidgetsStyles(res['data'].settings.w_color, lightColor);
+          console.log(Styling.globalWidgetsStyles);
+        } else {
+          console.log('settings.w_let_check_steps === 0');  // w_steps_g
         }
       },
       (err: HttpErrorResponse) => {
@@ -123,7 +73,6 @@ export class MainComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getSubscriptions();
     this.getSettings();
-
   }
 
   getSubscriptions() {
@@ -138,10 +87,11 @@ export class MainComponent implements OnInit, OnDestroy {
       SVariables.chainId = +id.substr(1);
     });
     this.subSettings = this.route.queryParams.subscribe((params) => {
+      let c = '%23' + (params['color'].substring(1));
       const setting = {
         steps_employee: params['steps_employee'].split(','),
         steps_service: params['steps_service'].split(','),
-        color: params['color']
+        color: c
       };
       SVariables.settings = setting;
       console.log(SVariables.settings);
@@ -175,12 +125,64 @@ export class MainComponent implements OnInit, OnDestroy {
       param.splice(index + 1, 0, 'indicate_contacts').join();
     }
     param.unshift('select_city');
-    param.push('time_booked')
+    param.push('time_booked');
   }
 
-  getLighterColor() {
-    // ["m_employee", "m_service", "address", "m_time", "indicate_contacts"]
-    // ["address", "s_service", "s_employee_time", "indicate_contacts"]
+  lightenDarkenColor(col, amt) {
+    let usePound = false;
+    if (col[0] == '#') {
+      col = col.slice(1);
+      usePound = true;
+    }
+    let num = parseInt(col, 16);
+    let r = (num >> 16) + amt;
+    if (r > 255) r = 255;
+    else if (r < 0) r = 0;
+    let b = ((num >> 8) & 0x00FF) + amt;
+    if (b > 255) b = 255;
+    else if (b < 0) b = 0;
+    let g = (num & 0x0000FF) + amt;
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
+    return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
+  }
+
+
+  globalWidgetsStyles(color: string, lightColor: string) {
+    const selectStyle = {
+      backgroundColor: lightColor,
+      borderTop: '1px solid ' + color,
+      borderBottom: '1px solid ' + color
+    };
+
+    const radioStyle = {
+      backgroundColor: color,
+      opacity: 1
+    };
+
+    const checkboxStyle = {
+      before: {
+        backgroundColor: color,
+        border: '1px solid ' + color
+      }
+    };
+
+    const wrappedStyle = {
+      backgroundColor: lightColor,
+      border: '1px solid ' + color
+    };
+
+    const fontColor = {
+      color: color
+    };
+
+    return {
+      selectStyle,
+      radioStyle,
+      checkboxStyle,
+      wrappedStyle,
+      fontColor
+    };
   }
 
 }

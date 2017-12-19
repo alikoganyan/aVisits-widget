@@ -8,18 +8,12 @@ export class SettingService {
   constructor(private http: HttpClient) {
   }
 
-
-  getSettings() {
-    return this.http.get(
-      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/settings');
-  }
-
   sendSettings() {
     return this.http.get(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/settings?' +
       'w_steps_employee=' + SVariables.settings.steps_employee + '&' +
       'w_steps_service=' + SVariables.settings.steps_service + '&' +
-      'w_color=orange');
+      'w_color=' + SVariables.settings.color);
   }
 
 

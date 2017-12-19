@@ -18,6 +18,9 @@
                 <div class="contacts-master-phone form-item">
                   <label class="bold">Телефон, на который придет смс-подтверждение</label>
                   <input
+                    (focus)="inputsActive.phoneInput = true"
+                    (blur)="inputsActive.phoneInput = false"
+                    [ngStyle]="inputsActive.phoneInput && {'border': '1px solid ' + color}"
                     (keyup)="getUserByPhone($event)"
                     type="tel"
                     [(ngModel)]="savedContacts.phone"
@@ -36,6 +39,9 @@
                 <div class="contacts-master-name form-item">
                   <label class="bold">Ваше имя</label>
                   <input
+                    (focus)="inputsActive.nameInput = true"
+                    (blur)="inputsActive.nameInput = false"
+                    [ngStyle]="inputsActive.nameInput && {'border': '1px solid ' + color}"
                     type="text"
                     class="inp-medium name"
                     [(ngModel)]="savedContacts.first_name"
@@ -49,6 +55,9 @@
                 <div class="contacts-master-email form-item">
                   <label class="bold">E-mail</label>
                   <input
+                    (focus)="inputsActive.emailInput = true"
+                    (blur)="inputsActive.emailInput = false"
+                    [ngStyle]="inputsActive.emailInput && {'border': '1px solid ' + color}"
                     type="email"
                     class="inp-medium email"
                     [(ngModel)]="savedContacts.email"
@@ -69,7 +78,12 @@
               <div class="contacts-master-right-block-second">
                 <div class="contacts-master-note form-item">
                   <label class="bold">Примечание</label>
-                  <textarea [(ngModel)]="savedContacts.comment" name="comment">{{textArea}}</textarea>
+                  <textarea
+                    [(ngModel)]="savedContacts.comment"
+                    name="comment"
+                    (focus)="inputsActive.textareaInput = true"
+                    (blur)="inputsActive.textareaInput = false"
+                    [ngStyle]="inputsActive.textareaInput && {'border': '1px solid ' + color}">{{textArea}}</textarea>
                 </div>
               </div>
               <div class="contacts-master-email-spam">

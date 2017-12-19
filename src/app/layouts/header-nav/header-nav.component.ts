@@ -47,11 +47,10 @@ export class HeaderNavComponent implements OnInit, OnDestroy {
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
       let seq = [...sequence];
-      seq.shift(); seq.pop();
+      seq.shift();
+      seq.pop();
       this.sequence = [...seq];
       this.sequence.length === 4 ? this.checkedNavbar = {...this.navbarServices} : this.checkedNavbar = {...this.navbarMasters};
-      console.log(this.sequence);
-      console.log(this.checkedNavbar);
     });
   }
 
@@ -60,9 +59,8 @@ export class HeaderNavComponent implements OnInit, OnDestroy {
   }
 
 
-
   fontColor() {
-    return {color: Styling.color};
+    return Styling.globalWidgetsStyles.fontColor;
   }
 
 }

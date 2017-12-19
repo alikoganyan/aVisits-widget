@@ -15,8 +15,6 @@ import {Styling} from '../../services/styling';
 })
 export class SelectCityComponent implements OnInit, OnDestroy {
 
-  loader = true;
-
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -30,10 +28,10 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   selectedSequence: string[];
 
 
-  color = '#EF7B4C';
-  lightColor = '#EFD8C8';
-  hover;
-
+  color = Styling.color;
+  middleColor = Styling.middleColor;
+  hoverMaster: boolean;
+  hoverService: boolean;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -41,14 +39,11 @@ export class SelectCityComponent implements OnInit, OnDestroy {
               private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
-
   getCities() {
     this.cityService.getCities().subscribe((cities) => {
-        this.loader = false;
         this.cities = cities['data'].cities;
       },
       (err: HttpErrorResponse) => {
-        this.loader = false;
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
         } else {
@@ -70,6 +65,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
   selectMaster() {
+    this.masterOrService = 'Master';
     this.selectedSequence = SVariables.steps_employee;
     if (this.selectCity !== undefined) {
       const index = SVariables.steps_employee.indexOf('select_city');
@@ -80,6 +76,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
   selectService() {
+    this.masterOrService = 'Service';
     this.selectedSequence = SVariables.steps_service;
     if (this.selectCity !== undefined) {
       const index = SVariables.steps_service.indexOf('select_city');
@@ -112,46 +109,19 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
 
-
-
-
-
-/* STYLES FROM URL COLOR */
+  /* STYLES FROM URL COLOR */
 
   selectStyle() {
-    return Styling.selectStyle;
+    return Styling.globalWidgetsStyles.selectStyle;
   }
 
   radioStyle() {
-    return Styling.radioStyle;
+    return Styling.globalWidgetsStyles.radioStyle;
   }
 
   wrappedStyle() {
-    return Styling.wrappedStyle;
+    return Styling.globalWidgetsStyles.wrappedStyle;
   }
-
-  changeHoverM(event) {
-    if( event.type == 'mouseover') {
-      this.hover = 'master';
-    } else {
-      if (this.masterOrService !== 'Master') {
-        this.hover = false;
-      }
-    }
-      // this.hover = event.type == 'mouseover' ? 'master' : false;
-  }
-
-  changeHoverS(event) {
-    if( event.type == 'mouseover') {
-      this.hover = 'service';
-    } else {
-      if (this.masterOrService !== 'Service') {
-        this.hover = false;
-      }
-    }
-  }
-
-
 
 }
 
