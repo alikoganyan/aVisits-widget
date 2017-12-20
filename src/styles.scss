@@ -1419,6 +1419,7 @@ label {
             .td {
               text-align: center;
               padding: 7px 0;
+              margin: 0px 1px;
               display: inline-block;
 
               &.active {
@@ -2317,7 +2318,7 @@ label {
 }
 
 .slick-prev, .slick-next {
-  background: url(./assets/images/svg/arrow-gray.svg);
+  //background: url(./assets/images/svg/arrow-gray.svg);
   background-size: 32%;
   background-position: 50%;
   background-repeat: no-repeat;

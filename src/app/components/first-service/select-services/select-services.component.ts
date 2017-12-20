@@ -49,7 +49,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   getAllServices() {
     this.getServicesService.getAllServices().subscribe(response => {
-        if (response['data'].constructor === Array instanceof Object) {
+        if (response['data'].constructor !== Array) {
           console.log(response['data'].categories);
           this.services_cat = response['data'].categories;
           this.selected_service_cat = this.services_cat[0];
@@ -141,6 +141,8 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
     this.subSequence.unsubscribe();
   }
 
+
+  /* STYLES FROM URL COLOR */
 
   fontColor() {
     return {backgroundColor: Styling.lightColor};

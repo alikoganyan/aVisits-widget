@@ -4,12 +4,12 @@ import {SVariables} from './sVariables';
 
 @Injectable()
 export class GetDataService {
+  employeesTimes: {employee_id: number, services: number[]}[];
   employeesID: number[];
   headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
 
   constructor(private http: HttpClient) {
   }
-
 
   getSalons() {
     return this.http.post(
@@ -19,18 +19,25 @@ export class GetDataService {
     );
   }
 
+  getEmployees() {
+    return this.http.post(
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employees',
+      {salon_id: SVariables.salonId},
+      {headers: this.headers}
+    );
+  }
+
   getTimes() {
     return this.http.post(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/times',
       {
         salon_id: SVariables.salonId,
-        employees: this.employeesID,
+        employees: this.employeesTimes,
         date: SVariables.date
       },
       {headers: this.headers}
     );
   }
-
 
   getEmployeeCalendar(from: string, to: string) {
     return this.http.post<{ data: ECalendar[] }>(
@@ -44,16 +51,6 @@ export class GetDataService {
       {headers: this.headers}
     );
   }
-
-
-  getEmployees() {
-    return this.http.post(
-      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employees',
-      {salon_id: SVariables.salonId},
-      {headers: this.headers}
-    );
-  }
-
 
 
 }

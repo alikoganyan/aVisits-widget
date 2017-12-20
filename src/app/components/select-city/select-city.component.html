@@ -26,19 +26,19 @@
               </div>
             </div>
           </div>
-          <h6 class="bold text-center" [class.red-title]="titleClass">В дальнейшем:</h6>
-          <div class="choose-options choose-city">
-
-            <div class="choose-options-item pull-left" (click)="selectMaster()">
-              <div
-                class="choose-options-item-cont"
-                (mouseover)="hoverMaster = true" (mouseleave)="hoverMaster = false"
-                [ngStyle]="masterOrService === 'Master' && wrappedStyle()"
-                [ngClass]="{'classHover': hoverMaster}">
-                <label class="choose-options-item-label" for="choose-options-master">
-                  <input type="radio" name="radio" id="choose-options-master">
-                  <!-- EMPLOYEE SVG START -->
-                  <svg class="svgEmployee" version="1.1" id="XMLID_2_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          <ng-container *ngIf="allowCheckMasterService">
+            <h6 class="bold text-center">В дальнейшем:</h6>
+            <div class="choose-options choose-city">
+              <div class="choose-options-item pull-left" (click)="selectMaster()">
+                <div
+                  class="choose-options-item-cont"
+                  (mouseover)="hoverMaster = true" (mouseleave)="hoverMaster = false"
+                  [ngStyle]="masterOrService === 'Master' && wrappedStyle()"
+                  [ngClass]="{'classHover': hoverMaster}">
+                  <label class="choose-options-item-label" for="choose-options-master">
+                    <input type="radio" name="radio" id="choose-options-master">
+                    <!-- EMPLOYEE SVG START -->
+                    <svg class="svgEmployee" version="1.1" id="XMLID_2_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 48.66 62.1875" enable-background="new 0 0 48.66 62.1875" xml:space="preserve">
 <g id="master">
 	<path [ngStyle]="{'fill': middleColor}" d="M30.95,45.6675l-1.22-4.87c2.87-1.37,6.1-4.12,7.6-9.61c0,0,4-1,4-5c0-2.98-2-4-2-4s1.97-4.31,0.75-9.31
@@ -61,23 +61,23 @@
 	</g>
 </g>
 </svg>
-                  <!-- EMPLOYEE SVG END -->
-                  <!--<img src="assets/images/svg/master.svg">-->
-                </label>
+                    <!-- EMPLOYEE SVG END -->
+                    <!--<img src="assets/images/svg/master.svg">-->
+                  </label>
+                </div>
+                <h6 class="normal text-center">Выбрать сначала специалиста</h6>
               </div>
-              <h6 class="normal text-center">Выбрать сначала специалиста</h6>
-            </div>
 
-            <div class="choose-options-item pull-right" (click)="selectService()">
-              <div
-                class="choose-options-item-cont"
-                (mouseover)="hoverService = true" (mouseleave)="hoverService = false"
-                [ngClass]="{'classHover': hoverService}"
-                [ngStyle]="masterOrService === 'Service' && wrappedStyle()">
-                <label class="choose-options-item-label" for="choose-options-service">
-                  <input type="radio" name="radio" id="choose-options-service">
-                  <!-- SERVICE SVG START -->
-                  <svg class="svgService" version="1.1" id="XMLID_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+              <div class="choose-options-item pull-right" (click)="selectService()">
+                <div
+                  class="choose-options-item-cont"
+                  (mouseover)="hoverService = true" (mouseleave)="hoverService = false"
+                  [ngClass]="{'classHover': hoverService}"
+                  [ngStyle]="masterOrService === 'Service' && wrappedStyle()">
+                  <label class="choose-options-item-label" for="choose-options-service">
+                    <input type="radio" name="radio" id="choose-options-service">
+                    <!-- SERVICE SVG START -->
+                    <svg class="svgService" version="1.1" id="XMLID_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 42.5091 54" enable-background="new 0 0 42.5091 54" xml:space="preserve">
 <g id="service">
 	<path [ngStyle]="{'fill': middleColor}" d="M39.5481,37.39c-1.31-1.1-2.99-1.48-4.54-1.19l-8.14-6.83V8c0-1.94-0.78-3.68-2.05-4.95
@@ -104,14 +104,14 @@
 	</g>
 </g>
 </svg>
-                  <!-- SERVICE SVG END -->
-                  <!--<img src="assets/images/svg/service.svg">-->
-                </label>
+                    <!-- SERVICE SVG END -->
+                    <!--<img src="assets/images/svg/service.svg">-->
+                  </label>
+                </div>
+                <h6 class="normal text-center">Выбрать сначала услугу</h6>
               </div>
-              <h6 class="normal text-center">Выбрать сначала услугу</h6>
             </div>
-
-          </div>
+          </ng-container>
         </div>
       </div>
     </div>

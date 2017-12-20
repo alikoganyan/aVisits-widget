@@ -3,52 +3,37 @@
     <div class="page-inner-wrapper">
       <a (click)="onClose('hide', '')"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
       <div class="page-container address-master">
-
         <app-header-nav></app-header-nav>
-
         <div class="choose-options-content time-master-content bordered clearfix">
-
-
           <app-sidebar></app-sidebar>
-
-
           <div class="content-right-block time-master-right-block">
-
             <app-calendar (sendedDate)="getSelectedDate($event)"></app-calendar>
-
             <div class="time-master-book-schedule-container-all-inner">
-
-              <ng-container *ngFor="let employeesService of employeesServices; let i = index">
+              <ng-container *ngFor="let employeesService of employeesServices; let index = index">
                 <div class="time-master-book-schedule-container">
                   <div class="time-master-title-block">
                     <div class="master-title-block-pic-container"
-                         [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + employeesService.photo + ')'}"></div>
+                         [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + employeesService.photo + ')'}">
+                    </div>
                     <div class="master-title-block-text">
                       <p class="bold">{{employeesService.father_name}} {{employeesService.first_name}}</p>
                       <p class="time-master-master-position">{{employeesService.position.title}}</p>
                     </div>
                   </div>
-
                   <!-- SCHEDULE HERE -->
                   <div class="time-master-time-schedule">
                     <div class="table">
                       <div class="tr">
-
-                        <ng-container *ngFor="let times of employeesService.times; let ind = index">
-                          <div
-                            class="td"
-                            *ngFor="let time of times; let i = index"
-                            (click)="onSelectTime(employeesService, ind, times, i, time)"
-                            [class.active]="isActive(i, ind)"
-                            [id]="i"><a>{{time}}</a></div>
-                        </ng-container>
-
+                        <div
+                          class="td"
+                          *ngFor="let time of employeesService.timesToDisplay; let i = index"
+                          (click)="onSelectTime(time,employeesService, index)">
+                          <a [ngStyle]="employeesService.time === time && timeClass()">{{time}}</a>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <ng-template #weekand>Не работает</ng-template>
                   <!-- END SCHEDULE HERE -->
-
                   <div class="clearfix"></div>
                   <div class="time-master-service-list clearfix">
                     <table class="">
@@ -66,13 +51,9 @@
                 </div>
                 <div class="clearfix"></div>
               </ng-container>
-
             </div>
           </div>
-
         </div>
-
-
         <div class="nav-bottom address-master-bottom bordered">
           <button (click)="goBack()" class="pull-left">
             <div
@@ -94,5 +75,4 @@
     </div>
   </div>
 </div>
-
 <app-interrupt-record *ngIf="interrapt"></app-interrupt-record>

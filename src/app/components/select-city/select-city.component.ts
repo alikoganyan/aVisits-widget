@@ -33,6 +33,9 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   hoverMaster: boolean;
   hoverService: boolean;
 
+  allowCheckMasterService = SVariables.allowCheckMasterService;
+
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -57,6 +60,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
     this.sidebarSwitcherService.selectCity(city);
     SVariables.city = city;
     this.selectCity = city;
+    !this.allowCheckMasterService && (this.selectedSequence = SVariables.steps_service);
     if (this.selectedSequence) {
       this.switcherService.onSequence(this.selectedSequence);
       const index = this.selectedSequence.indexOf('select_city');
@@ -71,7 +75,6 @@ export class SelectCityComponent implements OnInit, OnDestroy {
       const index = SVariables.steps_employee.indexOf('select_city');
       this.switcherService.onSequence(SVariables.steps_employee);
       this.switcherService.onClickedStatus(this.sequence[index + 1]);
-
     }
   }
 
@@ -88,6 +91,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getCities();
     this.getSubscriptions();
+    console.log(this.allowCheckMasterService);
   }
 
   onClose() {

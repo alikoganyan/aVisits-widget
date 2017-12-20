@@ -4,7 +4,6 @@ import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {ActivatedRoute, Params} from '@angular/router';
 import {SVariables} from '../../services/sVariables';
-import {Setting} from '../../models/setting';
 import {SettingService} from '../../services/setting.service';
 import {Styling} from '../../services/styling';
 
@@ -22,8 +21,6 @@ export class MainComponent implements OnInit, OnDestroy {
   subRoutId: Subscription;
   subSettings: Subscription;
 
-  settings: Setting;
-
   steps_employee: string[];
   steps_service: string[];
 
@@ -39,35 +36,45 @@ export class MainComponent implements OnInit, OnDestroy {
 
 
   getSettings() {
-    this.settingService.sendSettings().subscribe(res => {
-        console.log(res);
-        if (res['data'].settings.w_let_check_steps === 1) {
-          this.settings = res['data'].settings;
-          this.steps_employee = [];
-          this.firstLetterAdder(res['data'].settings.w_steps_employee, 'm_', this.steps_employee, res['data'].settings);
+    if (SVariables.allowCheckMasterService) {
+       this.settingService.sendSettings().subscribe(res => {
+       console.log(res);
+       if (res['data'].settings.w_let_check_steps === 1) {
+         this.steps_employee = [];
+         this.firstLetterAdder(res['data'].settings.w_steps_employee, 'm_', this.steps_employee, res['data'].settings);
+         this.steps_service = [];
+         this.firstLetterAdder(res['data'].settings.w_steps_service, 's_', this.steps_service, res['data'].settings);
+         SVariables.steps_employee = this.steps_employee;
+         SVariables.steps_service = this.steps_service;
+         this.switcherSequenceMethod(res['data'].settings);
+       }
+     },
+     (err: HttpErrorResponse) => {
+       if (err.error instanceof Error) {
+         console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+       } else {
+         console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+       }
+     });
+    } else {
+      this.settingService.sendSettingsByOneStep().subscribe(response => {
+          console.log(response);
           this.steps_service = [];
-          this.firstLetterAdder(res['data'].settings.w_steps_service, 's_', this.steps_service, res['data'].settings);
-          SVariables.steps_employee = this.steps_employee;
+          this.firstLetterAdder(response['data'].settings.w_steps_g, 's_', this.steps_service, response['data'].settings);
           SVariables.steps_service = this.steps_service;
-          this.switcherService.onSequence(SVariables.steps_employee);  // default steps
-
-          Styling.color = res['data'].settings.w_color;
-          Styling.middleColor = this.lightenDarkenColor(res['data'].settings.w_color, 50);
-          const lightColor = this.lightenDarkenColor(res['data'].settings.w_color, 99);
-          Styling.lightColor = lightColor;
-          Styling.globalWidgetsStyles = this.globalWidgetsStyles(res['data'].settings.w_color, lightColor);
-          console.log(Styling.globalWidgetsStyles);
-        } else {
-          console.log('settings.w_let_check_steps === 0');  // w_steps_g
-        }
+          console.log(SVariables.steps_service);
+        this.switcherSequenceMethod(response['data'].settings);
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+        (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+          } else {
+            console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+          }
+        });
+    }
+
+
   }
 
   ngOnInit() {
@@ -87,14 +94,17 @@ export class MainComponent implements OnInit, OnDestroy {
       SVariables.chainId = +id.substr(1);
     });
     this.subSettings = this.route.queryParams.subscribe((params) => {
-      let c = '%23' + (params['color'].substring(1));
-      const setting = {
-        steps_employee: params['steps_employee'].split(','),
-        steps_service: params['steps_service'].split(','),
-        color: c
-      };
-      SVariables.settings = setting;
-      console.log(SVariables.settings);
+      if(params['steps_service']) {
+        SVariables.settings = {
+          steps_employee: params['steps_employee'].split(','),
+          steps_service: params['steps_service'].split(','),
+          color: '%23' + (params['color'].substring(1))
+        };
+        SVariables.allowCheckMasterService = true;
+      } else {
+        Styling.color = '%23' + (params['color'].substring(1));
+        SVariables.allowCheckMasterService = false;
+      }
     });
   }
 
@@ -147,7 +157,6 @@ export class MainComponent implements OnInit, OnDestroy {
     return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
   }
 
-
   globalWidgetsStyles(color: string, lightColor: string) {
     const selectStyle = {
       backgroundColor: lightColor,
@@ -176,13 +185,32 @@ export class MainComponent implements OnInit, OnDestroy {
       color: color
     };
 
+    const timeClass = {
+      border: '1px solid ' + color,
+      backgroundColor: lightColor,
+      color: color
+    };
+
     return {
       selectStyle,
       radioStyle,
       checkboxStyle,
       wrappedStyle,
-      fontColor
+      fontColor,
+      timeClass
     };
+  }
+
+
+
+  switcherSequenceMethod(res) {
+    this.switcherService.onSequence(SVariables.steps_service);  // default steps
+    Styling.color = res.w_color;
+    Styling.middleColor = this.lightenDarkenColor(res.w_color, 50);
+    const lightColor = this.lightenDarkenColor(res.w_color, 99);
+    Styling.lightColor = lightColor;
+    Styling.globalWidgetsStyles = this.globalWidgetsStyles(res.w_color, lightColor);
+    console.log(Styling.globalWidgetsStyles);
   }
 
 }

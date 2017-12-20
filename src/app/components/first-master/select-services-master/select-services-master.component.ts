@@ -9,7 +9,7 @@ import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service
 import {SVariables} from '../../../services/sVariables';
 import {GetServicesService} from '../../../services/get-services.service';
 import {GetDataService} from '../../../services/get-data.service';
-import {Styling} from "../../../services/styling";
+import {Styling} from '../../../services/styling';
 
 @Component({
   selector: 'app-select-services-master',
@@ -152,17 +152,20 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
     const month = `${moment(new Date()).locale('ru').add(0, 'days').format('M')}`;
     const day = `${moment(new Date()).add(0, 'days').get('date')}`;
     const date = `${year}-${month}-${day}`;
+    const employeesTimes: {employee_id: number, services: number[]}[] = [];
     const employeesID: number[] = [];
 
-    this.selectedDates.map(mId => {
+    this.selectedDates.map((mId, ind) => {
       mId.selectedTime = 0;
+      employeesTimes.push({employee_id: mId.id, services: []});
       employeesID.push(mId.id);
       mId.employeeServices.map(v => {
         mId.selectedTime += v.duration;
+        employeesTimes[ind].services.push(v.id);
       });
     });
-
     SVariables.date = date;
+    this.getDataService.employeesTimes = employeesTimes;
     this.getDataService.employeesID = employeesID;
     this.sidebarSwitcherService.getSelectedEmployeesServices(this.selectedDates);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
@@ -194,8 +197,9 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   }
 
 
+  /* STYLES FROM URL COLOR */
   backColor() {
-    return {backgroundColor: Styling.lightColor}
+    return {backgroundColor: Styling.lightColor};
   }
 
   selectStyle() {
