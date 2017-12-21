@@ -49,6 +49,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   getAllServices() {
     this.getServicesService.getAllServices().subscribe(response => {
+      console.log(response);
         if (response['data'].constructor !== Array) {
           console.log(response['data'].categories);
           this.services_cat = response['data'].categories;

@@ -60,7 +60,9 @@ export class SelectCityComponent implements OnInit, OnDestroy {
     this.sidebarSwitcherService.selectCity(city);
     SVariables.city = city;
     this.selectCity = city;
-    !this.allowCheckMasterService && (this.selectedSequence = SVariables.steps_service);
+    if(!this.allowCheckMasterService) {
+      SVariables.sequenceNonCheckStep === 'masterStep' ? this.selectedSequence = SVariables.steps_employee : this.selectedSequence = SVariables.steps_service;
+    }
     if (this.selectedSequence) {
       this.switcherService.onSequence(this.selectedSequence);
       const index = this.selectedSequence.indexOf('select_city');

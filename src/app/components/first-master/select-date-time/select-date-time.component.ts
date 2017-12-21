@@ -50,6 +50,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
   getTimes() {
     this.getDataService.getTimes().subscribe(response => {
+      console.log(response);
         response['data'].schedule.map((v, i) => {
           this.employeesServices[i].timesToDisplay = v.periods;
           this.employeesServices[i].date = this.date;

@@ -36,9 +36,6 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   zoom = 11;
 
 
-
-  hover = false;
-
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -48,6 +45,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   getSalons() {
     this.getDataService.getSalons().subscribe(response => {
+      console.log(response);
         this.salons = response['data'].salons;
       },
       (err: HttpErrorResponse) => {
@@ -133,9 +131,6 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
 
 
-  changeHoverM(event, salon) {
-    // if(this.selectedSalon === salon) return;
-    salon.hover = event.type == 'mouseover' ? true : false;
-  }
+
 
 }

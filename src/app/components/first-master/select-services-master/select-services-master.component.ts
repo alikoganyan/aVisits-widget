@@ -109,19 +109,22 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   getServices() {
     this.getServicesService.getEmployeeServices().subscribe(response => {
       console.log(response);
-      response['data'].employees.map((employee) => {
-        this.firstMaster = response['data'].employees[0];  // this is for show first master services
-        employee.service_groups.map((group) => {
-          group.services.map((service) => {
-            const hour = Math.floor(service.duration / 60);
-            const min = service.duration % 60;
-            service.hour = hour;
-            service.min = Math.floor(min);
-            service.checked = false;
+
+      if(response['data'].constructor !== Array) {
+        response['data'].employees.map((employee) => {
+          this.firstMaster = response['data'].employees[0];  // this is for show first master services
+          employee.service_groups.map((group) => {
+            group.services.map((service) => {
+              const hour = Math.floor(service.duration / 60);
+              const min = service.duration % 60;
+              service.hour = hour;
+              service.min = Math.floor(min);
+              service.checked = false;
+            });
           });
         });
-      });
-      this.employeeServices = response['data'].employees;
+        this.employeeServices = response['data'].employees;
+      }
     });
   }
 
