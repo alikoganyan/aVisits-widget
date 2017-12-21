@@ -36,15 +36,22 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.getSubscriptions();
     const app: any = [...SVariables.appointment];
-    const appointment = app.push(SVariables.salonId, SVariables.date);
-    this.appointmentService.createAppointment(appointment).subscribe(response => {
+    app.map(v => {
+      console.log(v);
+      v.salon_id = SVariables.salonId;
+      v.day = SVariables.date;
+      v.client_id = SVariables.clientId;
+    });
+    console.log(app);
+    this.appointmentService.createAppointment(app).subscribe(response => {
         console.log(response);
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
         } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+          console.log(`Backend returned code ${err.status}, body was:`);
+           console.log(err.error) // The backend returned an unsuccessful response code.
         }
       });
   }

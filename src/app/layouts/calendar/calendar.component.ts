@@ -51,7 +51,6 @@ export class CalendarComponent implements OnInit {
 
     this.getDataService.getEmployeeCalendar(dateString, dateString).subscribe(response => {
         lastDate.working_status = response.data['calendar'][0].working_status;
-        console.log(response.data['calendar']);
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
@@ -86,9 +85,7 @@ export class CalendarComponent implements OnInit {
     this.selectedDate = this.myOwnCalendarDays[0];
     this.from = `${this.myOwnCalendarDays[0].year}-${moment().locale('ru').month(this.myOwnCalendarDays[0].month).format('MM')}-${this.myOwnCalendarDays[0].day}`;
     this.to = `${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].year}-${moment().locale('ru').month(this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].month).format('M')}-${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].day}`;
-    console.log(this.from, this.to);
     this.getEmployeeCalendar();
-    console.log(this.myOwnCalendarDays);
   }
 
 
@@ -97,7 +94,6 @@ export class CalendarComponent implements OnInit {
         response.data['calendar'].map((val, ind) => {
           this.myOwnCalendarDays[ind].working_status = val.working_status;
         });
-        console.log(response.data['calendar']);
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {

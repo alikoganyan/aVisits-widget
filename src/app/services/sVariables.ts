@@ -5,6 +5,7 @@ export class SVariables {
   public static city: string;
   public static salonId: number;
   public static date: string;  // date on "2018-12-02" format
+  public static employeesAndTimes: {salon_id: number, services: number[], date: string}[];  // for getting Employees And Times
   public static clientId: number;
   public static settings: { color: string, steps_employee: string[], steps_service: string[]};  // only for default settings on switcher service
   public static steps_employee: string[];

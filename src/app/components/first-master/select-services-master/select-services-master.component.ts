@@ -100,7 +100,6 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
             }
           });
         }
-        console.log(this.selectedDates);
       }
     });
 

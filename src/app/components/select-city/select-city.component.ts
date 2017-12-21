@@ -115,7 +115,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
 
-  /* STYLES FROM URL COLOR */
+
 
   selectStyle() {
     return Styling.globalWidgetsStyles.selectStyle;

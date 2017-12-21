@@ -7,6 +7,8 @@ import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 import {GetServicesService} from '../../../services/get-services.service';
 import {Styling} from '../../../services/styling';
+import * as moment from 'moment';
+import {SVariables} from '../../../services/sVariables';
 
 @Component({
   selector: 'app-select-services',
@@ -21,6 +23,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   services_cat = [];
   selected_service_cat;
+  selectedServices: {} = {};
 
   showservicesFormobile = 'hide';
 
@@ -40,6 +43,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   color = Styling.color;
   searchInput = false;
 
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -49,7 +53,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   getAllServices() {
     this.getServicesService.getAllServices().subscribe(response => {
-      console.log(response);
+        console.log(response);
         if (response['data'].constructor !== Array) {
           console.log(response['data'].categories);
           this.services_cat = response['data'].categories;
@@ -73,9 +77,11 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
       },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
+          console.log('An error occurred:'); // A client-side or network error occurred. Handle it accordingly.
+          console.log(err.error.message);
         } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
+          console.log(`Backend returned code ${err.status}, body was:`); // The backend returned an unsuccessful response code.
+          console.log(err.error);
         }
       });
   }
@@ -84,10 +90,29 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
     this.selected_service_cat = service_cat;
     this.showservicesFormobile = 'show';
   }
-
-  onSelectService(service, event) {
+  onSelectService(service, event, serviceId: number, categoryId: number, groupId: number, groupIndex: number, serviceIndex: number) {
     service.checked = event.target.checked;
-    if (event.target.checked === true) {
+    if (event.target.checked) {
+      if(this.selectedServices[categoryId] === undefined) {
+        this.selectedServices[categoryId] = {
+          "services" : []
+        }
+      }
+      this.services_cat.map((category) => {
+        if (category.id === categoryId) {
+          category.groups.map((group) => {
+            group.services.map(s => {
+              if (s.id === service.id) {
+                this.selectedServices[categoryId].services.push(s.id);
+                this.selectedServices[categoryId].salon_id = SVariables.salonId;
+                this.selectedServices[categoryId].date = SVariables.date;
+              }
+            });
+          });
+        }
+      });
+
+
       this.priceAndCount.totalCount++;
       this.priceAndCount.totalPrices.minPrice = this.priceAndCount.totalPrices.minPrice + service.min_max_prices.min_price;
       this.priceAndCount.totalPrices.maxPrice = this.priceAndCount.totalPrices.maxPrice + service.min_max_prices.max_price;
@@ -97,7 +122,25 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
       this.priceAndCount.totalPrices.minPrice = this.priceAndCount.totalPrices.minPrice - service.min_max_prices.min_price;
       this.priceAndCount.totalPrices.maxPrice = this.priceAndCount.totalPrices.maxPrice - service.min_max_prices.max_price;
       this.priceAndCount.totalPrice = `${this.priceAndCount.totalPrices.minPrice} - ${this.priceAndCount.totalPrices.maxPrice}`;
+
+      let checked = null;
+
+      let objKeys = Object.keys(this.selectedServices); // 68, 83, 88
+
+      objKeys.map(value => {
+        this.selectedServices[value].services.map((sId, ind) => {
+            sId === service.id && (checked = ind);
+        });
+        if (checked !== null) {
+                this.selectedServices[value].services.splice(checked, 1);
+                checked = null;
+            }
+        if(this.selectedServices[value].services.length === 0) {
+              delete this.selectedServices[value];
+            }
+      })
     }
+    console.log(this.selectedServices);
   }
 
   goToAllServicesOnMobile() {
@@ -105,6 +148,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.dateModify();
     this.getSubscriptions();
     this.getAllServices();
     this.navbarSwitcherService.changeCount(this.index);
@@ -114,13 +158,14 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   goBack() {
     this.switcherService.onClickedStatus(this.sequence[this.index - 1]);
     this.sidebarSwitcherService.getPriceAndCount({totalCount: 0, totalPrice: 0});
-    console.log(this.priceAndCount);
   }
 
   goNext() {
-    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
-    this.sidebarSwitcherService.getPriceAndCount({totalCount: this.priceAndCount.totalCount, totalPrice: this.priceAndCount.totalPrice});
-    console.log(this.priceAndCount);
+    SVariables.employeesAndTimes = Object.values(this.selectedServices);
+    if (Object.values(this.selectedServices).length > 0) {
+      this.sidebarSwitcherService.getPriceAndCount({totalCount: this.priceAndCount.totalCount, totalPrice: this.priceAndCount.totalPrice});
+      this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+    }
   }
 
   onClose() {
@@ -142,6 +187,14 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
     this.subSequence.unsubscribe();
   }
 
+
+  dateModify() {
+    const year = `${moment(new Date()).locale('ru').add(0, 'days').format('Y')}`;
+    const month = `${moment(new Date()).locale('ru').add(0, 'days').format('M')}`;
+    const day = `${moment(new Date()).add(0, 'days').get('date')}`;
+    const date = `${year}-${month}-${day}`;
+    SVariables.date = date;
+  }
 
   /* STYLES FROM URL COLOR */
 

@@ -39,6 +39,17 @@ export class GetDataService {
     );
   }
 
+
+  getEmployeesAndTimes() {
+    return this.http.post(
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employee_times',
+      SVariables.employeesAndTimes,
+      {headers: this.headers}
+    );
+  }
+
+
+
   getEmployeeCalendar(from: string, to: string) {
     return this.http.post<{ data: ECalendar[] }>(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employee_calendar',

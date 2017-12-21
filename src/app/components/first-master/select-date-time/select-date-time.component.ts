@@ -50,7 +50,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
   getTimes() {
     this.getDataService.getTimes().subscribe(response => {
-      console.log(response);
+        console.log(response);
         response['data'].schedule.map((v, i) => {
           this.employeesServices[i].timesToDisplay = v.periods;
           this.employeesServices[i].date = this.date;
@@ -94,7 +94,8 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
-   const appointment: Appointment[] = [];
+    let goNext = true;
+    const appointment: Appointment[] = [];
     this.employeesServices.map(v => {
       const app = {
         employee_id: null,
@@ -103,14 +104,14 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
       };
       app.employee_id = v.id;
       app.from_time = v.time;
-
       v.employeeServices.map(val => {
         app.services.push(val.id);
       });
       appointment.push(app);
+      !v.time && (goNext = false);
     });
     SVariables.appointment = appointment;
-    this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+    goNext && this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 
   onClose() {
