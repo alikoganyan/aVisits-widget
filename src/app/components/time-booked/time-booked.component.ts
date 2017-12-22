@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
@@ -42,18 +41,10 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
       v.day = SVariables.date;
       v.client_id = SVariables.clientId;
     });
-    console.log(app);
     this.appointmentService.createAppointment(app).subscribe(response => {
         console.log(response);
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was:`);
-           console.log(err.error) // The backend returned an unsuccessful response code.
-        }
-      });
+      error => console.log('Something went wrong!'));
   }
 
   goBack(selectCity: string) {
@@ -80,10 +71,16 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
       this.sequence = sequence[0];
     });
-    this.subMasters = this.sidebarSwitcherService.employeesServices.subscribe(employeesServices => {
-      this.masters = employeesServices;
-      console.log(employeesServices);
-    });
+    if (SVariables.masterOrService === 'Master') {
+      this.subMasters = this.sidebarSwitcherService.employeesServices.subscribe(employeesServices => {
+        this.masters = employeesServices;
+        console.log(employeesServices);
+      });
+    } else {
+      this.masters = SVariables.appointment;
+      console.log(SVariables.appointment);
+    }
+
     this.subPriceAndCount = this.sidebarSwitcherService.priceAndCount.subscribe(priceAndCount => {
       this.priceAndCount = priceAndCount;
     });
@@ -98,7 +95,7 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subSequence.unsubscribe();
-    this.subMasters.unsubscribe();
+    SVariables.masterOrService === 'Master' &&  this.subMasters.unsubscribe();
     this.subCityTitle.unsubscribe();
     this.subSalonAddress.unsubscribe();
   }

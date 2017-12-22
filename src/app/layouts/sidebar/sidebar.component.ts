@@ -62,6 +62,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
 class CheckedInfo {
   contacts: Client;
+  city: string;
+  address: string;
 }
 
 

@@ -26,7 +26,7 @@
                       <div class="tr">
                         <div
                           class="td"
-                          *ngFor="let time of employeesService.timesToDisplay; let i = index"
+                          *ngFor="let time of employeesService.timesToDisplay"
                           (click)="onSelectTime(time,employeesService, index)">
                           <a [ngStyle]="employeesService.time === time && timeClass()">{{time}}</a>
                         </div>

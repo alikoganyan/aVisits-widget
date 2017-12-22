@@ -43,6 +43,9 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   color = Styling.color;
   searchInput = false;
 
+  minPrice: number = 0;
+  maxPrice: number = 0;
+  default_duration: number = 0;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -53,9 +56,8 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   getAllServices() {
     this.getServicesService.getAllServices().subscribe(response => {
-        console.log(response);
+      console.log(response);
         if (response['data'].constructor !== Array) {
-          console.log(response['data'].categories);
           this.services_cat = response['data'].categories;
           this.selected_service_cat = this.services_cat[0];
           response['data'].categories.map(value => {
@@ -75,35 +77,42 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
           });
         }
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:'); // A client-side or network error occurred. Handle it accordingly.
-          console.log(err.error.message);
-        } else {
-          console.log(`Backend returned code ${err.status}, body was:`); // The backend returned an unsuccessful response code.
-          console.log(err.error);
-        }
-      });
+      error => console.log("Something went wrong!"));
   }
 
   onSelectServiceCat(service_cat) {
     this.selected_service_cat = service_cat;
     this.showservicesFormobile = 'show';
   }
-  onSelectService(service, event, serviceId: number, categoryId: number, groupId: number, groupIndex: number, serviceIndex: number) {
+
+  onSelectService(service, event, categoryId: number) {
     service.checked = event.target.checked;
     if (event.target.checked) {
-      if(this.selectedServices[categoryId] === undefined) {
+      if (this.selectedServices[categoryId] === undefined) {
+        this.minPrice = 0;
+        this.maxPrice = 0;
+        this.default_duration = 0;
         this.selectedServices[categoryId] = {
-          "services" : []
-        }
+          'services': [],
+          'servicesTitles': [],
+          'minPrice': null,
+          'maxPrice' : null,
+          "default_duration": null,
+          "employeeServices": []
+        };
       }
       this.services_cat.map((category) => {
         if (category.id === categoryId) {
           category.groups.map((group) => {
             group.services.map(s => {
               if (s.id === service.id) {
+                console.log(SVariables.salonId);
                 this.selectedServices[categoryId].services.push(s.id);
+                this.selectedServices[categoryId].employeeServices.push(s);
+                this.selectedServices[categoryId].servicesTitles.push(s.title);
+                this.selectedServices[categoryId].minPrice = (this.minPrice += s.min_max_prices.min_price);
+                this.selectedServices[categoryId].maxPrice = (this.maxPrice += s.min_max_prices.max_price);
+                this.selectedServices[categoryId].default_duration = (this.default_duration += s.default_duration);
                 this.selectedServices[categoryId].salon_id = SVariables.salonId;
                 this.selectedServices[categoryId].date = SVariables.date;
               }
@@ -111,7 +120,6 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
           });
         }
       });
-
 
       this.priceAndCount.totalCount++;
       this.priceAndCount.totalPrices.minPrice = this.priceAndCount.totalPrices.minPrice + service.min_max_prices.min_price;
@@ -124,21 +132,25 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
       this.priceAndCount.totalPrice = `${this.priceAndCount.totalPrices.minPrice} - ${this.priceAndCount.totalPrices.maxPrice}`;
 
       let checked = null;
-
       let objKeys = Object.keys(this.selectedServices); // 68, 83, 88
 
       objKeys.map(value => {
         this.selectedServices[value].services.map((sId, ind) => {
-            sId === service.id && (checked = ind);
+          sId === service.id && (checked = ind);
         });
         if (checked !== null) {
-                this.selectedServices[value].services.splice(checked, 1);
-                checked = null;
-            }
-        if(this.selectedServices[value].services.length === 0) {
-              delete this.selectedServices[value];
-            }
-      })
+          this.selectedServices[value].services.splice(checked, 1);
+          let index = this.selectedServices[value].servicesTitles.indexOf(service.title);
+          this.selectedServices[value].servicesTitles.splice(index, 1);
+          this.selectedServices[value].minPrice = this.selectedServices[value].minPrice - service.min_max_prices.min_price;
+          this.selectedServices[value].maxPrice = this.selectedServices[value].maxPrice - service.min_max_prices.max_price;
+          this.selectedServices[value].default_duration = this.selectedServices[value].default_duration - service.default_duration;
+          checked = null;
+        }
+        if (this.selectedServices[value].services.length === 0) {
+          delete this.selectedServices[value];
+        }
+      });
     }
     console.log(this.selectedServices);
   }
@@ -162,6 +174,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   goNext() {
     SVariables.employeesAndTimes = Object.values(this.selectedServices);
+    console.log(SVariables.employeesAndTimes);
     if (Object.values(this.selectedServices).length > 0) {
       this.sidebarSwitcherService.getPriceAndCount({totalCount: this.priceAndCount.totalCount, totalPrice: this.priceAndCount.totalPrice});
       this.switcherService.onClickedStatus(this.sequence[this.index + 1]);

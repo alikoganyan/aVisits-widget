@@ -52,18 +52,18 @@
               <div *ngIf="selected_service_cat">
                 <div
                   class="services-master-service-list"
-                  *ngFor="let group of selected_service_cat.groups; let grInd = index">
+                  *ngFor="let group of selected_service_cat.groups">
                   <p class="services-master-service-list-title bold">{{group.title}}</p>
                   <table class="">
                     <tr
                       [ngStyle]="service.checked === true && selectStyle()"
-                      *ngFor="let service of group.services | filter : searchText:'title'; let i = index">
+                      *ngFor="let service of group.services | filter : searchText:'title'">
                         <td>
                           <input
                             [id]="service.id"
                             type="checkbox"
                             [checked]="service.checked"
-                            (change)="onSelectService(service, $event, service.id, selected_service_cat.id, group.id, grInd, i)">
+                            (change)="onSelectService(service, $event, selected_service_cat.id)">
                           <label [ngStyle]="checkboxStyle()"></label>
                         </td>
                         <td><label [for]="service.id">{{service.title}}</label></td>
@@ -140,7 +140,7 @@
                         type="checkbox"
                         name=""
                         [checked]="service.checked"
-                        (change)="onSelectService(service, $event, service.id, selected_service_cat.id, group.id)">
+                        (change)="onSelectService(service, $event, selected_service_cat.id)">
                       <label></label>
                     </td>
                     <td><label [for]="service.id">{{service.title}}</label></td>

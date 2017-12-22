@@ -41,8 +41,7 @@
                     </div>
                     <div class="ready-master-time-schedule-item middle">
                       <div class="ready-master-time-schedule-sub-item" *ngFor="let service of master.employeeServices">
-                        <div class="ready-master-time-schedule-item-title">Стрижка горячими ножницами длинное название
-                        </div>
+                        <div class="ready-master-time-schedule-item-title">{{service.title}}</div>
                         <div class="">
                           <span>{{service.hour}}ч {{service.min}}м</span>
                           <span>{{service.price}}<span>
@@ -92,20 +91,12 @@
                     <div class="ready-master-time-schedule-item middle service-list">
                       <div class="time-master-service-list clearfix">
                         <table class="">
-                          <tr class="">
-                            <td>Стрижка горячими ножницами</td>
-                            <td>1ч &nbsp; 90м</td>
-                            <td>2 000 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                          </tr>
-                          <tr class="">
-                            <td>Стрижка</td>
-                            <td>1ч &nbsp; 45м</td>
-                            <td>900 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
-                          </tr>
-                          <tr class="active">
-                            <td>Окрашивание волос</td>
-                            <td>1ч &nbsp; 45м</td>
-                            <td>900 <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span></td>
+                          <tr *ngFor="let service of master.employeeServices">
+                            <td>{{service.title}}</td>
+                            <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
+                            <td>{{service.price}}
+                              <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span>
+                            </td>
                           </tr>
                         </table>
                       </div>
@@ -113,7 +104,7 @@
                     <div class="clearfix"></div>
                   </div>
                 </ng-container>
-
+                <!-- End Responsive Schedule Container -->
               </div>
             </div>
 
@@ -139,7 +130,7 @@
           </div>
         </div>
         <div class="nav-bottom address-master-bottom ready-master bordered">
-          <button (click)="onClose('button', '')" class="pull-left">
+          <button (click)="onClose()" class="pull-left">
             <div
               class="back nav-bottom-back nav-bottom-item address-master-bottom-item address-master-bottom-back pull-left">
               <img src="assets/images/svg/arrow.svg" style="display: none">

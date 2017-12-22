@@ -90,6 +90,11 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
+    if(SVariables.employeesAndTimes) {
+      SVariables.employeesAndTimes.map(employeesAndTime => {
+        employeesAndTime.salon_id = this.selectedSalon.id;
+      });
+    }
     console.log(this.selectedSalon.id);
     SVariables.salonId = this.selectedSalon.id;
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);

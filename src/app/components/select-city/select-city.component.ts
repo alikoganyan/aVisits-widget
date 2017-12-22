@@ -72,6 +72,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   selectMaster() {
     this.masterOrService = 'Master';
+    SVariables.masterOrService = 'Master';
     this.selectedSequence = SVariables.steps_employee;
     if (this.selectCity !== undefined) {
       const index = SVariables.steps_employee.indexOf('select_city');
@@ -82,6 +83,7 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   selectService() {
     this.masterOrService = 'Service';
+    SVariables.masterOrService = 'Service';
     this.selectedSequence = SVariables.steps_service;
     if (this.selectCity !== undefined) {
       const index = SVariables.steps_service.indexOf('select_city');
