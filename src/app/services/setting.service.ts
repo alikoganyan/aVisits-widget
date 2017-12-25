@@ -11,12 +11,8 @@ export class SettingService {
 
   sendSettings() {
     return this.http.get(
-      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/settings?' +
-      'w_steps_employee=' + SVariables.settings.steps_employee + '&' +
-      'w_steps_service=' + SVariables.settings.steps_service + '&' +
-      'w_color=' + SVariables.settings.color);
+      SVariables.apiUrl + 'widget/' + SVariables.chainId + '/settings?' + SVariables.settingsUrl);
   }
-
 
   sendSettingsByOneStep() {
     return this.http.get('http://api.avisits.com/api/widget/' + SVariables.chainId + '/settings?w_color=' + Styling.color);

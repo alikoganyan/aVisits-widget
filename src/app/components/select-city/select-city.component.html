@@ -1,9 +1,3 @@
-<style>
-  .classHover {
-    background-color: #fff9f5;
-    border: 1px solid #e38044;
-  }
-</style>
 <div class="page" *ngIf="!interrapt">
   <div class="page-wrapper">
     <div class="page-inner-wrapper choose-city">
@@ -32,9 +26,8 @@
               <div class="choose-options-item pull-left" (click)="selectMaster()">
                 <div
                   class="choose-options-item-cont"
-                  (mouseover)="hoverMaster = true" (mouseleave)="hoverMaster = false"
-                  [ngStyle]="masterOrService === 'Master' && wrappedStyle()"
-                  [ngClass]="{'classHover': hoverMaster}">
+                  (mouseover)="hoverStyleOn('Master')" (mouseleave)="hoverStyleOff('Master')"
+                  [ngStyle]="ngStyleMethod('Master')">
                   <label class="choose-options-item-label" for="choose-options-master">
                     <input type="radio" name="radio" id="choose-options-master">
                     <!-- EMPLOYEE SVG START -->
@@ -70,9 +63,8 @@
               <div class="choose-options-item pull-right" (click)="selectService()">
                 <div
                   class="choose-options-item-cont"
-                  (mouseover)="hoverService = true" (mouseleave)="hoverService = false"
-                  [ngClass]="{'classHover': hoverService}"
-                  [ngStyle]="masterOrService === 'Service' && wrappedStyle()">
+                  (mouseover)="hoverStyleOn('Service')" (mouseleave)="hoverStyleOff('Service')"
+                  [ngStyle]="ngStyleMethod('Service')">
                   <label class="choose-options-item-label" for="choose-options-service">
                     <input type="radio" name="radio" id="choose-options-service">
                     <!-- SERVICE SVG START -->

@@ -15,4 +15,6 @@ export class SVariables {
   public static sequenceNonCheckStep: string;   // sequence on - "w_let_check_steps": 0
   public static appointment: Appointment[];
   public static masterOrService: string;  // for last page TimeBook
+  public static master_last_check_steps: boolean;  // for last page TimeBook when last check steps 0 and sequence master
+  public static settingsUrl: string;
 }

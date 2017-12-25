@@ -13,14 +13,14 @@
           <div class="content-right-block master-master-right-block">
             <div class="masters-list">
               <div
+                (mouseover)="hoverStyleOn(master)" (mouseleave)="hoverStyleOff()"
                 class="masters-list-item"
-                *ngFor="let master of masters; let i = index"
+                *ngFor="let master of masters"
                 (click)="onSelectMaster(master)"
-                [ngStyle]="isActive(master) && wrappedStyle()">
+                [ngStyle]="ngStyleMethod(master)">
                 <label class="masters-list-item-label">
                   <br>
                   <div class="master-pic-container-main">
-
 
                     <svg [ngStyle]="(isActive(master) && wrappedStyle()) && {'background-color': color} " class="selectedEmployee" version="1.1" id="XMLID_2_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="10px" y="10px"
 	 viewBox="0 0 5.9177 3.9613" enable-background="new 0 0 5.9177 3.9613" xml:space="preserve">
@@ -29,7 +29,6 @@
 	c0.1922-0.1934,0.5043-0.1934,0.6972,0c0.1926,0.1935,0.1926,0.5068,0,0.7001l-2.9591,2.971
 	C2.718,3.9128,2.5919,3.9613,2.4657,3.9613z"/>
 </svg>
-
 
                     <!--<img src="assets/images/icons/master-checked-icon.png" [ngStyle]="isActive(master) && {'opacity': 1}" class="master-checked-tick">-->
                     <div class="master-pic-container"

@@ -8,7 +8,7 @@ import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service
 import {GetServicesService} from '../../../services/get-services.service';
 import {GetDataService} from '../../../services/get-data.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {Styling} from "../../../services/styling";
+import {Styling} from '../../../services/styling';
 
 @Component({
   selector: 'app-select-master',
@@ -28,6 +28,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   masters: Master[] = [];
 
   color = Styling.color;
+  hoverMaster: any;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -40,9 +41,9 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
   getEmployees() {
     this.getDataService.getEmployees().subscribe((response) => {
-      this.masters = response['data'].employees;
-      console.log(response['data'].employees);
-    },
+        this.masters = response['data'].employees;
+        console.log(response['data'].employees);
+      },
       (err: HttpErrorResponse) => {
         if (err.error instanceof Error) {
           console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
@@ -124,13 +125,26 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
   }
 
 
-   /* STYLES FROM URL COLOR  */
+  /* STYLES FROM URL COLOR  */
+
   wrappedStyle() {
     return Styling.globalWidgetsStyles.wrappedStyle;
   }
 
   radioStyle() {
     return Styling.globalWidgetsStyles.radioStyle;
+  }
+
+  ngStyleMethod(master) {
+    return (this.isActive(master) && this.wrappedStyle()) || (this.hoverMaster === master && Styling.globalWidgetsStyles.hoverColor);
+  }
+
+  hoverStyleOn(master: Master) {
+    this.hoverMaster = master;
+  }
+
+  hoverStyleOff() {
+    this.hoverMaster = '';
   }
 
 }

@@ -1,4 +1,5 @@
 export class Master {
+  employee_id?: number;
   birthday?: string;
   father_name: string;
   first_name: string;

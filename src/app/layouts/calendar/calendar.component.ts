@@ -22,7 +22,7 @@ export class CalendarComponent implements OnInit {
 
   from: string;
   to: string;
-
+  hoverDate: any;
   constructor(private getDataService: GetDataService) {
   }
 
@@ -105,8 +105,26 @@ export class CalendarComponent implements OnInit {
   }
 
   /* STYLES FROM URL COLOR */
+
   radioStyle() {
     return Styling.globalWidgetsStyles.radioStyle;
+  }
+
+
+  ngStyleMethod(date) {
+    return (date === this.selectedDate && this.radioStyle()) || (this.hoverDate === date && Styling.globalWidgetsStyles.hoverColor);
+  }
+
+  hoverStyleOn(date) {
+    if (date.working_status !== 0) { this.hoverDate = date; }
+  }
+
+  hoverStyleOff(date) {
+    if (this.selectedDate !== date) { this.hoverDate = ''; }
+  }
+
+  ngStyleMethodP(date) {
+    return (date === this.selectedDate && {color: 'white'}) || (this.hoverDate === date && {color: Styling.color});
   }
 
 }

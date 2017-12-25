@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {ActivatedRoute, Params} from '@angular/router';
@@ -36,58 +35,43 @@ export class MainComponent implements OnInit, OnDestroy {
 
 
   getSettings() {
-    if (SVariables.allowCheckMasterService) {
-      this.settingService.sendSettings().subscribe(res => {
+
+    this.settingService.sendSettings().subscribe(res => {
+
+        if (res['data'].settings.w_let_check_steps === 1) {
           console.log(res);
-          if (res['data'].settings.w_let_check_steps === 1) {
+          SVariables.allowCheckMasterService = true;
+          this.steps_employee = [];
+          this.firstLetterAdder(res['data'].settings.w_steps_employee, 'm_', this.steps_employee, res['data'].settings);
+          this.steps_service = [];
+          this.firstLetterAdder(res['data'].settings.w_steps_service, 's_', this.steps_service, res['data'].settings);
+          SVariables.steps_employee = this.steps_employee;
+          SVariables.steps_service = this.steps_service;
+          console.log(SVariables.steps_service);
+          console.log(SVariables.steps_employee);
+          this.switcherSequenceMethod(res['data'].settings, SVariables.steps_employee, '');
+        } else {
+          SVariables.allowCheckMasterService = false;
+          if (res['data'].settings.w_steps_g.indexOf('employee') > -1) {
+            SVariables.master_last_check_steps = true;
+            console.log(res);
             this.steps_employee = [];
-            this.firstLetterAdder(res['data'].settings.w_steps_employee, 'm_', this.steps_employee, res['data'].settings);
-            this.steps_service = [];
-            this.firstLetterAdder(res['data'].settings.w_steps_service, 's_', this.steps_service, res['data'].settings);
-            SVariables.steps_employee = this.steps_employee;
-            SVariables.steps_service = this.steps_service;
-            this.switcherSequenceMethod(res['data'].settings, SVariables.steps_employee, '');
-          }
-        },
-        (err: HttpErrorResponse) => {
-          if (err.error instanceof Error) {
-            console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-          } else {
-            console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-          }
-        });
-    } else {
-      this.settingService.sendSettingsByOneStep().subscribe(response => {
-          if (response['data'].settings.w_steps_g.indexOf('employee') > -1) {
-            console.log('YESSSSS');
-
-
-            this.steps_employee = [];
-            this.firstLetterAdder(response['data'].settings.w_steps_g, 'm_', this.steps_employee, response['data'].settings);
+            this.firstLetterAdder(res['data'].settings.w_steps_g, 'm_', this.steps_employee, res['data'].settings);
             SVariables.steps_employee = this.steps_employee;
             console.log(SVariables.steps_employee);
-            this.switcherSequenceMethod(response['data'].settings, SVariables.steps_employee, 'masterStep');
+            this.switcherSequenceMethod(res['data'].settings, SVariables.steps_employee, 'masterStep');
 
           } else {
-            console.log(response);
+            console.log(res);
             this.steps_service = [];
-            this.firstLetterAdder(response['data'].settings.w_steps_g, 's_', this.steps_service, response['data'].settings);
+            this.firstLetterAdder(res['data'].settings.w_steps_g, 's_', this.steps_service, res['data'].settings);
             SVariables.steps_service = this.steps_service;
             console.log(SVariables.steps_service);
-            this.switcherSequenceMethod(response['data'].settings, SVariables.steps_service, 'serviceStep');
+            this.switcherSequenceMethod(res['data'].settings, SVariables.steps_service, 'serviceStep');
           }
-
-        },
-        (err: HttpErrorResponse) => {
-          if (err.error instanceof Error) {
-            console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-          } else {
-            console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-          }
-        });
-    }
-
-
+        }
+      },
+      eror => console.log('Something went wrong!'));
   }
 
   ngOnInit() {
@@ -108,15 +92,23 @@ export class MainComponent implements OnInit, OnDestroy {
     });
     this.subSettings = this.route.queryParams.subscribe((params) => {
       if (params['steps_service']) {
+        SVariables.settingsUrl = 'w_steps_employee=' + params['steps_employee'].split(',') + '&' + 'w_steps_service=' + params['steps_service'].split(',') + '&' + 'w_color=' + '%23' + (params['color'].substring(1));
         SVariables.settings = {
           steps_employee: params['steps_employee'].split(','),
           steps_service: params['steps_service'].split(','),
           color: '%23' + (params['color'].substring(1))
         };
-        SVariables.allowCheckMasterService = true;
-      } else {
+        console.log(10);
+        // SVariables.allowCheckMasterService = true;
+      } else if (params['color']) {
+        SVariables.settingsUrl = 'w_color=' + '%23' + (params['color'].substring(1));
         Styling.color = '%23' + (params['color'].substring(1));
-        SVariables.allowCheckMasterService = false;
+        // SVariables.allowCheckMasterService = false;
+        console.log(11);
+      } else {
+        SVariables.settingsUrl = 'w_steps_employee=&w_steps_service=&w_color=';
+        Styling.color = null;
+        // SVariables.allowCheckMasterService = true;
       }
     });
   }
@@ -198,6 +190,11 @@ export class MainComponent implements OnInit, OnDestroy {
       color: color
     };
 
+    const hoverColor = {
+      backgroundColor: lightColor,
+      boxShadow: 'none'
+    };
+
     const timeClass = {
       border: '1px solid ' + color,
       backgroundColor: lightColor,
@@ -210,7 +207,8 @@ export class MainComponent implements OnInit, OnDestroy {
       checkboxStyle,
       wrappedStyle,
       fontColor,
-      timeClass
+      timeClass,
+      hoverColor
     };
   }
 
@@ -223,7 +221,6 @@ export class MainComponent implements OnInit, OnDestroy {
     const lightColor = this.lightenDarkenColor(res.w_color, 99);
     Styling.lightColor = lightColor;
     Styling.globalWidgetsStyles = this.globalWidgetsStyles(res.w_color, lightColor);
-    console.log(Styling.globalWidgetsStyles);
   }
 
 }

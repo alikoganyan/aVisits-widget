@@ -47,6 +47,8 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
   maxPrice: number = 0;
   default_duration: number = 0;
 
+  hover_service_cat: any;
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -211,8 +213,8 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   /* STYLES FROM URL COLOR */
 
-  fontColor() {
-    return {backgroundColor: Styling.lightColor};
+  hoverColor() {
+    return Styling.globalWidgetsStyles.hoverColor;
   }
 
   selectStyle() {
@@ -225,6 +227,20 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   checkboxStyle() {
     return Styling.globalWidgetsStyles.checkboxStyle;
+  }
+
+  ngStyleMethod(service_cat) {
+    return (service_cat === this.selected_service_cat && this.hoverColor()) || (this.hover_service_cat === service_cat && this.hoverColor());
+  }
+
+  hoverStyleOn(service_cat) {
+    this.hover_service_cat = service_cat;
+  }
+
+  hoverStyleOff(service_cat) {
+    if (this.selected_service_cat !== service_cat) {
+      this.hover_service_cat = '';
+    }
   }
 
 }

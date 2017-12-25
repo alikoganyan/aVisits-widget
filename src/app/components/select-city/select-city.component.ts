@@ -25,13 +25,12 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   selectCity: string;
 
   masterOrService = '';
+  hoverMasterORService = '';
   selectedSequence: string[];
 
 
   color = Styling.color;
   middleColor = Styling.middleColor;
-  hoverMaster: boolean;
-  hoverService: boolean;
 
   allowCheckMasterService = SVariables.allowCheckMasterService;
 
@@ -130,6 +129,24 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   wrappedStyle() {
     return Styling.globalWidgetsStyles.wrappedStyle;
   }
+
+
+
+  ngStyleMethod(masterOrService) {
+    return (this.masterOrService === masterOrService && this.wrappedStyle()) || (this.hoverMasterORService === masterOrService && this.wrappedStyle());
+  }
+
+  hoverStyleOn(masterORService) {
+    this.hoverMasterORService = masterORService;
+  }
+
+  hoverStyleOff(masterORService) {
+    if (this.masterOrService !== masterORService) {
+      this.hoverMasterORService = '';
+    }
+  }
+
+
 
 }
 

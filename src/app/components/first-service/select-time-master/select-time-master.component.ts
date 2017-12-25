@@ -51,6 +51,7 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
     this.getDataService.getEmployeesAndTimes().subscribe(response => {
         this.responseLogic(response['data']);
         this.employeesAndTimes = response['data'];
+        console.log(this.employeesAndTimes);
       },
       error => console.log('Something went wrong!'));
   }
@@ -77,42 +78,43 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
     let goNext = true;
     const appointment: Appointment[] = [];
     this.employeesAndTimes.map(employeesAndTime => {
+      console.log(employeesAndTime);
       employeesAndTime.employees.length === 0 && (goNext = false);
       !employeesAndTime.hasOwnProperty('time') && (goNext = false);
-      const app = {
-        employee_id: null,
-        from_time: '',
-        services: [],
-        employeeServices: [],
-        father_name: '',
-        first_name: '',
-        last_name: '',
-        photo: '',
-        position: null,
-        date: null,
-        time: ''
-      };
-      app.father_name = employeesAndTime.employee.father_name;
-      app.first_name = employeesAndTime.employee.first_name;
-      app.last_name = employeesAndTime.employee.last_name;
-      app.photo = employeesAndTime.employee.photo;
-      app.position = employeesAndTime.employee.position;
-      app.employee_id = employeesAndTime.employeeID;
-      app.from_time = employeesAndTime.time;
-      app.date = this.date;
-      app.time = employeesAndTime.time;
-      app.employeeServices = employeesAndTime.employeeServices;
-      app.employeeServices.map(employeeService => {
-        employeeService.price = `${employeeService.min_max_prices.min_price}-${employeeService.min_max_prices.max_price}`
-      });
-      employeesAndTime.services.map(servId => {
-        app.services.push(servId);
-      });
-      appointment.push(app);
+      if (employeesAndTime.employeeID) {
+        const app = {
+          employee_id: null,
+          from_time: '',
+          services: [],
+          employeeServices: [],
+          father_name: '',
+          first_name: '',
+          last_name: '',
+          photo: '',
+          position: null,
+          date: null,
+          time: ''
+        };
+        app.father_name = employeesAndTime.employee.father_name;
+        app.first_name = employeesAndTime.employee.first_name;
+        app.last_name = employeesAndTime.employee.last_name;
+        app.photo = employeesAndTime.employee.photo;
+        app.position = employeesAndTime.employee.position;
+        app.employee_id = employeesAndTime.employeeID;
+        app.from_time = employeesAndTime.time;
+        app.date = this.date;
+        app.time = employeesAndTime.time;
+        app.employeeServices = employeesAndTime.employeeServices;
+        app.employeeServices.map(employeeService => {
+          employeeService.price = `${employeeService.min_max_prices.min_price}-${employeeService.min_max_prices.max_price}`
+        });
+        employeesAndTime.services.map(servId => {
+          app.services.push(servId);
+        });
+        appointment.push(app);
+      }
     });
     SVariables.appointment = appointment;
-    console.log(SVariables.appointment);
-    console.log(this.employeesAndTimes);
     goNext && this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 

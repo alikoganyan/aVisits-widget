@@ -111,6 +111,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
       !v.time && (goNext = false);
     });
     SVariables.appointment = appointment;
+    console.log(SVariables.appointment);
     goNext && this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 

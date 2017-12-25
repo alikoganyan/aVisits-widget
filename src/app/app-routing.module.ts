@@ -4,14 +4,14 @@ import {Routes} from '@angular/router';
 import {MainComponent} from './layouts/main/main.component';
 
 const appRoutes: Routes = [
-  // {path: '', redirectTo: '', pathMatch: 'full'},
-  {path: ':widget', component: MainComponent}
+  // {path: '', redirectTo: ':widget', pathMatch: 'full'},
+  {path: ':widget', component: MainComponent},
+  // {path: '**', redirectTo: '/:widget'}
 ];
 
 @NgModule({
   imports: [
-    // RouterModule.forRoot(appRoutes, {useHash: true})
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes,  {useHash: true})
   ],
   exports: [RouterModule]
 })

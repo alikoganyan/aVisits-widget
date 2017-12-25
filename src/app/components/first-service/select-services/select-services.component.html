@@ -15,10 +15,11 @@
             <div class="content-right-block-first services-service-right-block-first">
 
               <div
+                (mouseover)="hoverStyleOn(service_cat)" (mouseleave)="hoverStyleOff(service_cat)"
                 *ngFor="let service_cat of services_cat"
                 class="services-service-right-block-first-item"
                 (click)="onSelectServiceCat(service_cat)"
-                [ngStyle]="service_cat === selected_service_cat && fontColor()">
+                [ngStyle]="ngStyleMethod(service_cat)">
                 {{service_cat.title}}
               </div>
             </div>
@@ -93,7 +94,7 @@
             <div
               class="content-right-block-first services-service-right-block-first"
               (click)="goToAllServicesOnMobile()">
-              <div class="services-service-right-block-first-item active">
+              <div class="services-service-right-block-first-item" [ngStyle]="hoverColor()">
                 <a href="" class="services-service-title-block-back-btn">
                   <img src="assets/images/svg/arrow-dark-gray.svg">
                 </a>
@@ -170,8 +171,10 @@
             <div class="content-right-block-first services-service-right-block-first">
               <div
                 class="services-service-right-block-first-item"
+                (mouseover)="hoverStyleOn(service_cat)" (mouseleave)="hoverStyleOff(service_cat)"
                 *ngFor="let service_cat of services_cat"
-                (click)="onSelectServiceCat(service_cat)">
+                (click)="onSelectServiceCat(service_cat)"
+                [ngStyle]="ngStyleMethod(service_cat)">
                 {{service_cat.title}}
               </div>
             </div>

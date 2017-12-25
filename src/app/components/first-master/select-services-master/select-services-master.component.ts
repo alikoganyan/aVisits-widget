@@ -46,6 +46,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   color = Styling.color;
   searchInput = false;
+  hoverMaster: any;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -109,7 +110,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
     this.getServicesService.getEmployeeServices().subscribe(response => {
       console.log(response);
 
-      if(response['data'].constructor !== Array) {
+      if (response['data'].constructor !== Array) {
         response['data'].employees.map((employee) => {
           this.firstMaster = response['data'].employees[0];  // this is for show first master services
           employee.service_groups.map((group) => {
@@ -154,7 +155,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
     const month = `${moment(new Date()).locale('ru').add(0, 'days').format('M')}`;
     const day = `${moment(new Date()).add(0, 'days').get('date')}`;
     const date = `${year}-${month}-${day}`;
-    const employeesTimes: {employee_id: number, services: number[]}[] = [];
+    const employeesTimes: { employee_id: number, services: number[] }[] = [];
     const employeesID: number[] = [];
 
     this.selectedDates.map((mId, ind) => {
@@ -200,8 +201,9 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
 
   /* STYLES FROM URL COLOR */
-  backColor() {
-    return {backgroundColor: Styling.lightColor};
+
+  hoverColor() {
+    return Styling.globalWidgetsStyles.hoverColor;
   }
 
   selectStyle() {
@@ -210,6 +212,21 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   radioStyle() {
     return Styling.globalWidgetsStyles.radioStyle;
+  }
+
+  ngStyleMethod(master) {
+    return ((master === this.selectedMaster || (this.firstMaster.employee_id === master.id && this.only_first_masterServices === 'show')) && this.hoverColor()) ||
+      (this.hoverMaster === master && this.hoverColor());
+  }
+
+  hoverStyleOn(master) {
+    this.hoverMaster = master;
+  }
+
+  hoverStyleOff(master) {
+    if (this.selectedMaster !== master) {
+      this.hoverMaster = '';
+    }
   }
 
 }

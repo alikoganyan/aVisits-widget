@@ -8,12 +8,12 @@ import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {SVariables} from '../../services/sVariables';
 import {GetDataService} from '../../services/get-data.service';
-import {Styling} from "../../services/styling";
+import {Styling} from '../../services/styling';
 
 @Component({
   selector: 'app-select-address',
   templateUrl: './select-address.component.html',
-  styles: ['@media (max-width: 614px) { .switcherMode {display: none;}}']
+  styles: ['@media (max-width: 614px) {.switcherMode {visibility: hidden} .cityListOnMobile {display: none}}']
 })
 export class SelectAddressComponent implements OnInit, OnDestroy {
 
@@ -35,6 +35,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   };
   zoom = 11;
 
+  hoverSalon: any;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -45,7 +46,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   getSalons() {
     this.getDataService.getSalons().subscribe(response => {
-      console.log(response);
+        console.log(response);
         this.salons = response['data'].salons;
       },
       (err: HttpErrorResponse) => {
@@ -90,7 +91,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
-    if(SVariables.employeesAndTimes) {
+    if (SVariables.employeesAndTimes) {
       SVariables.employeesAndTimes.map(employeesAndTime => {
         employeesAndTime.salon_id = this.selectedSalon.id;
       });
@@ -126,8 +127,9 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
   /* STYLES FROM URL COLOR */
-  selectStyle() {
-    return Styling.globalWidgetsStyles.selectStyle;
+
+  fontColor() {
+    return Styling.globalWidgetsStyles.fontColor;
   }
 
   radioStyle() {
@@ -135,7 +137,28 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
   }
 
 
+  ngStyleMethod(salon) {
+    return ((salon === this.selectedSalon) && Styling.globalWidgetsStyles.selectStyle) ||
+      (this.hoverSalon === salon && Styling.globalWidgetsStyles.hoverColor);
+  }
 
 
+  hoverStyleOn(salon) {
+    this.hoverSalon = salon;
+  }
+
+  hoverStyleOff(salon) {
+    if (this.selectedSalon !== salon) {
+      this.hoverSalon = '';
+    }
+  }
+
+
+  urlFunction(salon) {
+    if (this.hoverSalon === salon || this.selectedSalon === salon) {
+      return 'assets/images/map-localization-hover.svg';
+    }
+    return 'assets/images/map-localization.svg';
+  }
 
 }

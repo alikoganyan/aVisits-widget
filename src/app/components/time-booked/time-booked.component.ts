@@ -36,7 +36,6 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
     this.getSubscriptions();
     const app: any = [...SVariables.appointment];
     app.map(v => {
-      console.log(v);
       v.salon_id = SVariables.salonId;
       v.day = SVariables.date;
       v.client_id = SVariables.clientId;
@@ -71,12 +70,13 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
       this.sequence = sequence[0];
     });
-    if (SVariables.masterOrService === 'Master') {
+    if (SVariables.masterOrService === 'Master' || SVariables.master_last_check_steps) {
       this.subMasters = this.sidebarSwitcherService.employeesServices.subscribe(employeesServices => {
         this.masters = employeesServices;
         console.log(employeesServices);
       });
     } else {
+      console.log( 'seq legt is ' + this.sequence.length);
       this.masters = SVariables.appointment;
       console.log(SVariables.appointment);
     }

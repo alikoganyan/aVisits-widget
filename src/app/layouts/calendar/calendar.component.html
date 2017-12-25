@@ -9,8 +9,10 @@
         <div class="avisits-col"
              (click)="onSelectDate(date)"
              [class.disabled]="date.working_status === 0">
-          <a [ngStyle]="date === selectedDate && radioStyle()">
-            <p [ngStyle]="date === selectedDate && {'color': 'white'}" class="bold">{{date.weekday}}</p>
+          <a
+            (mouseover)="hoverStyleOn(date)" (mouseleave)="hoverStyleOff(date)"
+            [ngStyle]="ngStyleMethod(date)">
+            <p [ngStyle]="ngStyleMethodP(date)" class="bold">{{date.weekday}}</p>
             <p [ngStyle]="date === selectedDate && {'color': 'white'}">{{date.day}} {{date.month}}</p>
           </a>
         </div>
