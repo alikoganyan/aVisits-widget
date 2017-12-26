@@ -15,6 +15,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   start = 'button';
   status = '';
+  masterTimePage_inLastSequence = 'm_time';
   startSubscription: Subscription;
   statusSubscription: Subscription;
   subRoutId: Subscription;
@@ -51,6 +52,14 @@ export class MainComponent implements OnInit, OnDestroy {
           console.log(SVariables.steps_employee);
           this.switcherSequenceMethod(res['data'].settings, SVariables.steps_employee, '');
         } else {
+
+          console.log(res['data'].settings.w_steps_g);
+          (this.arraysIdentical(res['data'].settings.w_steps_g, ['address', 'service', 'time'])) && (SVariables.randomEmployeeSequence = true);
+          (this.arraysIdentical(res['data'].settings.w_steps_g, ['service', 'address', 'time'])) && (SVariables.randomEmployeeSequence = true);
+          SVariables.randomEmployeeSequence && (this.masterTimePage_inLastSequence = 's_time');
+          console.log('random is ' + SVariables.randomEmployeeSequence);
+
+
           SVariables.allowCheckMasterService = false;
           if (res['data'].settings.w_steps_g.indexOf('employee') > -1) {
             SVariables.master_last_check_steps = true;
@@ -72,6 +81,7 @@ export class MainComponent implements OnInit, OnDestroy {
         }
       },
       eror => console.log('Something went wrong!'));
+    console.log()
   }
 
   ngOnInit() {
@@ -93,22 +103,20 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subSettings = this.route.queryParams.subscribe((params) => {
       if (params['steps_service']) {
         SVariables.settingsUrl = 'w_steps_employee=' + params['steps_employee'].split(',') + '&' + 'w_steps_service=' + params['steps_service'].split(',') + '&' + 'w_color=' + '%23' + (params['color'].substring(1));
-        SVariables.settings = {
-          steps_employee: params['steps_employee'].split(','),
-          steps_service: params['steps_service'].split(','),
-          color: '%23' + (params['color'].substring(1))
-        };
+        // SVariables.settings = {
+        //   steps_employee: params['steps_employee'].split(','),
+        //   steps_service: params['steps_service'].split(','),
+        //   color: '%23' + (params['color'].substring(1))
+        // };
         console.log(10);
-        // SVariables.allowCheckMasterService = true;
       } else if (params['color']) {
         SVariables.settingsUrl = 'w_color=' + '%23' + (params['color'].substring(1));
         Styling.color = '%23' + (params['color'].substring(1));
-        // SVariables.allowCheckMasterService = false;
         console.log(11);
       } else {
+        console.log(12);
         SVariables.settingsUrl = 'w_steps_employee=&w_steps_service=&w_color=';
         Styling.color = null;
-        // SVariables.allowCheckMasterService = true;
       }
     });
   }
@@ -222,6 +230,16 @@ export class MainComponent implements OnInit, OnDestroy {
     Styling.lightColor = lightColor;
     Styling.globalWidgetsStyles = this.globalWidgetsStyles(res.w_color, lightColor);
   }
+
+
+  arraysIdentical(a, b) {
+    let i = a.length;
+    if (i != b.length) return false;
+    while (i--) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  };
 
 }
 

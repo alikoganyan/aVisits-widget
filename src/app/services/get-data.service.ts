@@ -39,7 +39,6 @@ export class GetDataService {
     );
   }
 
-
   getEmployeesAndTimes() {
     return this.http.post(
       SVariables.apiUrl + 'widget/' + SVariables.chainId + '/employee_times',

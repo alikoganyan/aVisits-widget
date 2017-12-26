@@ -3,6 +3,5 @@ export class Styling {
   public static color: string;
   public static lightColor: string;
   public static middleColor: string;
-
 }
 

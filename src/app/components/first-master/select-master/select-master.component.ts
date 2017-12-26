@@ -7,7 +7,6 @@ import {NavbarSwitcherService} from '../../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../../services/sidebar-switcher.service';
 import {GetServicesService} from '../../../services/get-services.service';
 import {GetDataService} from '../../../services/get-data.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Styling} from '../../../services/styling';
 
 @Component({
@@ -44,13 +43,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
         this.masters = response['data'].employees;
         console.log(response['data'].employees);
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+      error => console.log('Something went wrong!'));
   }
 
   onSelectMaster(master: Master) {
@@ -98,8 +91,22 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
     this.selectedMasters.map((value) => {
       employees.push(value.id);
     });
-    this.getServicesService.employees = employees;
-    this.sidebarSwitcherService.selectMasters(this.selectedMasters);
+    const randomEmployeesId = [];
+    this.masters.map(employee => {
+      randomEmployeesId.push(employee.id);
+    });
+    let item = randomEmployeesId[Math.floor(Math.random() * randomEmployeesId.length)];
+    const numToArr = [];
+    numToArr.push(item);
+
+    const randomMaster = [];
+    this.masters.map(employee => {
+      employee.id === item &&  randomMaster.push(employee);
+    });
+    console.log(item);
+    console.log(randomMaster);
+    employees.length > 0 ? this.getServicesService.employees = employees : this.getServicesService.employees = numToArr;
+    employees.length > 0 ? this.sidebarSwitcherService.selectMasters(this.selectedMasters) : this.sidebarSwitcherService.selectMasters(randomMaster);
     this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
   }
 

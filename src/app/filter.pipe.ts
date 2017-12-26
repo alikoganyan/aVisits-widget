@@ -5,8 +5,10 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class FilterPipe implements PipeTransform {
   transform(services, value: string) {
+    const input = value.toUpperCase();
     return services.filter(service => {
-      return service.title.includes(value);
+      // return service.title.includes(value.toUpperCase());
+        return service.title.toUpperCase().indexOf(input) > -1;
     });
   }
 }

@@ -66,7 +66,9 @@
                     email
                     #vaildEmail="ngModel">
                   <span [ngStyle]="fontColor()" class="help-block color-help-block"
-                        *ngIf="!vaildEmail.valid && vaildEmail.touched">Не правильны емайл!</span>
+                        *ngIf="!vaildEmail.valid && vaildEmail.touched && vaildEmail.value.length === 0">Обязательное поле!</span>
+                  <span [ngStyle]="fontColor()" class="help-block color-help-block"
+                        *ngIf="!vaildEmail.valid && vaildEmail.touched && vaildEmail.value.length > 0">Не правильны емайл!</span>
                 </div>
 
                 <div class="contacts-master-email-spam responsive">
@@ -79,7 +81,6 @@
                 <div class="contacts-master-note form-item">
                   <label class="bold">Примечание</label>
                   <textarea
-                    [(ngModel)]="savedContacts.comment"
                     name="comment"
                     (focus)="inputsActive.textareaInput = true"
                     (blur)="inputsActive.textareaInput = false"

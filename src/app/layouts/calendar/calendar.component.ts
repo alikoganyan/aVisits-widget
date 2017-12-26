@@ -1,5 +1,4 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
 import {SDate} from '../../models/date';
 import * as moment from 'moment';
 import {GetDataService} from '../../services/get-data.service';
@@ -52,13 +51,7 @@ export class CalendarComponent implements OnInit {
     this.getDataService.getEmployeeCalendar(dateString, dateString).subscribe(response => {
         lastDate.working_status = response.data['calendar'][0].working_status;
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+      error => console.log('Something went wrong'));
   }
 
 
@@ -84,7 +77,7 @@ export class CalendarComponent implements OnInit {
     });
     this.selectedDate = this.myOwnCalendarDays[0];
     this.from = `${this.myOwnCalendarDays[0].year}-${moment().locale('ru').month(this.myOwnCalendarDays[0].month).format('MM')}-${this.myOwnCalendarDays[0].day}`;
-    this.to = `${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].year}-${moment().locale('ru').month(this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].month).format('M')}-${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].day}`;
+    this.to = `${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].year}-${moment().locale('ru').month(this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].month).format('MM')}-${this.myOwnCalendarDays[this.myOwnCalendarDays.length - 1].day}`;
     this.getEmployeeCalendar();
   }
 
@@ -95,13 +88,7 @@ export class CalendarComponent implements OnInit {
           this.myOwnCalendarDays[ind].working_status = val.working_status;
         });
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+      error => console.log('Something wnet wrong!'));
   }
 
   /* STYLES FROM URL COLOR */

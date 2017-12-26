@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {Salon} from '../../models/salon';
@@ -49,13 +48,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
         console.log(response);
         this.salons = response['data'].salons;
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message);  // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+      error => console.log('Something went wrong!'));
   }
 
   getCityLatLong() {
@@ -66,13 +59,7 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
           console.log('Something went wrong!');
         }
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+      error => console.log('Something went wrong!'));
   }
 
   ngOnInit() {

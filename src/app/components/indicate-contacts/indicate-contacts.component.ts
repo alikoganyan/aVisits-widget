@@ -28,7 +28,7 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
   subSequence: Subscription;
 
   savedContacts: Client = {
-    comment: '',
+    // comment: '',
     email: '',
     first_name: '',
     id: null,
@@ -93,13 +93,13 @@ export class IndicateContactsComponent implements OnInit, OnDestroy {
       this.clientService.updateClient(this.savedContacts).subscribe(response => {
           this.gotNextAssigned(response);
         },
-        error => console.log(error));
+        error => console.log('Something went wrong!'));
       this.userFounded = false;
     } else {
       this.clientService.newClient(this.contactForm.value).subscribe(response => {
           this.gotNextAssigned(response);
         },
-        error => console.log(error));
+        error => console.log('Something went wrong!'));
     }
   }
 

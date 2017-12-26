@@ -315,6 +315,9 @@ label {
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      position: absolute;
+      bottom: 10px;
+      color: black;
     }
   }
 
@@ -1017,8 +1020,9 @@ label {
           float: left;
           transition: 1s ease;
           -webkit-transition: 1s ease;
-          border-left: 1px solid $color-light-gray;
-          border-bottom: 1px solid $color-light-gray;
+          //border-left: 1px solid $color-light-gray;
+          //border-bottom: 1px solid $color-light-gray;
+          border: 1px solid $color-light-gray;
 
           &:hover {
             background-color: $color-peach;
@@ -1743,6 +1747,7 @@ label {
   }
   .page-wrapper .page-container .choose-options.choose-options-top-responsive {
     display: block;
+    position: relative;
   }
 }
 
@@ -2254,7 +2259,7 @@ label {
   }
 
   .avisits-point {
-    background: url(./assets/images/point-map.png);
+    //background: url(./assets/images/point-map.png);
     width: 26px;
     height: 37px;
     position: absolute;

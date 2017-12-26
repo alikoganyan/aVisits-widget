@@ -1,5 +1,4 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpErrorResponse} from '@angular/common/http';
 import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../../services/switcher.service';
 import {CityService} from '../../../services/city.service';

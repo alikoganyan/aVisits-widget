@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
-import {HttpErrorResponse} from '@angular/common/http';
 import * as moment from 'moment';
 import {SwitcherService} from '../../../services/switcher.service';
 import {CityService} from '../../../services/city.service';
@@ -37,6 +36,8 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
     working_status: null
   };
 
+  allEmployeesTimesTogether: string[] = [];
+
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
               private navbarSwitcherService: NavbarSwitcherService,
@@ -49,20 +50,21 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   getTimes() {
-    this.getDataService.getTimes().subscribe(response => {
-        console.log(response);
-        response['data'].schedule.map((v, i) => {
-          this.employeesServices[i].timesToDisplay = v.periods;
-          this.employeesServices[i].date = this.date;
-        });
-      },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+    if (!SVariables.randomEmployeeSequence) {
+      this.getDataService.getTimes().subscribe(response => {
+          console.log(response);
+          response['data'].schedule.map((v, i) => {
+            this.employeesServices[i].timesToDisplay = v.periods;
+            this.employeesServices[i].date = this.date;
+          });
+        },
+        error => console.log('Something went wrong!'));
+    } else {
+      this.getDataService.getEmployeesAndTimes().subscribe(response => {
+        this.forLastSequenceEmployeesFreeTimes(response['data']);
+        },
+        error => console.log('Something went wrong!'));
+    }
   }
 
   getSelectedDate(date: SDate) {
@@ -74,13 +76,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
           this.employeesServices[i].date = date;
         });
       },
-      (err: HttpErrorResponse) => {
-        if (err.error instanceof Error) {
-          console.log('An error occurred:', err.error.message); // A client-side or network error occurred. Handle it accordingly.
-        } else {
-          console.log(`Backend returned code ${err.status}, body was: ${err.error}`); // The backend returned an unsuccessful response code.
-        }
-      });
+      error => console.log('Something went wrong!'));
   }
 
   ngOnInit() {
@@ -124,7 +120,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
       this.interrapt = interrapt;
     });
     this.subSequence = this.switcherService.sequence.subscribe(sequence => {
-      this.index = sequence.indexOf('m_time');
+      !SVariables.randomEmployeeSequence ? this.index = sequence.indexOf('m_time') : this.index = sequence.indexOf('s_time');
       this.sequence = sequence;
     });
     this.subEmployeesServices = this.sidebarSwitcherService.employeesServices.subscribe(employeesServices => {
@@ -145,6 +141,23 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
   timeClass() {
     return Styling.globalWidgetsStyles.timeClass;
+  }
+
+
+  forLastSequenceEmployeesFreeTimes(response) {
+    console.log(response);
+    const allPeriods = [];
+    response.map(value => {
+      value.employees.map( employee => {
+        employee.periods.map(period => {
+          allPeriods.push(period);
+        })
+      })
+    });
+    this.allEmployeesTimesTogether = allPeriods.filter(function(item, pos) {
+      return allPeriods.indexOf(item) == pos;
+    });
+    console.log(this.allEmployeesTimesTogether);
   }
 
 }

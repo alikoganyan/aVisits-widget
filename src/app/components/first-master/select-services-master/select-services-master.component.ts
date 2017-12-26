@@ -125,7 +125,8 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
         });
         this.employeeServices = response['data'].employees;
       }
-    });
+    },
+      error => console.log('Something went wrong!'));
   }
 
   onSelectMaster(master: Master) {

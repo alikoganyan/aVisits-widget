@@ -36,45 +36,22 @@
                       <span>Площадь мужества</span>
                     </p>
                   </div>
-                  <input type="radio" name="radio">
+                  <!--<input type="radio" name="radio">-->
                   <span class="checkmark" [ngStyle]="salon === selectedSalon && radioStyle()"></span>
                 </label>
               </div>
-
-
             </div>
           </div>
           <div class="map-container address-master-map-container" [ngClass]="{'switcherMode': !switcherMode}">
-
-
             <agm-map [latitude]="cityLocation.lat" [longitude]="cityLocation.lng" [zoom]="zoom" style="height: 100%;">
               <agm-marker
                 (mouseOver)="hoverStyleOn(salon)" (mouseOut)="hoverStyleOff(salon)"
                 [iconUrl]="urlFunction(salon)"
                 *ngFor="let salon of salons"
-                [latitude]="salon.latitude" [longitude]="salon.longitude">
-                <agm-info-window>
-                  <div class="addresses-box-item item">
-                    <label class="check-container">
-                      <div class="addresses-box-pic-container" style="display: inline">
-                        <img src="assets/images/salon.png">
-                      </div>
-                      <div class="addresses-box-info-container" style="display: inline">
-                        <p class="semi-bold">{{salon.address}}</p>
-                        <p>
-                          <img src="assets/images/svg/metro.svg" style="width: 5px">
-                          <span>Площадь мужества</span>
-                        </p>
-                      </div>
-                      <input type="radio" name="radio">
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                </agm-info-window>
+                [latitude]="salon.latitude" [longitude]="salon.longitude"
+                (markerClick)="onSelectSalon(salon)">
               </agm-marker>
             </agm-map>
-
-
           </div>
         </div>
         <div class="nav-bottom address-master-bottom bordered nav-bottom-select-address-page">

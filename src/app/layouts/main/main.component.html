@@ -6,7 +6,7 @@
 <!-- First Master -->
 <app-select-master *ngIf="start === 'show' && status === 'm_employee'"></app-select-master>
 <app-select-services-master *ngIf="start === 'show' && status === 'm_service'"></app-select-services-master>
-<app-select-date-time *ngIf="start === 'show' && status === 'm_time'"></app-select-date-time>
+<app-select-date-time *ngIf="start === 'show' && status === masterTimePage_inLastSequence"></app-select-date-time>
 <!-- First Service -->
 <app-select-services *ngIf="start === 'show' && status === 's_service'"></app-select-services>
 <app-select-time-master *ngIf="start === 'show' && status === 's_employee_time'"></app-select-time-master>
