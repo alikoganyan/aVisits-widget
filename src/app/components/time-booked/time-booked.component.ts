@@ -27,6 +27,8 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
   salonAddress: string;
   subSalonAddress: Subscription;
 
+  randomEmployeeSequence = SVariables.randomEmployeeSequence;
+
   constructor(private switcherService: SwitcherService,
               private sidebarSwitcherService: SidebarSwitcherService,
               private appointmentService: AppointmentService) {
@@ -76,8 +78,8 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
         console.log(employeesServices);
       });
     } else {
-      console.log( 'seq legt is ' + this.sequence.length);
       this.masters = SVariables.appointment;
+      console.log("***********");
       console.log(SVariables.appointment);
     }
 

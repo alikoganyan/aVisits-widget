@@ -36,7 +36,11 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
     working_status: null
   };
 
-  allEmployeesTimesTogether: string[] = [];
+
+  randomEmployeeSequence = SVariables.randomEmployeeSequence;
+  allEmployeesTimesTogether: any = [];
+
+  goNextPage: boolean;
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
@@ -61,7 +65,7 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
         error => console.log('Something went wrong!'));
     } else {
       this.getDataService.getEmployeesAndTimes().subscribe(response => {
-        this.forLastSequenceEmployeesFreeTimes(response['data']);
+          this.forLastSequenceEmployeesFreeTimes(response['data']);
         },
         error => console.log('Something went wrong!'));
     }
@@ -69,14 +73,24 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
 
   getSelectedDate(date: SDate) {
     SVariables.date = `${date.year}-${moment().locale('ru').month(date.month).format('MM')}-${date.day}`;
-    this.getDataService.getTimes().subscribe(response => {
-        response['data'].schedule.map((v, i) => {
-          this.employeesServices[i].timesToDisplay = v.periods;
-          this.employeesServices[i].time = '';
-          this.employeesServices[i].date = date;
-        });
-      },
-      error => console.log('Something went wrong!'));
+
+    if(!SVariables.randomEmployeeSequence) {
+      this.getDataService.getTimes().subscribe(response => {
+          response['data'].schedule.map((v, i) => {
+            this.employeesServices[i].timesToDisplay = v.periods;
+            this.employeesServices[i].time = '';
+            this.employeesServices[i].date = date;
+          });
+        },
+        error => console.log('Something went wrong!'));
+    } else {
+      this.getDataService.getEmployeesAndTimes().subscribe(response => {
+          this.forLastSequenceEmployeesFreeTimes(response['data']);
+        },
+        error => console.log('Something went wrong!'));
+    }
+
+
   }
 
   ngOnInit() {
@@ -90,9 +104,18 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
   }
 
   goNext() {
-    let goNext = true;
     const appointment: Appointment[] = [];
-    this.employeesServices.map(v => {
+    !SVariables.randomEmployeeSequence && this.forAppointmentMethod(this.employeesServices, appointment);
+    SVariables.randomEmployeeSequence && this.forAppointmentMethod2(this.allEmployeesTimesTogether, appointment);
+    SVariables.appointment = appointment;
+    // console.log(SVariables.appointment);
+    console.log(this.goNextPage);
+    this.goNextPage && this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+  }
+
+  forAppointmentMethod(employeesServices, appointment) {
+    let goNext = true;
+    employeesServices.map(v => {
       const app = {
         employee_id: null,
         from_time: '',
@@ -105,10 +128,32 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
       });
       appointment.push(app);
       !v.time && (goNext = false);
+      this.goNextPage = goNext;
     });
-    SVariables.appointment = appointment;
-    console.log(SVariables.appointment);
-    goNext && this.switcherService.onClickedStatus(this.sequence[this.index + 1]);
+  }
+
+  forAppointmentMethod2(employeesServices, appointment) {
+    let goNext = true;
+    employeesServices.map(v => {
+      console.log(v);
+      const app = {
+        employee_id: null,
+        from_time: '',
+        services: [],
+        all_length_services: [],
+        master_date: null
+      };
+      app.employee_id = v.checkedRandomEmployeeId;
+      app.from_time = v.time;
+      app.all_length_services = v.employeeServices;
+      app.master_date = this.date;
+      v.employeeServices.map(val => {
+        app.services.push(val.id);
+      });
+      !v.time && (goNext = false);
+      appointment.push(app);
+      this.goNextPage = goNext;
+    });
   }
 
   onClose() {
@@ -134,6 +179,45 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
     this.subEmployeesServices.unsubscribe();
   }
 
+
+  /* FOR LAST SEQUENCE */
+  forLastSequenceEmployeesFreeTimes(response) {
+    this.allEmployeesTimesTogether = [...SVariables.employeesAndTimes];
+    response.map((value, valIndex) => {
+      const employee_id_for_cat = [];
+      const cat_emp_per_by_min = [];
+      const cat_emp_per_by_time = [];
+      value.employees.map(employee => {
+        employee.periods.map(period => {
+          let period_number = period.split(':');
+          const period_number_minute = (+period_number[0] * 60) + (+period_number[1]);
+          cat_emp_per_by_min.push(period_number_minute);
+        });
+        employee_id_for_cat.push(employee.id);
+      });
+      let remove_duplicate_minus = cat_emp_per_by_min.filter((elem, index, self) => index === self.indexOf(elem)).sort((a, b) => a - b);
+      remove_duplicate_minus.map(time => {
+        const period_hour = Math.floor(time / 60);
+        let period_min: any = time % 60;
+        period_min === 0 && (period_min = period_min.toString() + '0');
+        cat_emp_per_by_time.push(`${period_hour}:${period_min}`);
+      });
+      this.allEmployeesTimesTogether[valIndex].employee_id_for_cat = employee_id_for_cat;
+      this.allEmployeesTimesTogether[valIndex].allCatTimes = cat_emp_per_by_time;
+    });
+    this.allEmployeesTimesTogether = [...this.allEmployeesTimesTogether.sort((a, b) => b.allCatTimes.length - a.allCatTimes.length)];
+  }
+
+
+  onSelectTimeLastSequence(time: string, index: number) {
+    this.allEmployeesTimesTogether[index].time = time;
+    let item = this.allEmployeesTimesTogether[index].employee_id_for_cat[Math.floor(Math.random() * this.allEmployeesTimesTogether[index].employee_id_for_cat.length)];
+    this.allEmployeesTimesTogether[index].checkedRandomEmployeeId = item;
+    console.log(this.allEmployeesTimesTogether[index]);
+    console.log(item);
+  }
+/* END FOR LAST SEQUENCE */
+
   /* STYLES FROM URL COLOR */
   radioStyle() {
     return Styling.globalWidgetsStyles.radioStyle;
@@ -143,22 +227,6 @@ export class SelectDateTimeComponent implements OnInit, OnDestroy {
     return Styling.globalWidgetsStyles.timeClass;
   }
 
-
-  forLastSequenceEmployeesFreeTimes(response) {
-    console.log(response);
-    const allPeriods = [];
-    response.map(value => {
-      value.employees.map( employee => {
-        employee.periods.map(period => {
-          allPeriods.push(period);
-        })
-      })
-    });
-    this.allEmployeesTimesTogether = allPeriods.filter(function(item, pos) {
-      return allPeriods.indexOf(item) == pos;
-    });
-    console.log(this.allEmployeesTimesTogether);
-  }
 
 }
 

@@ -19,5 +19,8 @@ export class SVariables {
   public static master_last_check_steps: boolean;  // for last page TimeBook when last check steps 0 and sequence master
   public static settingsUrl: string;
   public static randomEmployeeSequence: boolean = false;  // used in first and header-nav pages
+  public static chainNumber: string;
+  public static notification_text: string;
+  public static logoImage: string;
 }
 

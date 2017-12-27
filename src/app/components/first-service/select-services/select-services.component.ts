@@ -175,7 +175,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   goNext() {
     SVariables.employeesAndTimes = Object.values(this.selectedServices);
-    console.log(SVariables.employeesAndTimes);
+    // console.log(SVariables.employeesAndTimes);
     if (Object.values(this.selectedServices).length > 0) {
       this.sidebarSwitcherService.getPriceAndCount({totalCount: this.priceAndCount.totalCount, totalPrice: this.priceAndCount.totalPrice});
       this.switcherService.onClickedStatus(this.sequence[this.index + 1]);

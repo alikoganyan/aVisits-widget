@@ -11,98 +11,102 @@
             <div class="time-master-book-schedule-container-all-inner">
 
 
-
-
-              <!--<ng-container *ngFor="let employeesService of employeesServices; let index = index">
-                <div class="time-master-book-schedule-container">
-                  <div class="time-master-title-block">
-                    <div class="master-title-block-pic-container"
-                         [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + employeesService.photo + ')'}">
+              <!-- DEFAULT MASTERS AND TIMES -->
+              <ng-container *ngIf="!randomEmployeeSequence">
+                <ng-container *ngFor="let employeesService of employeesServices; let index = index">
+                  <div class="time-master-book-schedule-container">
+                    <div class="time-master-title-block">
+                      <div class="master-title-block-pic-container"
+                           [ngStyle]="{'background-image': 'url(http://api.avisits.com/' + employeesService.photo + ')'}">
+                      </div>
+                      <div class="master-title-block-text">
+                        <p class="bold">{{employeesService.father_name}} {{employeesService.first_name}}</p>
+                        <p class="time-master-master-position">{{employeesService.position.title}}</p>
+                      </div>
                     </div>
-                    <div class="master-title-block-text">
-                      <p class="bold">{{employeesService.father_name}} {{employeesService.first_name}}</p>
-                      <p class="time-master-master-position">{{employeesService.position.title}}</p>
-                    </div>
-                  </div>
 
-                  &lt;!&ndash; SCHEDULE HERE &ndash;&gt;
-                  <div class="time-master-time-schedule">
-                    <div class="table">
-                      <div class="tr">
+                    <!-- SCHEDULE HERE -->
+                    <div class="time-master-time-schedule">
+                      <div class="table">
+                        <div class="tr">
                           <div
                             class="td"
                             *ngFor="let time of employeesService.timesToDisplay"
                             (click)="onSelectTime(time,employeesService, index)">
                             <a [ngStyle]="employeesService.time === time && timeClass()">{{time}}</a>
                           </div>
-                      </div>
-                    </div>
-                  </div>
-                  &lt;!&ndash; END SCHEDULE HERE &ndash;&gt;
-
-                  <div class="clearfix"></div>
-                  <div class="time-master-service-list clearfix">
-                    <table class="">
-                      <tr class="" *ngFor="let service of employeesService.employeeServices">
-                        <td>{{service.title}}</td>
-                        <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
-                        <td>{{service.price}}
-                          <span>
-                          <img src="assets/images/icons/ruble-gray.png" class="ruble-icon">
-                          </span>
-                        </td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <div class="clearfix"></div>
-              </ng-container>-->
-
-
-                <div class="time-master-book-schedule-container">
-                  <div class="time-master-title-block">
-                    <div class="master-title-block-pic-container"
-                         [ngStyle]="{'background-image': 'url(../../../../assets/images/user.svg)'}">
-                    </div>
-                    <div class="master-title-block-text">
-                      <p class="bold">Любой сотрудник</p>
-                      <p class="time-master-master-position">Профессия</p>
-                    </div>
-                  </div>
-
-                  <!-- SCHEDULE HERE -->
-                  <div class="time-master-time-schedule">
-                    <div class="table">
-                      <div class="tr">
-                        <div
-                          class="td"
-                          *ngFor="let time of allEmployeesTimesTogether"
-                          (click)="onSelectTime(time,employeesService, index)">
-                          <a>{{time}}</a>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <!-- END SCHEDULE HERE -->
+                    <!-- END SCHEDULE HERE -->
 
-                  <div class="clearfix"></div>
-                  <div class="time-master-service-list clearfix">
-                    <table class="">
-                      <tr class="">
-                        <td>{{'title'}}</td>
-                        <td>{{10}}ч &nbsp; {{1001}}м</td>
-                        <td>{{111101}}
-                          <span>
+                    <div class="clearfix"></div>
+                    <div class="time-master-service-list clearfix">
+                      <table class="">
+                        <tr class="" *ngFor="let service of employeesService.employeeServices">
+                          <td>{{service.title}}</td>
+                          <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
+                          <td>{{service.price}}
+                            <span>
                           <img src="assets/images/icons/ruble-gray.png" class="ruble-icon">
                           </span>
-                        </td>
-                      </tr>
-                    </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
                   </div>
-                </div>
-                <div class="clearfix"></div>
+                  <div class="clearfix"></div>
+                </ng-container>
+              </ng-container>
+              <!-- END DEFAULT MASTERS AND TIMES -->
+              <!-- Only for last sequence -->
+              <ng-container *ngIf="randomEmployeeSequence">
+                <ng-container *ngFor="let allEmployeesTimes of allEmployeesTimesTogether; let i = index">
+                  <div class="time-master-book-schedule-container">
+                    <div class="time-master-title-block">
+                      <div class="master-title-block-pic-container"
+                           [ngStyle]="{'background-image': 'url(../../../../assets/images/user.svg)'}">
+                      </div>
+                      <div class="master-title-block-text">
+                        <p class="bold">Любой сотрудник</p>
+                        <!--<p class="time-master-master-position">Профессия</p>-->
+                      </div>
+                    </div>
 
+                    <!-- SCHEDULE HERE -->
+                    <div class="time-master-time-schedule">
+                      <div class="table">
+                        <div class="tr">
+                          <div
+                            class="td"
+                            *ngFor="let time of allEmployeesTimes.allCatTimes"
+                            (click)="onSelectTimeLastSequence(time, i)">
+                            <a [ngStyle]="allEmployeesTimes.time === time && timeClass()">{{time}}</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- END SCHEDULE HERE -->
 
+                    <div class="clearfix"></div>
+                    <div class="time-master-service-list clearfix">
+                      <table class="">
+                        <tr class="" *ngFor="let employeeService of allEmployeesTimes.employeeServices">
+                          <td>{{employeeService.title}}</td>
+                          <td>{{employeeService.hour}}ч &nbsp; {{employeeService.min}}м</td>
+                          <td>{{employeeService.min_max_prices.min_price}}-{{employeeService.min_max_prices.max_price}}
+                            <span>
+                          <img src="assets/images/icons/ruble-gray.png" class="ruble-icon">
+                          </span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="clearfix"></div>
+                </ng-container>
+              </ng-container>
+              <!-- End Only for last sequence -->
 
 
             </div>

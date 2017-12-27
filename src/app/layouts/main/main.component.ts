@@ -38,6 +38,9 @@ export class MainComponent implements OnInit, OnDestroy {
   getSettings() {
 
     this.settingService.sendSettings().subscribe(res => {
+        SVariables.logoImage = res['data'].settings.img;
+        SVariables.chainNumber = res['data'].settings.phone_number;
+        SVariables.notification_text = res['data'].settings.w_notification_text;
 
         if (res['data'].settings.w_let_check_steps === 1) {
           console.log(res);

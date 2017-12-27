@@ -1,5 +1,7 @@
 <div class="choose-options choose-options-top address-master bordered">
-  <div class="choose-options-logo"><img src="assets/images/icons/logo.png"></div>
+  <div class="choose-options-logo">
+    <img [src]="'http://api.avisits.com/' + chainImg">
+  </div>
   <div class="choose-options-container">
     <div class="choose-options-inner-container">
       <div class="choose-option" *ngFor="let navbar of sequence; let i = index" [ngStyle]="i + 1 === active && fontColor()">

@@ -11,6 +11,7 @@ import {SVariables} from '../../services/sVariables';
 })
 export class HeaderNavComponent implements OnInit, OnDestroy {
 
+  chainImg = SVariables.logoImage;
 
   checkedNavbar: any;
   active: number;

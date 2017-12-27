@@ -26,7 +26,9 @@
                 <br> в настройках виджета (из панели управления)
               </div>
 
-              <div class="time-master-book-schedule-container-all-inner">
+
+              <!-- DEFAULT TIME BOOKED -->
+              <div class="time-master-book-schedule-container-all-inner" *ngIf="!randomEmployeeSequence">
 
                 <ng-container>
                   <div class="clearfix"></div>
@@ -106,6 +108,93 @@
                 </ng-container>
                 <!-- End Responsive Schedule Container -->
               </div>
+              <!-- END DEFAULT TIME BOOKED -->
+
+              <!-- ONLY FOR LAST SEQUENCE -->
+              <div class="time-master-book-schedule-container-all-inner" *ngIf="randomEmployeeSequence">
+
+                <ng-container>
+                  <div class="clearfix"></div>
+                  <div class="time-master-book-schedule-container" *ngFor="let master of masters">
+                    <div class="ready-master-time-schedule-item time-master-title-block">
+                      <div class="master-title-block-pic-container"
+                           [ngStyle]="{'background-image': 'url(../../../assets/images/user.svg)'}"></div>
+                      <div class="master-title-block-text">
+                        <p class="bold">Любой сотрудник</p>
+                        <!--<p class="time-master-master-position">{{master.position.title}}</p>-->
+                      </div>
+                    </div>
+                    <div class="ready-master-time-schedule-item middle">
+                      <div class="ready-master-time-schedule-sub-item" *ngFor="let service of master.all_length_services">
+                        <div class="ready-master-time-schedule-item-title">{{service.title}}</div>
+                        <div class="">
+                          <span>{{service.hour}}ч {{service.min}}м</span>
+                          <span>{{service.min_max_prices.min_price}}-{{service.min_max_prices.max_price}}<span>
+                            <img src="assets/images/icons/ruble-gray.png" class="ruble-icon">
+                          </span></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="ready-master-time-schedule-item time-info">
+                      <div class="ready-master-time-schedule-item-time">{{master.from_time}}</div>
+                      <div class="ready-master-time-schedule-item-date">{{master.master_date.day}} {{master.master_date.month}}</div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </ng-container>
+
+
+                <!-- Responsive Schedule Container -->
+                <ng-container *ngFor="let master of masters">
+                  <div class="ready-master-content-left-block-items clearfix">
+                    <div class="content-left-block-item">
+                      <div>
+                        <p class="content-left-block-item-title">Город</p>
+                        <p>{{city}}</p>
+                      </div>
+                    </div>
+                    <div class="content-left-block-item">
+                      <div>
+                        <p class="content-left-block-item-title">Адрес</p>
+                        <p>{{salonAddress}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="time-master-book-schedule-container responsive">
+                    <div class="ready-master-time-schedule-item time-master-title-block">
+                      <div class="master-title-block-pic-container"
+                           [ngStyle]="{'background-image': 'url(../../../assets/images/user.svg)'}"></div>
+                      <div class="master-title-block-text">
+                        <p class="bold">Любой сотрудник</p>
+                        <!--<p class="time-master-master-position">{{master.position.title}}</p>-->
+                      </div>
+                    </div>
+                    <div class="ready-master-time-schedule-item time-info">
+                      <div class="ready-master-time-schedule-item-time">{{master.from_time}}</div>
+                      <div class="ready-master-time-schedule-item-date">{{master.master_date.day}} {{master.master_date.month}}</div>
+                    </div>
+                    <div class="ready-master-time-schedule-item middle service-list">
+                      <div class="time-master-service-list clearfix">
+                        <table class="">
+                          <tr *ngFor="let service of master.all_length_services">
+                            <td>{{service.title}}</td>
+                            <td>{{service.hour}}ч &nbsp; {{service.min}}м</td>
+                            <td>{{service.min_max_prices.min_price}}-{{service.min_max_prices.max_price}}
+                              <span><img src="assets/images/icons/ruble-gray.png" class="ruble-icon"></span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+                </ng-container>
+                <!-- End Responsive Schedule Container -->
+              </div>
+              <!-- END ONLY FOR LAST SEQUENCE -->
+
+
+
             </div>
 
             <span class="services-count-result-ready-master">
