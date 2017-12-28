@@ -59,6 +59,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
   onSelectService(service, event, employeeService) {
     service.checked = event.target.checked;
     if (event.target.checked) {
+
       if (typeof this.selectedMaster !== 'undefined') {
         this.selectedMaster.id === employeeService.employee_id && this.selectedMaster.count++;
       } else {
@@ -67,6 +68,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
       this.priceAndCount.totalCount++;
       this.priceAndCount.totalPrice = this.priceAndCount.totalPrice + parseInt(service.price, 10);
     } else {
+
       if (typeof this.selectedMaster !== 'undefined') {
         this.selectedMaster.id === employeeService.employee_id && this.selectedMaster.count--;
       } else {
@@ -215,6 +217,13 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
     return Styling.globalWidgetsStyles.radioStyle;
   }
 
+  checkBoxStyle(service) {
+    if (service.checked === true) {
+      return  Styling.globalWidgetsStyles.checkBoxStyle
+    }
+    return;
+  }
+
   ngStyleMethod(master) {
     return ((master === this.selectedMaster || (this.firstMaster.employee_id === master.id && this.only_first_masterServices === 'show')) && this.hoverColor()) ||
       (this.hoverMaster === master && this.hoverColor());
@@ -229,6 +238,8 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
       this.hoverMaster = '';
     }
   }
+
+
 
 }
 

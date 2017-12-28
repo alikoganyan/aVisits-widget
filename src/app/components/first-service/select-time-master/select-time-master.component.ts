@@ -51,6 +51,7 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
     this.getDataService.getEmployeesAndTimes().subscribe(response => {
         this.responseLogic(response['data']);
         this.employeesAndTimes = response['data'];
+        this.employeesAndTimes = [...this.employeesAndTimes.sort((a, b) => b.employees.length - a.employees.length)];
         console.log(this.employeesAndTimes);
       },
       error => console.log('Something went wrong!'));
@@ -60,6 +61,7 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
     SVariables.date = `${date.year}-${moment().locale('ru').month(date.month).format('MM')}-${date.day}`;
     this.getDataService.getEmployeesAndTimes().subscribe(response => {
         this.responseLogic(response['data']);
+        this.employeesAndTimes = [...this.employeesAndTimes.sort((a, b) => b.employees.length - a.employees.length)];
       },
       error => console.log('Something went wrong!'));
   }

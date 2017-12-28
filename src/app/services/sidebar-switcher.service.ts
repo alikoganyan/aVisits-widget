@@ -6,9 +6,6 @@ import {Master} from '../models/master';
 @Injectable()
 export class SidebarSwitcherService {
 
-  private selectedCity = new BehaviorSubject('Moskva'); // selected city
-  cityTitle = this.selectedCity.asObservable();
-
   private selectedAddress = new BehaviorSubject('default message');  // selected address
   salonAddress = this.selectedAddress.asObservable();
 
@@ -26,11 +23,6 @@ export class SidebarSwitcherService {
 
 
   constructor() {
-  }
-
-
-  selectCity(city: string) {   // selected city
-    this.selectedCity.next(city);
   }
 
   selectAddress(address: string) {

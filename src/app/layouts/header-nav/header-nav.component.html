@@ -1,6 +1,6 @@
 <div class="choose-options choose-options-top address-master bordered">
   <div class="choose-options-logo">
-    <img [src]="'http://api.avisits.com/' + chainImg">
+    <img [src]="'http://api.avisits.com/' + chainImg" class="logoImageStyle">
   </div>
   <div class="choose-options-container">
     <div class="choose-options-inner-container">
@@ -20,18 +20,17 @@
 
 
 <div class="choose-options choose-options-top-responsive address-master bordered">
-  <div class="choose-options-logo"><img src="assets/images/icons/logo.png"></div>
+  <div class="choose-options-logo">
+    <img [src]="'http://api.avisits.com/' + chainImg" class="logoImageStyle">
+  </div>
   <div class="choose-options-top-container">
     <div class="choose-option-num-container">
-
       <ng-container *ngFor="let navbar of sequence; let i = index">
         <p class="choose-option-num" [ngStyle]="i + 1 === active && fontColor()">{{i+1}}</p>
         <span *ngIf="sequence.length - 1 !== i">-</span>
         <div class="choose-option-title" *ngIf="i + 1 === active">{{checkedNavbar[navbar].mobileTitle}}</div>
       </ng-container>
-
     </div>
-    <!--<div class="choose-option-title">{{ active === 1 ? 'Выберите адрес' :  'Выберите адрес 2222'}}</div>-->
   </div>
 </div>
 

@@ -224,8 +224,11 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
     return Styling.globalWidgetsStyles.radioStyle;
   }
 
-  checkboxStyle() {
-    return Styling.globalWidgetsStyles.checkboxStyle;
+  checkBoxStyle(service) {
+    if (service.checked === true) {
+      return  Styling.globalWidgetsStyles.checkBoxStyle
+    }
+    return;
   }
 
   ngStyleMethod(service_cat) {

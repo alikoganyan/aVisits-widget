@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {Styling} from "../../services/styling";
+import {SVariables} from '../../services/sVariables';
 
 @Component({
   selector: 'app-interrupt-record',
@@ -13,6 +14,8 @@ export class InterruptRecordComponent implements OnInit, OnDestroy {
 
   status: string;
   subStatus: Subscription;
+
+  chainPhoneNumber = SVariables.chainPhoneNumber;
 
   constructor(private switcherService: SwitcherService,
               private navbarSwitcherService: NavbarSwitcherService,

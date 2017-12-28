@@ -29,12 +29,19 @@
                     <div class="time-master-time-schedule">
                       <div class="table">
                         <div class="tr">
-                          <div
-                            class="td"
-                            *ngFor="let time of employeesService.timesToDisplay"
-                            (click)="onSelectTime(time,employeesService, index)">
-                            <a [ngStyle]="employeesService.time === time && timeClass()">{{time}}</a>
-                          </div>
+                          <ng-container *ngIf="employeesService.timesToDisplayCount > 0">
+                            <div
+                              class="td"
+                              *ngFor="let time of employeesService.timesToDisplay"
+                              (click)="onSelectTime(time,employeesService, index)">
+                              <a [ngStyle]="employeesService.time === time && timeClass()">{{time}}</a>
+                            </div>
+                          </ng-container>
+                          <ng-container *ngIf="employeesService.timesToDisplayCount === 0">
+                            <div class="td">
+                              <a>Нет графика работы!</a>
+                            </div>
+                          </ng-container>
                         </div>
                       </div>
                     </div>

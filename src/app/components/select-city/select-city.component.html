@@ -4,24 +4,28 @@
       <a (click)="onClose()"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
       <div class="page-container bordered">
         <div class="choose-city-wrapper">
-          <h3 class="text-center">Выберите ваш город</h3>
-          <div class="choose-city-container">
-            <div class="force-overflow">
-              <div
-                class="choose-city-item item"
-                *ngFor="let city of cities"
-                (click)="onSelectCity(city)"
-                [ngStyle]="city === selectCity && selectStyle()">
-                <label class="check-container">
-                  {{city}}
-                  <input type="radio" name="radio">
-                  <span class="checkmark" [ngStyle]="city === selectCity && radioStyle()"></span>
-                </label>
+
+          <ng-container *ngIf="cities.length > 1">
+            <h3 class="text-center">Выберите ваш город</h3>
+            <div class="choose-city-container">
+              <div class="force-overflow">
+                <div
+                  class="choose-city-item item"
+                  *ngFor="let city of cities"
+                  (click)="onSelectCity(city)"
+                  [ngStyle]="city === selectCity && selectStyle()">
+                  <label class="check-container">
+                    {{city}}
+                    <input type="radio" name="radio">
+                    <span class="checkmark" [ngStyle]="city === selectCity && radioStyle()"></span>
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
+          </ng-container>
+
           <ng-container *ngIf="allowCheckMasterService">
-            <h6 class="bold text-center">В дальнейшем:</h6>
+            <h6 class="bold text-center" [ngStyle]="marginTop()">В дальнейшем:</h6>
             <div class="choose-options choose-city">
               <div class="choose-options-item pull-left" (click)="selectMaster()">
                 <div

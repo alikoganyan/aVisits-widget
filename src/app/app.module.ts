@@ -32,9 +32,6 @@ import {ClientService} from './services/client.service';
 import {GetServicesService} from './services/get-services.service';
 import {GetDataService} from './services/get-data.service';
 import {SettingService} from "./services/setting.service";
-/* Directives */
-import {ActiveDirective} from './directives/active.directive';
-import { HoverDirective } from './directives/hover.directive';
 /* Pipe */
 import {FilterPipe} from './filter.pipe';
 
@@ -50,7 +47,6 @@ import {FilterPipe} from './filter.pipe';
     SelectMasterComponent,
     SelectServicesComponent,
     SelectServicesMasterComponent,
-    ActiveDirective,
     SidebarComponent,
     SelectDateTimeComponent,
     SelectTimeMasterComponent,
@@ -59,8 +55,7 @@ import {FilterPipe} from './filter.pipe';
     LoaderComponent,
     MainComponent,
     FilterPipe,
-    CalendarComponent,
-    HoverDirective
+    CalendarComponent
   ],
   imports: [
     BrowserModule,

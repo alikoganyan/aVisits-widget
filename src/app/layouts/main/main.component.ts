@@ -39,7 +39,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
     this.settingService.sendSettings().subscribe(res => {
         SVariables.logoImage = res['data'].settings.img;
-        SVariables.chainNumber = res['data'].settings.phone_number;
+        SVariables.chainPhoneNumber = res['data'].settings.phone_number;
         SVariables.notification_text = res['data'].settings.w_notification_text;
 
         if (res['data'].settings.w_let_check_steps === 1) {
@@ -185,13 +185,6 @@ export class MainComponent implements OnInit, OnDestroy {
       opacity: 1
     };
 
-    const checkboxStyle = {
-      before: {
-        backgroundColor: color,
-        border: '1px solid ' + color
-      }
-    };
-
     const wrappedStyle = {
       backgroundColor: lightColor,
       border: '1px solid ' + color
@@ -212,14 +205,22 @@ export class MainComponent implements OnInit, OnDestroy {
       color: color
     };
 
+    const checkBoxStyle = {
+      border: '1px solid ' + color,
+      background: 'url(../../assets/images/icons/tick.png) no-repeat',
+      backgroundColor: color,
+      backgroundPosition: '49% 49%',
+      textAlign: 'center'
+    };
+
     return {
       selectStyle,
       radioStyle,
-      checkboxStyle,
       wrappedStyle,
       fontColor,
       timeClass,
-      hoverColor
+      hoverColor,
+      checkBoxStyle
     };
   }
 

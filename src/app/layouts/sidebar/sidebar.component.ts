@@ -3,6 +3,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {Master} from '../../models/master';
 import {Client} from '../../models/client';
 import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
+import {SVariables} from '../../services/sVariables';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,22 +19,18 @@ export class SidebarComponent implements OnInit, OnDestroy {
   priceAndCount: { totalCount: number, totalPrice: number };
   subPriceAndCount: Subscription;
 
-  subCityTitle: Subscription;
   subSalonAddress: Subscription;
   subContacts: Subscription;
-
 
   constructor(private sidebarSwitcherService: SidebarSwitcherService) {
   }
 
   ngOnInit() {
     this.subscriptionsMethod();
+    this.checkedInfo['city'] = SVariables.city;
   }
 
   subscriptionsMethod() {
-    this.subCityTitle = this.sidebarSwitcherService.cityTitle.subscribe(cityTitle => {
-      this.checkedInfo['city'] = cityTitle;
-    });
     this.subSalonAddress = this.sidebarSwitcherService.salonAddress.subscribe(salonAddress => {
       this.checkedInfo['address'] = salonAddress;
     });
@@ -50,7 +47,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.subCityTitle.unsubscribe();
     this.subSalonAddress.unsubscribe();
     this.subContacts.unsubscribe();
     this.subMasters.unsubscribe();

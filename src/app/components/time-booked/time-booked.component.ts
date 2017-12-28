@@ -22,12 +22,15 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
   subPriceAndCount: Subscription;
 
   city: string;
-  subCityTitle: Subscription;
 
   salonAddress: string;
   subSalonAddress: Subscription;
 
+  notification_text = SVariables.notification_text;
+
   randomEmployeeSequence = SVariables.randomEmployeeSequence;
+
+
 
   constructor(private switcherService: SwitcherService,
               private sidebarSwitcherService: SidebarSwitcherService,
@@ -46,6 +49,7 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
         console.log(response);
       },
       error => console.log('Something went wrong!'));
+    this.city = SVariables.city;
   }
 
   goBack(selectCity: string) {
@@ -86,9 +90,6 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
     this.subPriceAndCount = this.sidebarSwitcherService.priceAndCount.subscribe(priceAndCount => {
       this.priceAndCount = priceAndCount;
     });
-    this.subCityTitle = this.sidebarSwitcherService.cityTitle.subscribe(cityTitle => {
-      this.city = cityTitle;
-    });
     this.subSalonAddress = this.sidebarSwitcherService.salonAddress.subscribe(salonAddress => {
       this.salonAddress = salonAddress;
     });
@@ -98,7 +99,6 @@ export class TimeBookedComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subSequence.unsubscribe();
     SVariables.masterOrService === 'Master' &&  this.subMasters.unsubscribe();
-    this.subCityTitle.unsubscribe();
     this.subSalonAddress.unsubscribe();
   }
 

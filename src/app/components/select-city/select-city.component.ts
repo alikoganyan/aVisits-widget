@@ -3,7 +3,6 @@ import {Subscription} from 'rxjs/Subscription';
 import {SwitcherService} from '../../services/switcher.service';
 import {CityService} from '../../services/city.service';
 import {NavbarSwitcherService} from '../../services/navbar-switcher.service';
-import {SidebarSwitcherService} from '../../services/sidebar-switcher.service';
 import {SVariables} from '../../services/sVariables';
 import {Styling} from '../../services/styling';
 
@@ -36,23 +35,38 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   constructor(private switcherService: SwitcherService,
               private cityService: CityService,
-              private navbarSwitcherService: NavbarSwitcherService,
-              private sidebarSwitcherService: SidebarSwitcherService) {
+              private navbarSwitcherService: NavbarSwitcherService) {
   }
 
   getCities() {
     this.cityService.getCities().subscribe((cities) => {
+
         this.cities = cities['data'].cities;
+      if (this.allowCheckMasterService) {
+        this.selectCity = cities['data'].cities[0];
+        SVariables.city = cities['data'].cities[0];
+      }
+      if (this.cities.length < 2) {
+        SVariables.city = cities['data'].cities[0];
+        if (!this.allowCheckMasterService) {
+          SVariables.sequenceNonCheckStep === 'masterStep' ? this.selectedSequence = SVariables.steps_employee : this.selectedSequence = SVariables.steps_service;
+        }
+        if (this.selectedSequence) {
+          this.switcherService.onSequence(this.selectedSequence);
+          const index = this.selectedSequence.indexOf('select_city');
+          this.switcherService.onClickedStatus(this.sequence[index + 1]);
+        }
+      }
+        console.log(this.selectCity);
       },
       error => console.log('Something went wrong!'));
   }
 
 
   onSelectCity(city: string) {
-    this.sidebarSwitcherService.selectCity(city);
     SVariables.city = city;
     this.selectCity = city;
-    if(!this.allowCheckMasterService) {
+    if (!this.allowCheckMasterService) {
       SVariables.sequenceNonCheckStep === 'masterStep' ? this.selectedSequence = SVariables.steps_employee : this.selectedSequence = SVariables.steps_service;
     }
     if (this.selectedSequence) {
@@ -109,8 +123,6 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   }
 
 
-
-
   selectStyle() {
     return Styling.globalWidgetsStyles.selectStyle;
   }
@@ -122,7 +134,6 @@ export class SelectCityComponent implements OnInit, OnDestroy {
   wrappedStyle() {
     return Styling.globalWidgetsStyles.wrappedStyle;
   }
-
 
 
   ngStyleMethod(masterOrService) {
@@ -139,7 +150,9 @@ export class SelectCityComponent implements OnInit, OnDestroy {
     }
   }
 
-
+  marginTop() {
+    return (this.cities.length < 2) && {marginTop: '100px'};
+  }
 
 }
 

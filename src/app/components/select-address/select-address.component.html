@@ -12,7 +12,9 @@
             <div class="address-master-switch">
               <label class="switch">
                 <input type="checkbox" id="switch_mode" (change)="switchMode($event)">
-                <span class="slider round"></span>
+                <span class="slider round">
+                  <span [ngStyle]="radioStyle()"></span>
+                </span>
               </label>
             </div>
             <span class="bold" [ngStyle]="fontColor()"><label for="switch_mode">На карте</label></span>

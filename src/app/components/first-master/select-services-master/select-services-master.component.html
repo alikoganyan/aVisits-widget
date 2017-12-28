@@ -83,7 +83,9 @@
                           [id]="service.id"
                           type="checkbox"
                           (change)="onSelectService(service, $event, firstMaster)">
-                        <label></label>
+                        <label>
+                          <span [ngStyle]="checkBoxStyle(service)"></span>
+                        </label>
                       </td>
                       <td><label [for]="service.id">{{service.title}}</label></td>
                       <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
@@ -113,7 +115,9 @@
                             type="checkbox"
                             [checked]="service.checked"
                             (change)="onSelectService(service, $event, employeeService)">
-                          <label [style.before.backgroundColor]="red"></label>
+                          <label>
+                            <span [ngStyle]="checkBoxStyle(service)"></span>
+                          </label>
                         </td>
                         <td><label [for]="service.id"> {{service.title}}</label></td>
                         <td><label [for]="service.id"> {{service.hour}}ч &nbsp; {{service.min}}м</label></td>
@@ -199,7 +203,9 @@
                             name=""
                             [checked]="service.checked"
                             (change)="onSelectService(service, $event, employeeService)">
-                          <label></label>
+                          <label>
+                            <span [ngStyle]="checkBoxStyle(service)"></span>
+                          </label>
                         </td>
                         <td><label [for]="service.id">{{service.title}}</label></td>
                         <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
