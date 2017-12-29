@@ -15,6 +15,8 @@ import {SVariables} from '../../../services/sVariables';
 })
 export class SelectServicesComponent implements OnInit, OnDestroy {
 
+  loader = true;
+
   searchText = '';
 
   interrapt = false;
@@ -57,6 +59,7 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
 
   getAllServices() {
     this.getServicesService.getAllServices().subscribe(response => {
+      this.loader = false;
       console.log(response);
         if (response['data'].constructor !== Array) {
           this.services_cat = response['data'].categories;
@@ -78,7 +81,10 @@ export class SelectServicesComponent implements OnInit, OnDestroy {
           });
         }
       },
-      error => console.log("Something went wrong!"));
+      error => {
+      console.log("Something went wrong!");
+      this.loader = false;
+    });
   }
 
   onSelectServiceCat(service_cat) {

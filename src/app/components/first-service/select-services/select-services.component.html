@@ -1,3 +1,21 @@
+<style>
+  .loader_select-services {
+    position: absolute;
+    overflow: hidden;
+    z-index: 1;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 20%;
+  }
+
+  .choose-options-content {
+    position: relative;
+  }
+
+
+</style>
+
 <div class="page" *ngIf="!interrapt">
   <div class="page-wrapper">
     <div class="page-inner-wrapper">
@@ -8,9 +26,13 @@
 
         <div class="choose-options-content services-service-content bordered clearfix">
 
+          <app-loader class="loader_select-services" *ngIf="loader"></app-loader>
+
           <app-sidebar></app-sidebar>
 
           <div class="content-right-block services-service-right-block services-master">
+
+
 
             <div class="content-right-block-first services-service-right-block-first">
 
@@ -23,7 +45,6 @@
                 {{service_cat.title}}
               </div>
             </div>
-
 
             <div class="content-right-block-second services-service-right-block-second">
               <!-- SEARCH INPUT -->
@@ -59,30 +80,31 @@
                     <tr
                       [ngStyle]="service.checked === true && selectStyle()"
                       *ngFor="let service of group.services | filter : searchText:'title'">
-                        <td>
-                          <input
-                            [id]="service.id"
-                            type="checkbox"
-                            [checked]="service.checked"
-                            (change)="onSelectService(service, $event, selected_service_cat.id)">
-                          <label>
-                            <span [ngStyle]="checkBoxStyle(service)"></span>
-                          </label>
-                        </td>
-                        <td><label [for]="service.id">{{service.title}}</label></td>
-                        <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
-                        <td>
-                          <label [for]="service.id"> {{service.min_max_prices.min_price}} - {{service.min_max_prices.max_price}}
+                      <td>
+                        <input
+                          [id]="service.id"
+                          type="checkbox"
+                          [checked]="service.checked"
+                          (change)="onSelectService(service, $event, selected_service_cat.id)">
+                        <label>
+                          <span [ngStyle]="checkBoxStyle(service)"></span>
+                        </label>
+                      </td>
+                      <td><label [for]="service.id">{{service.title}}</label></td>
+                      <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                      <td>
+                        <label [for]="service.id"> {{service.min_max_prices.min_price}} -
+                          {{service.min_max_prices.max_price}}
                           <span><img src="assets/images/icons/ruble-gray.png"></span>
                         </label>
-                        </td>
+                      </td>
                     </tr>
                   </table>
                 </div>
               </div>
-
-
             </div>
+
+
           </div>
         </div>
 
@@ -151,9 +173,10 @@
                     <td><label [for]="service.id">{{service.title}}</label></td>
                     <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
                     <td>
-                      <label [for]="service.id"> {{service.min_max_prices.min_price}} - {{service.min_max_prices.max_price}}
-                      <span><img src="assets/images/icons/ruble-gray.png"></span>
-                    </label>
+                      <label [for]="service.id"> {{service.min_max_prices.min_price}} -
+                        {{service.min_max_prices.max_price}}
+                        <span><img src="assets/images/icons/ruble-gray.png"></span>
+                      </label>
                     </td>
                   </tr>
                 </table>
@@ -170,6 +193,7 @@
           *ngIf="showservicesFormobile === 'hide'"
           class="choose-options-content services-service-content bordered services-service-master-not-chosen clearfix">
 
+          <app-loader *ngIf="loader"></app-loader>
 
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">

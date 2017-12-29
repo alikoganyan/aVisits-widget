@@ -15,6 +15,8 @@ import {Styling} from '../../../services/styling';
 })
 export class SelectMasterComponent implements OnInit, OnDestroy {
 
+  loader = true;
+
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -40,10 +42,14 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
   getEmployees() {
     this.getDataService.getEmployees().subscribe((response) => {
+        this.loader = false;
         this.masters = response['data'].employees;
         console.log(response['data'].employees);
       },
-      error => console.log('Something went wrong!'));
+      error => {
+        console.log('Something went wrong!');
+        this.loader = false;
+      });
   }
 
   onSelectMaster(master: Master) {
@@ -101,7 +107,7 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
     const randomMaster = [];
     this.masters.map(employee => {
-      employee.id === item &&  randomMaster.push(employee);
+      employee.id === item && randomMaster.push(employee);
     });
     console.log(item);
     console.log(randomMaster);
@@ -152,6 +158,20 @@ export class SelectMasterComponent implements OnInit, OnDestroy {
 
   hoverStyleOff() {
     this.hoverMaster = '';
+  }
+
+
+  loaderStyle() {
+    return {
+      position: 'absolute',
+      zIndex: '1',
+      margin: 'auto',
+      left: '0',
+      right: '0px',
+      bottom: '0',
+      top: '36%',
+      overflow: 'hidden'
+    };
   }
 
 }

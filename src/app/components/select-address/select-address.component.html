@@ -22,6 +22,7 @@
           <div class="addresses-box address-master" [ngClass]="{'cityListOnMobile': switcherMode}">
 
             <div class="force-overflow" id="scrollbox">
+              <app-loader *ngIf="loader"></app-loader>
               <div
                 (mouseover)="hoverStyleOn(salon)" (mouseleave)="hoverStyleOff(salon)"
                 class="addresses-box-item item"

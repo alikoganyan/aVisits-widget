@@ -1,3 +1,17 @@
+<style>
+  .loader_style_services_master {
+    overflow: hidden;
+    position: absolute;
+    right: 26%;
+    top: 32%;
+    z-index: 1;
+  }
+  @media (max-width: 768px) {
+   .loader_style_services_master {
+     display: none;
+   }
+  }
+</style>
 <div class="page" *ngIf="!interrapt">
   <div class="page-wrapper">
     <div class="page-inner-wrapper">
@@ -41,97 +55,101 @@
             <!-- END MASTERS -->
 
 
-            <div class="content-right-block-second services-service-right-block-second">
-              <!-- SEARCH INPUT -->
-              <form class="services-service-search">
-                <div class="search">
-                  <input
-                    (focus)="searchInput = true"
-                    (blur)="searchInput = false"
-                    [ngStyle]="searchInput && {'border': '1px solid ' + color}"
-                    name="search"
-                    type="text"
-                    class="searchTerm"
-                    placeholder="Введите название услуги"
-                    [(ngModel)]="searchText">
-                  <button type="submit" class="searchButton">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 451 451" style="enable-background:new 0 0 451 451;" xml:space="preserve" width="15px" height="15px" class="searchSvgStyle">
+
+              <app-loader *ngIf="loader" class="loader_style_services_master"></app-loader>
+              <div class="content-right-block-second services-service-right-block-second">
+                <!-- SEARCH INPUT -->
+                <form class="services-service-search">
+                  <div class="search">
+                    <input
+                      (focus)="searchInput = true"
+                      (blur)="searchInput = false"
+                      [ngStyle]="searchInput && {'border': '1px solid ' + color}"
+                      name="search"
+                      type="text"
+                      class="searchTerm"
+                      placeholder="Введите название услуги"
+                      [(ngModel)]="searchText">
+                    <button type="submit" class="searchButton">
+                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 451 451" style="enable-background:new 0 0 451 451;" xml:space="preserve" width="15px" height="15px" class="searchSvgStyle">
                       <g><g>
 	                        <path [ngStyle]="{'fill': color}" d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3   s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4   C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3   s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z" data-original="#000000" class="active-path"/>
                       </g></g>
                     </svg>
-                    <!--<img src="assets/images/icons/search-orange.png">-->
-                  </button>
-                </div>
-              </form>
-              <!-- END SEARCH INPUT -->
+                      <!--<img src="assets/images/icons/search-orange.png">-->
+                    </button>
+                  </div>
+                </form>
+                <!-- END SEARCH INPUT -->
 
-              <!-- SERVICES HERE -->
-              <!-- SERVICES FOR ONLY FIRST MASTER -->
-              <div *ngIf="only_first_masterServices === 'show'">
-                <div
-                  class="services-master-service-list"
-                  *ngFor="let service_group of firstMaster.service_groups">
-
-                  <p class="services-master-service-list-title bold">{{service_group.title}}</p>
-                  <table class="">
-                    <tr
-                      [ngStyle]="service.checked === true && selectStyle()"
-                      *ngFor="let service of service_group.services | filter : searchText:'title'">
-                      <td>
-                        <input
-                          [id]="service.id"
-                          type="checkbox"
-                          (change)="onSelectService(service, $event, firstMaster)">
-                        <label>
-                          <span [ngStyle]="checkBoxStyle(service)"></span>
-                        </label>
-                      </td>
-                      <td><label [for]="service.id">{{service.title}}</label></td>
-                      <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
-                      <td><label [for]="service.id">{{service.price}} </label>
-                        <span><img src="assets/images/icons/ruble-gray.png"></span>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </div>
-              <!-- END SERVICES FOR ONLY FIRST MASTER -->
-
-              <!-- SERVICES FOR ALL MASTERS -->
-              <div *ngFor="let employeeService of employeeServices">
-                <div *ngIf="selectedMaster && employeeService.employee_id === selectedMaster.id">
+                <!-- SERVICES HERE -->
+                <!-- SERVICES FOR ONLY FIRST MASTER -->
+                <div *ngIf="only_first_masterServices === 'show'">
                   <div
                     class="services-master-service-list"
-                    *ngFor="let service_group of employeeService.service_groups">
+                    *ngFor="let service_group of firstMaster.service_groups">
+
                     <p class="services-master-service-list-title bold">{{service_group.title}}</p>
                     <table class="">
                       <tr
                         [ngStyle]="service.checked === true && selectStyle()"
-                        *ngFor="let service of service_group.services | filter : searchText">
+                        *ngFor="let service of service_group.services | filter : searchText:'title'">
                         <td>
                           <input
                             [id]="service.id"
                             type="checkbox"
-                            [checked]="service.checked"
-                            (change)="onSelectService(service, $event, employeeService)">
+                            (change)="onSelectService(service, $event, firstMaster)">
                           <label>
                             <span [ngStyle]="checkBoxStyle(service)"></span>
                           </label>
                         </td>
-                        <td><label [for]="service.id"> {{service.title}}</label></td>
-                        <td><label [for]="service.id"> {{service.hour}}ч &nbsp; {{service.min}}м</label></td>
-                        <td><label [for]="service.id">{{service.price}}</label>
+                        <td><label [for]="service.id">{{service.title}}</label></td>
+                        <td><label [for]="service.id">{{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                        <td><label [for]="service.id">{{service.price}} </label>
                           <span><img src="assets/images/icons/ruble-gray.png"></span>
                         </td>
                       </tr>
                     </table>
                   </div>
                 </div>
+                <!-- END SERVICES FOR ONLY FIRST MASTER -->
+
+                <!-- SERVICES FOR ALL MASTERS -->
+                <div *ngFor="let employeeService of employeeServices">
+                  <div *ngIf="selectedMaster && employeeService.employee_id === selectedMaster.id">
+                    <div
+                      class="services-master-service-list"
+                      *ngFor="let service_group of employeeService.service_groups">
+                      <p class="services-master-service-list-title bold">{{service_group.title}}</p>
+                      <table class="">
+                        <tr
+                          [ngStyle]="service.checked === true && selectStyle()"
+                          *ngFor="let service of service_group.services | filter : searchText">
+                          <td>
+                            <input
+                              [id]="service.id"
+                              type="checkbox"
+                              [checked]="service.checked"
+                              (change)="onSelectService(service, $event, employeeService)">
+                            <label>
+                              <span [ngStyle]="checkBoxStyle(service)"></span>
+                            </label>
+                          </td>
+                          <td><label [for]="service.id"> {{service.title}}</label></td>
+                          <td><label [for]="service.id"> {{service.hour}}ч &nbsp; {{service.min}}м</label></td>
+                          <td><label [for]="service.id">{{service.price}}</label>
+                            <span><img src="assets/images/icons/ruble-gray.png"></span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <!-- END SERVICES FOR ALL MASTERS -->
+                <!-- END SERVICES HERE -->
               </div>
-              <!-- END SERVICES FOR ALL MASTERS -->
-              <!-- END SERVICES HERE -->
-            </div>
+
+
           </div>
         </div>
 
@@ -142,7 +160,8 @@
           class="choose-options-content services-service-content bordered services-service-master-chosen clearfix">
           <div class="content-right-block services-service-right-block">
             <div class="content-right-block-first services-service-right-block-first">
-              <div class="services-service-right-block-first-item" [ngStyle]="hoverColor()" (click)="backToAllMasterOnMobile()">
+              <div class="services-service-right-block-first-item" [ngStyle]="hoverColor()"
+                   (click)="backToAllMasterOnMobile()">
                 <div class="services-service-master-title-block">
                   <a class="services-service-title-block-back-btn">
                     <img src="assets/images/svg/arrow-dark-gray.svg"></a>
@@ -285,7 +304,7 @@
             </span>
             <span><img src="assets/images/icons/ruble.png"></span>
           </span>
-          <button [disabled]="!selectedDates.length > 0"  (click)="goNext()" class="semi-bold pull-right">
+          <button [disabled]="!selectedDates.length > 0" (click)="goNext()" class="semi-bold pull-right">
             <div
               [ngStyle]="radioStyle()"
               class="next nav-bottom-next nav-bottom-item services-service-bottom-item address-master-bottom-next pull-right">

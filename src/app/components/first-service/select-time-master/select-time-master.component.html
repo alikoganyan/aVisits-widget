@@ -1,10 +1,31 @@
+<style>
+
+  .choose-options-content {
+    position: relative;
+  }
+
+  .loader_styles_time_master {
+    position: absolute;
+    overflow: hidden;
+    z-index: 1;
+    top: 25%;
+    left: 0;
+    right: 0;
+  }
+</style>
+
 <div class="page" *ngIf="!interrapt">
   <div class="page-wrapper">
     <div class="page-inner-wrapper">
       <a (click)="onClose()"><img src="assets/images/svg/close-gray.svg" class="close-gray"></a>
       <div class="page-container address-master">
         <app-header-nav></app-header-nav>
-        <div class="choose-options-content time-master-content bordered clearfix">
+        <div class="choose-options-content time-master-content bordered clearfix ">
+
+
+          <app-loader class="loader_styles_time_master" *ngIf="loader"></app-loader>
+
+
           <app-sidebar></app-sidebar>
           <div class="content-right-block time-master-right-block time-service">
             <!-- Calendar here -->

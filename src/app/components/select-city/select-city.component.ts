@@ -13,6 +13,8 @@ import {Styling} from '../../services/styling';
 })
 export class SelectCityComponent implements OnInit, OnDestroy {
 
+  loader = true;
+
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -40,26 +42,29 @@ export class SelectCityComponent implements OnInit, OnDestroy {
 
   getCities() {
     this.cityService.getCities().subscribe((cities) => {
-
+        this.loader = false;
         this.cities = cities['data'].cities;
-      if (this.allowCheckMasterService) {
-        this.selectCity = cities['data'].cities[0];
-        SVariables.city = cities['data'].cities[0];
-      }
-      if (this.cities.length < 2) {
-        SVariables.city = cities['data'].cities[0];
-        if (!this.allowCheckMasterService) {
-          SVariables.sequenceNonCheckStep === 'masterStep' ? this.selectedSequence = SVariables.steps_employee : this.selectedSequence = SVariables.steps_service;
+        if (this.allowCheckMasterService) {
+          this.selectCity = cities['data'].cities[0];
+          SVariables.city = cities['data'].cities[0];
         }
-        if (this.selectedSequence) {
-          this.switcherService.onSequence(this.selectedSequence);
-          const index = this.selectedSequence.indexOf('select_city');
-          this.switcherService.onClickedStatus(this.sequence[index + 1]);
+        if (this.cities.length < 2) {
+          SVariables.city = cities['data'].cities[0];
+          if (!this.allowCheckMasterService) {
+            SVariables.sequenceNonCheckStep === 'masterStep' ? this.selectedSequence = SVariables.steps_employee : this.selectedSequence = SVariables.steps_service;
+          }
+          if (this.selectedSequence) {
+            this.switcherService.onSequence(this.selectedSequence);
+            const index = this.selectedSequence.indexOf('select_city');
+            this.switcherService.onClickedStatus(this.sequence[index + 1]);
+          }
         }
-      }
         console.log(this.selectCity);
       },
-      error => console.log('Something went wrong!'));
+      error => {
+        console.log('Something went wrong!');
+        this.loader = false;
+      });
   }
 
 

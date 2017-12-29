@@ -16,6 +16,8 @@ import {Styling} from '../../services/styling';
 })
 export class SelectAddressComponent implements OnInit, OnDestroy {
 
+  loader = true;
+
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -45,10 +47,14 @@ export class SelectAddressComponent implements OnInit, OnDestroy {
 
   getSalons() {
     this.getDataService.getSalons().subscribe(response => {
+      this.loader = false;
         console.log(response);
         this.salons = response['data'].salons;
       },
-      error => console.log('Something went wrong!'));
+      error => {
+      console.log('Something went wrong!');
+      this.loader = false;
+    });
   }
 
   getCityLatLong() {

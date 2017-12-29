@@ -17,6 +17,8 @@ import {Styling} from '../../../services/styling';
 })
 export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
+  loader = true;
+
   searchText = '';
 
   interrapt = false;
@@ -110,25 +112,29 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   getServices() {
     this.getServicesService.getEmployeeServices().subscribe(response => {
-      console.log(response);
+        this.loader = false;
+        console.log(response);
 
-      if (response['data'].constructor !== Array) {
-        response['data'].employees.map((employee) => {
-          this.firstMaster = response['data'].employees[0];  // this is for show first master services
-          employee.service_groups.map((group) => {
-            group.services.map((service) => {
-              const hour = Math.floor(service.duration / 60);
-              const min = service.duration % 60;
-              service.hour = hour;
-              service.min = Math.floor(min);
-              service.checked = false;
+        if (response['data'].constructor !== Array) {
+          response['data'].employees.map((employee) => {
+            this.firstMaster = response['data'].employees[0];  // this is for show first master services
+            employee.service_groups.map((group) => {
+              group.services.map((service) => {
+                const hour = Math.floor(service.duration / 60);
+                const min = service.duration % 60;
+                service.hour = hour;
+                service.min = Math.floor(min);
+                service.checked = false;
+              });
             });
           });
-        });
-        this.employeeServices = response['data'].employees;
-      }
-    },
-      error => console.log('Something went wrong!'));
+          this.employeeServices = response['data'].employees;
+        }
+      },
+      error => {
+        console.log('Something went wrong!');
+        this.loader = false;
+      });
   }
 
   onSelectMaster(master: Master) {
@@ -219,7 +225,7 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
 
   checkBoxStyle(service) {
     if (service.checked === true) {
-      return  Styling.globalWidgetsStyles.checkBoxStyle
+      return Styling.globalWidgetsStyles.checkBoxStyle;
     }
     return;
   }
@@ -238,8 +244,6 @@ export class SelectServicesMasterComponent implements OnInit, OnDestroy {
       this.hoverMaster = '';
     }
   }
-
-
 
 }
 

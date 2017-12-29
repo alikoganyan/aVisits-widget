@@ -449,6 +449,7 @@ label {
   height: 402px;
   max-height: 402px;
   margin-top: 20px;
+  overflow: hidden;
 
   .content-right-block {
     max-height: 402px;
@@ -596,6 +597,7 @@ label {
       width: 292px;
       margin: auto;
       padding-top: 25px;
+      overflow: hidden;
 
       .choose-city-container {
         margin-top: 26px;
@@ -774,6 +776,7 @@ label {
         .force-overflow {
           width: 294px;
           direction: ltr;
+          overflow: hidden;
         }
 
         &::-webkit-scrollbar {
@@ -1054,6 +1057,7 @@ label {
       width: calc(100% - 170px);
       float: left;
       padding: 20px;
+      position: relative;
 
       &.services-master {
         .services-service-right-block-first-item {
@@ -2136,7 +2140,7 @@ label {
 
 .services-service-left-block-pic-container {
   height: 48px;
-  width: 48px;
+  width: 47px;
   border-radius: 50%;
   margin-top: 2px;
   margin-right: 2px;

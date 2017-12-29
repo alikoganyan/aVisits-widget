@@ -15,6 +15,8 @@ import {Appointment} from '../../../models/appointment';
 })
 export class SelectTimeMasterComponent implements OnInit, OnDestroy {
 
+  loader = true;
+
   interrapt = false;
   subInterrupt: Subscription;
 
@@ -49,12 +51,16 @@ export class SelectTimeMasterComponent implements OnInit, OnDestroy {
 
   getEmployeesAndTimes() {
     this.getDataService.getEmployeesAndTimes().subscribe(response => {
+      this.loader = false;
         this.responseLogic(response['data']);
         this.employeesAndTimes = response['data'];
         this.employeesAndTimes = [...this.employeesAndTimes.sort((a, b) => b.employees.length - a.employees.length)];
         console.log(this.employeesAndTimes);
       },
-      error => console.log('Something went wrong!'));
+      error => {
+      console.log('Something went wrong!');
+      this.loader = false;
+    });
   }
 
   getSelectedDate(date: SDate) {
